@@ -12,3 +12,4 @@
 /captures
 .externalNativeBuild
 .cxx
+/web-service/node_modules
