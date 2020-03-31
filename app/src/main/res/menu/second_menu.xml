@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/homeItem"
+        android:title="@string/home_str"
+        android:icon="@drawable/icons8_home_page_24"
+        app:showAsAction="always"
+        />
+
+    <item android:id="@+id/userItem"
+        android:title="@string/add_user_str"
+        app:showAsAction="always"
+        android:icon="@drawable/baseline_person_add_24"/>
+
+</menu>

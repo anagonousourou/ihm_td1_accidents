@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Exercice6</string>
+    <string name="app_name" translatable="false">InfoIncident</string>
+    <string name="incidents_btn_text" translatable="true">Incidents</string>
+    <string name="add_incident_btn_text" translatable="true">Ajouter un incident</string>
+    <string name="title_main_menu_titem" translatable="true">Choix trajet</string>
+    <string name="home_str" translatable="true"> Page d\'accueil</string>
+    <string name="add_user_str" translatable="true">Créer un compte</string>
 </resources>

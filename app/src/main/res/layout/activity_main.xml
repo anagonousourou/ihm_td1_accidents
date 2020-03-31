@@ -6,10 +6,49 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <fragment
-        android:id="@+id/some_fragment"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="my.myself.exercice6.SomeFragment"/>
+        android:id="@+id/placeHolderMapFragment"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        >
+        <Button
+            android:id="@+id/btn_list_incidents"
+            android:layout_weight="0.9"
+            android:layout_width="0dp"
+
+            android:drawableLeft="@drawable/list"
+
+            
+            android:text="@string/incidents_btn_text"
+            android:layout_height="match_parent"/>
+        
+        <Space
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="match_parent"></Space>
+
+        <Button
+                android:drawableLeft="@drawable/add"
+            android:id="@+id/btn_new_incident"
+            android:layout_width="0dp"
+            android:layout_weight="0.9"
+
+            android:padding="5px"
+
+
+            android:text="@string/add_incident_btn_text"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
