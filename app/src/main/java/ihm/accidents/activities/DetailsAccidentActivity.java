@@ -2,7 +2,9 @@ package ihm.accidents.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -28,8 +30,11 @@ public class DetailsAccidentActivity extends Activity {
         TextView lieutv =  this.findViewById(R.id.lieu_accident_txtview);
         TextView momenttv = this.findViewById(R.id.temps_accident_txtview);
         TextView detailstv= this.findViewById(R.id.desc_accident_txtview);
+        ImageView imageView=this.findViewById(R.id.image_details_accident);
 
+        imageView.setImageBitmap(accidentModel.getImageBitmap());
         detailstv.setText(accidentModel.getDetails());
+
 
         momenttv.setText(getString(R.string.temps_accident,accidentModel.userFormatDate()));
         lieutv.setText(getString(R.string.lieu_accident, accidentModel.getAddress()));

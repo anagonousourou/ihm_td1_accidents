@@ -1,5 +1,6 @@
 package ihm.accidents.models;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -76,6 +77,10 @@ public class AccidentModel implements Parcelable, JSONString {
         this.details = details;
         this.imageb64 = b64;
         this.date = dt;
+    }
+
+    public Bitmap getImageBitmap(){
+        return Utils.fromBase64(this.imageb64);
     }
 
     public static AccidentModel fromJson(String jsonString){

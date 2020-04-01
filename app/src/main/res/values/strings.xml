@@ -11,5 +11,5 @@
     <string name="temps_accident" translatable="true">  %1$s  </string>
     <string name="desc_accident" translatable="true"> Description: %1$s  </string>
     
-    <string name="details_notif_accident">Un conducteur de quad a été éjecté de son véhicule (Quad)...</string>
+    <string name="details_notif_accident">Un conducteur de quad a été éjecté de son véhicule (Quad)…</string>
 </resources>
