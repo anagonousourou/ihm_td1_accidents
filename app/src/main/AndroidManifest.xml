@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="my.ihm.exercice6.ihm.accidents.activities.MainActivity"
+        <activity android:name="ihm.accidents.activities.MainActivity"
 
             android:theme="@style/Theme.AppCompat.Light">
             <intent-filter>
@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="my.ihm.exercice6.ihm.accidents.activities.ChoicePathActivity"
+        <activity android:name="ihm.accidents.activities.ChoicePathActivity"
             android:theme="@style/Theme.AppCompat.Light"
             >
 
@@ -32,7 +32,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="my.ihm.exercice6.ihm.accidents.activities.DetailsAccidentActivity">
+        <activity android:name="ihm.accidents.activities.DetailsAccidentActivity">
 
         </activity>
     </application>

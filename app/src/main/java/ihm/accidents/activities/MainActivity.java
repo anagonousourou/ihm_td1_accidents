@@ -21,11 +21,13 @@ import android.view.View;
 import android.view.Window;
 import android.widget.RemoteViews;
 
+import ihm.accidents.application.IncidentApplication;
 import ihm.accidents.models.AccidentModel;
-import my.ihm.exercice6.IncidentApplication;
+
+import ihm.accidents.utils.Utils;
 import my.ihm.exercice6.R;
 import ihm.accidents.fragments.SomeFragment;
-import my.ihm.exercice6.Utils;
+
 
 public class MainActivity extends AppCompatActivity {
     private  MapView mapView;

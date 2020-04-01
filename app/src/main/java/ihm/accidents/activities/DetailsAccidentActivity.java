@@ -8,8 +8,9 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import ihm.accidents.models.AccidentModel;
+import ihm.accidents.utils.Utils;
 import my.ihm.exercice6.R;
-import my.ihm.exercice6.Utils;
+
 
 /**
  * To present the details of an Accident wherever the user clicks on a
