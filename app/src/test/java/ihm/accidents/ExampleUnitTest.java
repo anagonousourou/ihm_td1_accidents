@@ -1,4 +1,4 @@
-package my.ihm.exercice6;
+package ihm.accidents;
 
 import org.junit.Test;
 
