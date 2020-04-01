@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/image_details_accident"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"/>
+    <TextView
+        android:id="@+id/titre_details_accident_txtview"
+        android:layout_width="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/titre_accident"
+        android:gravity="center"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/lieu_accident_txtview"
+        android:layout_width="match_parent"
+        android:text="@string/lieu_accident"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/temps_accident_txtview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/temps_accident"/>
+
+    <TextView
+        android:id="@+id/desc_accident_txtview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/desc_accident"/>
+
+
+</LinearLayout>

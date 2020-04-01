@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.RemoteViews;
 
+import my.myself.accidents.models.AccidentModel;
 import my.myself.accidents.models.NotificationModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -62,9 +64,16 @@ public class MainActivity extends AppCompatActivity {
     public void displayNotificationTest(View view){
         //---PendingIntent to launch activity if the user selects
         // this notification---
-        Intent i = new Intent(this, NotificationModel.class);
-        i.putExtra("notificationID", notificationID);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, 0);
+        AccidentModel accidentModelFake=new AccidentModel("Breaking News","Polytech Nice Sophia","solo","Un étudiant est tombé de son vélo. :) mdr","",
+                1585743847.0);
+        Intent resultIntent = new Intent(this, DetailsAccidentActivity.class);
+        resultIntent.putExtra(Utils.accidentKey,accidentModelFake);
+        // Create the TaskStackBuilder and add the intent, which inflates the back stack
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(resultIntent);
+// Get the PendingIntent containing the entire back stack
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
 
@@ -78,6 +87,10 @@ public class MainActivity extends AppCompatActivity {
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setCustomContentView(custoNotif);
+
+        //pour préciser quel activité est lancée lorsqu'on click sur la notification
+        notifBuilder.setContentIntent(resultPendingIntent);
+
         NotificationManagerCompat.from(this).notify(notificationID, notifBuilder.build());
 
     }
