@@ -1,4 +1,4 @@
-package my.myself.exercice6;
+package ihm.accidents.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,8 +21,11 @@ import android.view.View;
 import android.view.Window;
 import android.widget.RemoteViews;
 
-import my.myself.accidents.models.AccidentModel;
-import my.myself.accidents.models.NotificationModel;
+import ihm.accidents.models.AccidentModel;
+import my.ihm.exercice6.IncidentApplication;
+import my.ihm.exercice6.R;
+import ihm.accidents.fragments.SomeFragment;
+import my.ihm.exercice6.Utils;
 
 public class MainActivity extends AppCompatActivity {
     private  MapView mapView;
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId()==R.id.choixTrajetItem){
-            Intent intent=new Intent(this,ChoicePathActivity.class );
+            Intent intent=new Intent(this, ChoicePathActivity.class );
 
             this.startActivity(intent);
 
@@ -81,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         RemoteViews custoNotif= new RemoteViews(getPackageName(),R.layout.notification);
 
-        notifBuilder = new NotificationCompat.Builder(getApplicationContext(),IncidentApplication.channelId)
+        notifBuilder = new NotificationCompat.Builder(getApplicationContext(), IncidentApplication.channelId)
                 .setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())

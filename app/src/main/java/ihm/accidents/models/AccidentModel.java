@@ -1,4 +1,4 @@
-package my.myself.accidents.models;
+package ihm.accidents.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.json.JSONString;
 
 import ihm.accidents.utils.Utils;
+
 
 public class AccidentModel implements Parcelable, JSONString {
     private String title;
@@ -45,7 +46,7 @@ public class AccidentModel implements Parcelable, JSONString {
 
     public String userFormatDate(){
          long difftime= (long)((System.currentTimeMillis()/1000)-date);
-         
+
          if(difftime == 0){
              return "A l'instant";
          }
@@ -54,7 +55,7 @@ public class AccidentModel implements Parcelable, JSONString {
          }
 
          if(difftime < 0){
-             return "Dans "+Utils.convertToHighestScalePossible((long) -difftime)+" "+Utils.scaleReached((long) -difftime);
+             return "Dans "+ Utils.convertToHighestScalePossible((long) -difftime)+" "+Utils.scaleReached((long) -difftime);
          }
          return difftime+" seconds";
     }

@@ -1,4 +1,4 @@
-package my.myself.exercice6;
+package my.ihm.exercice6;
 
 import org.junit.Test;
 

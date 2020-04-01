@@ -1,4 +1,4 @@
-package my.myself.exercice6;
+package ihm.accidents.utils;
 
 public class Utils {
     public static final String accidentKey = "accidentData";
