@@ -24,9 +24,12 @@ public class DetailsAccidentActivity extends Activity {
 
         Intent intent = getIntent();
         AccidentModel accidentModel = intent.getParcelableExtra(Utils.accidentKey);
-        TextView titretv = (TextView) this.findViewById(R.id.titre_details_accident_txtview);
-        TextView lieutv = (TextView) this.findViewById(R.id.lieu_accident_txtview);
-        TextView momenttv =(TextView) this.findViewById(R.id.temps_accident_txtview);
+        TextView titretv =  this.findViewById(R.id.titre_details_accident_txtview);
+        TextView lieutv =  this.findViewById(R.id.lieu_accident_txtview);
+        TextView momenttv = this.findViewById(R.id.temps_accident_txtview);
+        TextView detailstv= this.findViewById(R.id.desc_accident_txtview);
+
+        detailstv.setText(accidentModel.getDetails());
 
         momenttv.setText(getString(R.string.temps_accident,accidentModel.userFormatDate()));
         lieutv.setText(getString(R.string.lieu_accident, accidentModel.getAddress()));
