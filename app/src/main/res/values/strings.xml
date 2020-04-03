@@ -10,6 +10,8 @@
     <string name="lieu_accident" translatable="true">Lieu de l\'accident: %1$s  </string>
     <string name="temps_accident" translatable="true">  %1$s  </string>
     <string name="desc_accident" translatable="true"> Description: %1$s  </string>
-    
+    <string name="distance_incident_list_item" translatable="true">Accident à %1$s %2$s</string>
     <string name="details_notif_accident">Un conducteur de quad a été éjecté de son véhicule (Quad)…</string>
+
+
 </resources>

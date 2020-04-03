@@ -17,6 +17,17 @@ public class AccidentModel implements Parcelable, JSONString {
     private String type;
     private String details;
     private String imageb64;
+
+    @Override
+    public String toString() {
+        return "AccidentModel{" +
+                "title='" + title + '\'' +
+                ", address='" + address + '\'' +
+                ", type='" + type + '\'' +
+                ", date=" + date +
+                '}';
+    }
+
     private double date;
 
     public String getTitle() {

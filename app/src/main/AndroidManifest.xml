@@ -35,6 +35,10 @@
         <activity android:name="ihm.accidents.activities.DetailsAccidentActivity">
 
         </activity>
+
+        <activity android:name="ihm.accidents.activities.ListIncidentActivity">
+
+        </activity>
     </application>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET" />

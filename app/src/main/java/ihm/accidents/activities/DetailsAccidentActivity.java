@@ -2,7 +2,6 @@ package ihm.accidents.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,6 +18,8 @@ import my.ihm.exercice6.R;
  * notification or whatever else in the flow of the appplication
  */
 public class DetailsAccidentActivity extends Activity {
+    private static final String TAG = "DetailsAccidentActivity";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

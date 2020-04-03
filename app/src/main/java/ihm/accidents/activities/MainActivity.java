@@ -101,5 +101,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void onClickListAccidents(View view){
+        Intent intent=new Intent(this,ListIncidentActivity.class);
+
+        this.startActivity(intent);
+    }
+
 
 }
