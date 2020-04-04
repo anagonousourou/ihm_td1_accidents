@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/creation">
+
+
+    <EditText
+        android:id="@+id/adresse"
+        android:layout_width="379dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_x="42dp"
+        android:layout_y="62dp"
+        android:layout_marginVertical="20dp"
+        android:inputType="number"
+        android:text="adresse"
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_editor_absoluteY="129dp" />
+
+    <EditText
+        android:id="@+id/type"
+        android:layout_width="379dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="30dp"
+        android:layout_alignParentStart="true"
+        android:layout_x="43dp"
+        android:layout_y="148dp"
+        android:inputType="number"
+        android:text="type d'accident"
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_editor_absoluteY="129dp" />
+
+    <EditText
+        android:id="@+id/commentaire"
+        android:layout_width="379dp"
+        android:layout_height="163dp"
+        android:layout_alignParentStart="true"
+        android:layout_x="37dp"
+        android:layout_y="214dp"
+        android:inputType="number"
+        android:text="commentaire"
+        android:layout_marginTop="30dp"
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_editor_absoluteY="129dp" />
+
+
+    <Button
+        android:id="@+id/photo"
+        android:layout_width="wrap_content"
+        android:layout_height="157dp"
+
+        android:layout_margin="80dp"
+        android:layout_weight="0.9"
+
+
+        android:layout_x="43dp"
+        android:layout_y="397dp"
+        android:drawableLeft="@android:drawable/ic_menu_camera"
+        android:text="Ajouter une photo" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_y="500dp"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        >
+
+        <Button
+            android:id="@+id/retour"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+
+
+            android:layout_weight="0.9"
+
+
+            android:drawableLeft="@drawable/abc_vector_test"
+            android:text="Annuler" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"></Space>
+
+        <Button
+            android:id="@+id/btn_new_incident"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.9"
+            android:drawableLeft="@android:drawable/ic_input_add"
+            android:onClick="onButtonCreationCliked"
+
+
+            android:padding="5dp"
+            android:text="Valider" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

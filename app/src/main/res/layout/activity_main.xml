@@ -42,7 +42,7 @@
             android:id="@+id/btn_new_incident"
             android:layout_width="0dp"
             android:layout_weight="0.9"
-            android:onClick="displayNotificationTest"
+            android:onClick="goToCreation"
             android:padding="5dp"
 
 

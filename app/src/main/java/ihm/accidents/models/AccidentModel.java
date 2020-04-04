@@ -8,6 +8,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONString;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 import ihm.accidents.utils.Utils;
 
 
@@ -17,6 +20,7 @@ public class AccidentModel implements Parcelable, JSONString {
     private String type;
     private String details;
     private String imageb64;
+    private Double date;
 
     @Override
     public String toString() {
@@ -28,7 +32,17 @@ public class AccidentModel implements Parcelable, JSONString {
                 '}';
     }
 
-    private double date;
+
+    public AccidentModel(String title, String address, String type, String details, String imageb64){
+        this.title=title;
+        this.address=address;
+        this.type=type;
+        this.details=details;
+        this.imageb64=imageb64;
+        this.date= ((double) System.currentTimeMillis()/1000);
+
+    }
+
 
     public String getTitle() {
         return title;
@@ -50,7 +64,7 @@ public class AccidentModel implements Parcelable, JSONString {
         return imageb64;
     }
 
-    public double getDate() {
+    public Double getDate() {
         return date;
     }
 
@@ -81,14 +95,6 @@ public class AccidentModel implements Parcelable, JSONString {
         date = in.readDouble();
     }
 
-    public AccidentModel(String titre,String address, String type, String details, String b64, double dt) {
-        this.title=titre;
-        this.address = address;
-        this.type = type;
-        this.details = details;
-        this.imageb64 = b64;
-        this.date = dt;
-    }
 
     public Bitmap getImageBitmap(){
         return Utils.fromBase64(this.imageb64);

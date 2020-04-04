@@ -40,4 +40,5 @@ dependencies {
     implementation 'org.json:json:20190722'
     testImplementation 'org.testifyproject.junit5:junit5:1.0.6'
     testImplementation 'org.testifyproject.mock:mockito:1.0.6'
+    implementation 'com.google.android.material:material:1.1.0'
 }
