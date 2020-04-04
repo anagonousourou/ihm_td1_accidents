@@ -6,8 +6,8 @@ const router = new Router()
 
 router.get('/', (req, res) => {
   try {
-    const result = {...Accident.get()}
-    res.status(200).json(result)
+    const accident = [Accident.get()]
+    res.status(200).json({accident})
   } catch (err) {
     res.status(500).json(err)
   }
