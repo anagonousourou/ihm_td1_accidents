@@ -24,6 +24,7 @@ import android.widget.RemoteViews;
 import ihm.accidents.application.IncidentApplication;
 import ihm.accidents.models.AccidentModel;
 
+import ihm.accidents.models.ListAccidentModel;
 import ihm.accidents.utils.Utils;
 import my.ihm.exercice6.R;
 import ihm.accidents.fragments.SomeFragment;
@@ -61,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragmentMap=new SomeFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.placeHolderMapFragment ,fragmentMap).commit();
 
-
-
+        ListAccidentModel list= new ListAccidentModel();
+        list.setListFromServeur();
 
     }
 

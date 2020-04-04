@@ -34,7 +34,7 @@ public class DetailsAccidentActivity extends Activity {
         ImageView imageView=this.findViewById(R.id.image_details_accident);
 
         imageView.setImageBitmap(accidentModel.getImageBitmap());
-        detailstv.setText(accidentModel.getDetails());
+        detailstv.setText(accidentModel.getCommentaire());
 
 
         momenttv.setText(getString(R.string.temps_accident,accidentModel.userFormatDate()));

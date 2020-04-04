@@ -4,19 +4,30 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONString;
 
 import ihm.accidents.utils.Utils;
 
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AccidentModel implements Parcelable, JSONString {
+    @JsonProperty("title")
     private String title;
+    @JsonProperty("adresse")
     private String address;
+    @JsonProperty("type")
     private String type;
-    private String details;
+    @JsonProperty("commentaire")
+    private String commentaire;
+    @JsonProperty("imageb64")
     private String imageb64;
+    @JsonProperty("date")
+    private double date;
 
     @Override
     public String toString() {
@@ -24,11 +35,11 @@ public class AccidentModel implements Parcelable, JSONString {
                 "title='" + title + '\'' +
                 ", address='" + address + '\'' +
                 ", type='" + type + '\'' +
+                ", commentaire= '"+commentaire+ '\''+
                 ", date=" + date +
                 '}';
     }
 
-    private double date;
 
     public String getTitle() {
         return title;
@@ -42,8 +53,8 @@ public class AccidentModel implements Parcelable, JSONString {
         return type;
     }
 
-    public String getDetails() {
-        return details;
+    public String getCommentaire() {
+        return commentaire;
     }
 
     public String getImageb64() {
@@ -76,16 +87,21 @@ public class AccidentModel implements Parcelable, JSONString {
         title=in.readString();
         address = in.readString();
         type = in.readString();
-        details = in.readString();
+        commentaire = in.readString();
         imageb64 = in.readString();
         date = in.readDouble();
     }
-
-    public AccidentModel(String titre,String address, String type, String details, String b64, double dt) {
+    @JsonCreator
+    public AccidentModel(@JsonProperty("title")String titre,
+                         @JsonProperty("adresse")String address,
+                         @JsonProperty("type")String type,
+                         @JsonProperty("commentaire") String Comment,
+                         @JsonProperty("imageb64") String b64,
+                         @JsonProperty("date") double dt) {
         this.title=titre;
         this.address = address;
         this.type = type;
-        this.details = details;
+        this.commentaire = Comment;
         this.imageb64 = b64;
         this.date = dt;
     }
@@ -121,7 +137,7 @@ public class AccidentModel implements Parcelable, JSONString {
         dest.writeString(title);
         dest.writeString(address);
         dest.writeString(type);
-        dest.writeString(details);
+        dest.writeString(commentaire);
         dest.writeString(imageb64);
         dest.writeDouble(date);
     }
@@ -130,9 +146,9 @@ public class AccidentModel implements Parcelable, JSONString {
     public String toJSONString() {
         try {
             return new JSONObject().put("title",title)
-                    .put("address",address)
+                    .put("adresse",address)
                     .put("type",type)
-                    .put("details",details)
+                    .put("commentaire", commentaire)
                     .put("imageb64",imageb64)
                     .put("date",date).toString();
         } catch (JSONException e) {
