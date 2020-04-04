@@ -1,4 +1,4 @@
-package my.myself.exercice6;
+package ihm.accidents.fragments;
 
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -16,6 +16,8 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+
+import my.ihm.exercice6.R;
 
 public class SomeFragment extends Fragment {
     public SomeFragment(){

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context="ihm.accidents.activities.MainActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             android:id="@+id/btn_list_incidents"
             android:layout_weight="0.9"
             android:layout_width="0dp"
-
+            android:onClick="onClickListAccidents"
             android:drawableLeft="@drawable/list"
 
             

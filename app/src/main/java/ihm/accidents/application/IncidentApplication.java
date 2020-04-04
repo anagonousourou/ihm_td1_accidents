@@ -1,7 +1,6 @@
-package my.myself.exercice6;
+package ihm.accidents.application;
 
 import android.app.Application;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
@@ -31,5 +30,4 @@ public class IncidentApplication extends Application {
         }
         return null;
     }
-
 }

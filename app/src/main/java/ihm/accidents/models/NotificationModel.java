@@ -1,4 +1,4 @@
-package my.myself.accidents.models;
+package ihm.accidents.models;
 
 public class NotificationModel {
 

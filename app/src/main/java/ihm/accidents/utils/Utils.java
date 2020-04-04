@@ -1,4 +1,8 @@
-package my.myself.exercice6;
+package ihm.accidents.utils;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 
 public class Utils {
     public static final String accidentKey = "accidentData";
@@ -34,5 +38,12 @@ public class Utils {
             return (int) (seconds / secondsInMinute);
         }
         return (int) seconds;
+    }
+
+    public static Bitmap fromBase64(String base64){
+        String pureBase64Encoded = base64.substring(base64.indexOf(",")  + 1);
+        byte[] decodedBytes = Base64.decode(pureBase64Encoded, Base64.DEFAULT);
+
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 }

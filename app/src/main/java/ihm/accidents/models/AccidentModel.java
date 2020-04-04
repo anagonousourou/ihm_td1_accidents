@@ -1,16 +1,33 @@
-package my.myself.accidents.models;
+package ihm.accidents.models;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import my.myself.exercice6.Utils;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONString;
 
-public class AccidentModel implements Parcelable {
+import ihm.accidents.utils.Utils;
+
+
+public class AccidentModel implements Parcelable, JSONString {
     private String title;
     private String address;
     private String type;
     private String details;
     private String imageb64;
+
+    @Override
+    public String toString() {
+        return "AccidentModel{" +
+                "title='" + title + '\'' +
+                ", address='" + address + '\'' +
+                ", type='" + type + '\'' +
+                ", date=" + date +
+                '}';
+    }
+
     private double date;
 
     public String getTitle() {
@@ -40,16 +57,17 @@ public class AccidentModel implements Parcelable {
 
 
     public String userFormatDate(){
-         long difftime= (long)(date-System.currentTimeMillis()/1000);
+         long difftime= (long)((System.currentTimeMillis()/1000)-date);
+
          if(difftime == 0){
              return "A l'instant";
          }
          if(difftime > 0){
-            return "Il y a "+Utils.convertToHighestScalePossible((long)date)+" "+Utils.scaleReached((long)date);
+            return "Il y a "+Utils.convertToHighestScalePossible((long) difftime)+" "+Utils.scaleReached((long) difftime);
          }
 
          if(difftime < 0){
-             return "Dans "+Utils.convertToHighestScalePossible((long)-date)+" "+Utils.scaleReached((long)-date);
+             return "Dans "+ Utils.convertToHighestScalePossible((long) -difftime)+" "+Utils.scaleReached((long) -difftime);
          }
          return difftime+" seconds";
     }
@@ -70,6 +88,15 @@ public class AccidentModel implements Parcelable {
         this.details = details;
         this.imageb64 = b64;
         this.date = dt;
+    }
+
+    public Bitmap getImageBitmap(){
+        return Utils.fromBase64(this.imageb64);
+    }
+
+    public static AccidentModel fromJson(String jsonString){
+        //TODO
+        return null;
     }
 
     public static final Creator<AccidentModel> CREATOR = new Creator<AccidentModel>() {
@@ -97,5 +124,20 @@ public class AccidentModel implements Parcelable {
         dest.writeString(details);
         dest.writeString(imageb64);
         dest.writeDouble(date);
+    }
+
+    @Override
+    public String toJSONString() {
+        try {
+            return new JSONObject().put("title",title)
+                    .put("address",address)
+                    .put("type",type)
+                    .put("details",details)
+                    .put("imageb64",imageb64)
+                    .put("date",date).toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return new JSONObject().toString();
+        }
     }
 }
