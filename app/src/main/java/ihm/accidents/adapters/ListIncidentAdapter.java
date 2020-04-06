@@ -30,7 +30,7 @@ public class ListIncidentAdapter extends RecyclerView.Adapter<ListIncidentAdapte
     private final Context context;
     private final Activity activity;
 
-    private List<AccidentModel> accidentsList=new ArrayList<>();
+    private List<AccidentModel> accidentsList=Utils.list;
 
     public ListIncidentAdapter(Context ctx, Activity activity){
         this.context=ctx;
