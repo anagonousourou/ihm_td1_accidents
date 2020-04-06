@@ -29,12 +29,10 @@ public class ListIncidentActivity extends Activity {
         recyclerViewIncidents.setAdapter(adapter);
         List<AccidentModel> listAccidents=new ArrayList<>();
         AccidentModel accidentModelFake=new AccidentModel("Placeholder image selected","Wonderland","solo","Alice vient de trébucher sur le chat de Cheschire. La Reine s'en vient. à suivre :)",
-                Placeholders.img_placeholder1,
-                1585743847.0);
+                Placeholders.img_placeholder1);
 
         AccidentModel accidentModelFake2=new AccidentModel("Breaking News","Polytech Nice Sophia","solo","OMG, Un étudiant est tombé de son quad. :) mdr",
-                Placeholders.img_placeholder2,
-                1585743847.0);
+                Placeholders.img_placeholder2);
 
         listAccidents.add(accidentModelFake);
         listAccidents.add(accidentModelFake2);

@@ -12,6 +12,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONString;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 import ihm.accidents.utils.Utils;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -27,7 +30,7 @@ public class AccidentModel implements Parcelable, JSONString {
     @JsonProperty("imageb64")
     private String imageb64;
     @JsonProperty("date")
-    private double date;
+    private Double date;
 
     @Override
     public String toString() {
@@ -38,6 +41,17 @@ public class AccidentModel implements Parcelable, JSONString {
                 ", commentaire= '"+commentaire+ '\''+
                 ", date=" + date +
                 '}';
+    }
+
+
+    public AccidentModel(String title, String address, String type, String details, String imageb64){
+        this.title=title;
+        this.address=address;
+        this.type=type;
+        this.details=details;
+        this.imageb64=imageb64;
+        this.date= ((double) System.currentTimeMillis()/1000);
+
     }
 
 
@@ -61,7 +75,7 @@ public class AccidentModel implements Parcelable, JSONString {
         return imageb64;
     }
 
-    public double getDate() {
+    public Double getDate() {
         return date;
     }
 
