@@ -60,7 +60,7 @@ public class SendMessageActivity extends AppCompatActivity {
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(number.getText().toString(),null,message,null,null);
         Toast.makeText(this, "Votre message a été envoyé" , Toast.LENGTH_LONG).show();
-        Intent goback = new Intent(SendMessageActivity.this,DetailsAccidentActivity.class);
+        Intent goback = new Intent(SendMessageActivity.this,MainActivity.class);
         startActivity(goback);
     }
 }
