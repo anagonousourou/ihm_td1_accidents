@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,6 +18,8 @@ import ihm.accidents.utils.Utils;
 import my.ihm.exercice6.R;
 
 public class SendMessageActivity extends AppCompatActivity {
+
+    private static final String TAG = "SendMessageActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,10 @@ public class SendMessageActivity extends AppCompatActivity {
         EditText number = findViewById(R.id.tel);
         //String message = "Attention\n"+accidentModel.getTitle()+"\nA l'adresse: "+accidentModel.getAddress();
         String message = "say hello";
+        Log.d(TAG, message);
+        Log.d(TAG, accidentModel.toString());
+        Log.d(TAG, accidentModel.toJSONString());
+
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(number.getText().toString(),null,message,null,null);
         Toast.makeText(this, "Votre message a été envoyé" , Toast.LENGTH_LONG).show();
