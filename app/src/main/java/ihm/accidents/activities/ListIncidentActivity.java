@@ -1,17 +1,20 @@
 package ihm.accidents.activities;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import ihm.accidents.adapters.ListIncidentAdapter;
 import ihm.accidents.models.AccidentModel;
+import ihm.accidents.models.ListAccidentModel;
 import ihm.accidents.utils.Placeholders;
 import my.ihm.exercice6.R;
 
@@ -34,10 +37,46 @@ public class ListIncidentActivity extends Activity {
         AccidentModel accidentModelFake2=new AccidentModel("Breaking News","Polytech Nice Sophia","solo","OMG, Un étudiant est tombé de son quad. :) mdr",
                 Placeholders.img_placeholder2);
 
+        /*try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
         listAccidents.add(accidentModelFake);
         listAccidents.add(accidentModelFake2);
         recyclerViewIncidents.setLayoutManager(new LinearLayoutManager(this));
+        System.out.println("json accident before"+listAccidents);
         adapter.setAccidentsList(listAccidents);
+        new JsonTask().execute();
 
+    }
+
+    private class JsonTask extends AsyncTask<String, String, ListAccidentModel> {
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+
+        }
+
+        protected ListAccidentModel doInBackground(String... params) {
+
+
+            ListAccidentModel accidentsServeur= new ListAccidentModel();
+            try {
+                return accidentsServeur.getListFromWeb();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(ListAccidentModel result) {
+            if(result!=null) {
+                adapter.setAccidentsList(result.getAccidents());
+            }
+           adapter.notifyDataSetChanged();
+        }
     }
 }

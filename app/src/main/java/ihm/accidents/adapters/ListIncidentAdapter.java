@@ -22,6 +22,7 @@ import java.util.List;
 
 import ihm.accidents.activities.DetailsAccidentActivity;
 import ihm.accidents.models.AccidentModel;
+import ihm.accidents.utils.Placeholders;
 import ihm.accidents.utils.Utils;
 import my.ihm.exercice6.R;
 
@@ -40,7 +41,11 @@ public class ListIncidentAdapter extends RecyclerView.Adapter<ListIncidentAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.accidentTitle.setText(accidentsList.get(position).getTitle());
-        holder.accidentImage.setImageBitmap(accidentsList.get(position).getImageBitmap());
+        if(accidentsList.get(position).getImageBitmap()!=null) {
+            holder.accidentImage.setImageBitmap(accidentsList.get(position).getImageBitmap());
+        }else{
+            holder.accidentImage.setImageBitmap(Utils.fromBase64(Placeholders.img_placeholder1));
+        }
         holder.accidentDistance.setText(accidentsList.get(position).getAddress());
         holder.wrapperItem.setOnClickListener((view)->{
             Intent resultIntent = new Intent(context, DetailsAccidentActivity.class);
@@ -48,7 +53,6 @@ public class ListIncidentAdapter extends RecyclerView.Adapter<ListIncidentAdapte
             activity.startActivity(resultIntent);
 
         });
-
         /*if (position%2==0){
             holder.wrapperItem.setBackgroundColor(context.getColor(R.color.silver));
         }

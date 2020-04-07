@@ -27,7 +27,7 @@ public class AccidentModel implements Parcelable, JSONString {
     private String type;
     @JsonProperty("commentaire")
     private String commentaire;
-    @JsonProperty("imageb64")
+    @JsonProperty("photoB64")
     private String imageb64;
     @JsonProperty("date")
     private Double date;
@@ -44,11 +44,11 @@ public class AccidentModel implements Parcelable, JSONString {
     }
 
 
-    public AccidentModel(String title, String address, String type, String details, String imageb64){
+    public AccidentModel(String title, String address, String type, String commentaire, String imageb64){
         this.title=title;
         this.address=address;
         this.type=type;
-        this.details=details;
+        this.commentaire=commentaire;
         this.imageb64=imageb64;
         this.date= ((double) System.currentTimeMillis()/1000);
 
@@ -110,7 +110,7 @@ public class AccidentModel implements Parcelable, JSONString {
                          @JsonProperty("adresse")String address,
                          @JsonProperty("type")String type,
                          @JsonProperty("commentaire") String Comment,
-                         @JsonProperty("imageb64") String b64,
+                         @JsonProperty("photoB64") String b64,
                          @JsonProperty("date") double dt) {
         this.title=titre;
         this.address = address;
@@ -121,6 +121,9 @@ public class AccidentModel implements Parcelable, JSONString {
     }
 
     public Bitmap getImageBitmap(){
+        if(imageb64==null){
+            imageb64="";
+        }
         return Utils.fromBase64(this.imageb64);
     }
 
@@ -163,7 +166,7 @@ public class AccidentModel implements Parcelable, JSONString {
                     .put("adresse",address)
                     .put("type",type)
                     .put("commentaire", commentaire)
-                    .put("imageb64",imageb64)
+                    .put("photoB64",imageb64)
                     .put("date",date).toString();
         } catch (JSONException e) {
             e.printStackTrace();

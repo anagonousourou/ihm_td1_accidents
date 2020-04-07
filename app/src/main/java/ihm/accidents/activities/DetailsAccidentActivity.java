@@ -32,7 +32,7 @@ public class DetailsAccidentActivity extends Activity {
         TextView momenttv = this.findViewById(R.id.temps_accident_txtview);
         TextView detailstv= this.findViewById(R.id.desc_accident_txtview);
         ImageView imageView=this.findViewById(R.id.image_details_accident);
-
+        System.out.println("json"+accidentModel.getImageb64());
         imageView.setImageBitmap(accidentModel.getImageBitmap());
         detailstv.setText(accidentModel.getCommentaire());
 

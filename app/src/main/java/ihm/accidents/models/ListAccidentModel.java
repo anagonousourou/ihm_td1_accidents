@@ -1,7 +1,5 @@
 package ihm.accidents.models;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedInputStream;
@@ -13,8 +11,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class ListAccidentModel {
 
@@ -28,20 +24,8 @@ public class ListAccidentModel {
     public ListAccidentModel(ArrayList<AccidentModel> accidents){
         this.accidents=accidents;
     }
-    public void setListFromServeur(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    System.out.println("json");
-                    getListFromWeb();
-                }catch (MalformedURLException e){
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
-    private void getListFromWeb() throws MalformedURLException {
+
+    public ListAccidentModel getListFromWeb() throws MalformedURLException {
         URL url = new URL("http://yassin.dinelhost.com:9428/api/accidents/");
         System.out.println("jsonURL"+url);
         try {
@@ -50,16 +34,17 @@ public class ListAccidentModel {
                 InputStream in = new BufferedInputStream(urlConnection.getInputStream());
                 String jsonString = readStream(in);
                 ObjectMapper mapper= new ObjectMapper();
-                ListAccidentModel ListServ = mapper.readValue(jsonString,ListAccidentModel.class);
-                this.accidents= ListServ.accidents;
-
-                System.out.println("json"+ListServ.accidents);
+                ListAccidentModel listServ = mapper.readValue(jsonString,ListAccidentModel.class);
+                System.out.println("json"+jsonString);
+                this.accidents.addAll(listServ.getAccidents());
+                return this;
             }finally {
                 urlConnection.disconnect();
             }
         }catch (IOException e){
             System.out.println("json catch"+e.toString());
             e.printStackTrace();
+            return null;
         }
     }
     private String readStream(InputStream in) throws IOException {
@@ -72,7 +57,10 @@ public class ListAccidentModel {
         return stringBuilder.toString();
     }
 
-    public ArrayList<AccidentModel> getAccident() {
+    public ArrayList<AccidentModel> getAccidents() {
         return accidents;
     }
+
+
 }
+

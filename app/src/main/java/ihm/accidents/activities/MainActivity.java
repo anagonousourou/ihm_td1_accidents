@@ -62,8 +62,6 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragmentMap = new SomeFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.placeHolderMapFragment ,fragmentMap).commit();
 
-        ListAccidentModel list= new ListAccidentModel();
-        list.setListFromServeur();
 
     }
 
