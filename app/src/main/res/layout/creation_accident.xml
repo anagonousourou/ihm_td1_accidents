@@ -1,85 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<RelativeLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
-    android:id="@+id/creation">
+    android:id="@+id/creation"
+    android:orientation="vertical"
+    android:layout_gravity="fill_vertical"
+    >
+
 
 
     <EditText
         android:textSize="12pt"
         android:id="@+id/adresse"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_height="match_parent"
+        android:layout_x="42dp"
+        android:layout_y="62dp"
+        android:layout_marginVertical="20dp"
         android:inputType="text"
         android:hint="adresse"
-         />
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_editor_absoluteY="129dp" />
+
 
     <EditText
-        android:textSize="12pt"
         android:id="@+id/type"
-        android:layout_below="@+id/adresse"
-        android:layout_width="match_parent"
+        android:layout_width="379dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
+        android:layout_x="43dp"
+        android:layout_y="148dp"
+        android:layout_below="@+id/adresse"
         android:inputType="text"
         android:hint="type d'accident"
-         />
+        android:textSize="12pt"
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_editor_absoluteY="129dp" />
 
-    <EditText
-        android:textSize="10pt"
-        android:layout_below="@id/type"
-        android:id="@+id/commentaire"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:hint="commentaire Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam."
-        android:layout_marginTop="10dp"
-         />
+        android:layout_below="@+id/commentaire"
+        android:id="@+id/photoLayout"
 
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
 
-    <Button
-        android:layout_centerInParent="true"
-        android:layout_below="@id/commentaire"
-        android:id="@+id/photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/btns_wrapper"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:drawableStart="@android:drawable/ic_menu_camera"
-        android:text="Ajouter une photo" />
+        <ImageView
+            android:id="@+id/photoView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_weight="0.9" />
+
+        <Button
+            android:id="@+id/photo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="right"
+            android:layout_weight="0.9"
+            android:drawableLeft="@android:drawable/ic_menu_camera"
+            android:onClick="takePic"
+            android:text="Ajouter une \n photo" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btns_wrapper"
-        android:layout_alignParentBottom="true"
         android:orientation="horizontal"
+        android:layout_marginTop="20dp"
         android:weightSum="2"
+        android:layout_gravity="bottom"
+        android:layout_below="@+id/photoLayout"
+
         >
 
         <Button
             android:id="@+id/retour"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-
-
+            android:layout_height="match_parent"
             android:layout_weight="0.9"
-
-
-            android:drawableStart="@drawable/abc_vector_test"
+            android:onClick="goBack"
+            android:drawableLeft="@drawable/abc_vector_test"
             android:text="Annuler" />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.2"/>
+            android:layout_weight="0.2" />
 
         <Button
             android:id="@+id/btn_new_incident"
@@ -88,12 +108,25 @@
             android:layout_weight="0.9"
             android:drawableLeft="@android:drawable/ic_input_add"
             android:onClick="onButtonCreationCliked"
-
-
             android:padding="5dp"
             android:text="Valider" />
-
     </LinearLayout>
 
+    <EditText
+        android:id="@+id/commentaire"
+        android:layout_width="379dp"
+        android:layout_height="150dp"
+        android:layout_below="@+id/type"
+        android:layout_marginTop="20dp"
+        android:layout_x="37dp"
+        android:layout_y="214dp"
+        android:hint="commentaire"
+        android:inputType="text"
+        android:textSize="10pt"
+        tools:layout_editor_absoluteX="40dp" />
 
-</RelativeLayout>
+    </RelativeLayout>
+
+
+
+</ScrollView>

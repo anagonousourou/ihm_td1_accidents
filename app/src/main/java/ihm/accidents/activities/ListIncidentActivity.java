@@ -16,6 +16,7 @@ import ihm.accidents.adapters.ListIncidentAdapter;
 import ihm.accidents.models.AccidentModel;
 import ihm.accidents.models.ListAccidentModel;
 import ihm.accidents.utils.Placeholders;
+import ihm.accidents.utils.Utils;
 import my.ihm.exercice6.R;
 
 public class ListIncidentActivity extends Activity {
@@ -30,7 +31,7 @@ public class ListIncidentActivity extends Activity {
         recyclerViewIncidents=findViewById(R.id.list_incidents_id);
         adapter=new ListIncidentAdapter(this,this);
         recyclerViewIncidents.setAdapter(adapter);
-        List<AccidentModel> listAccidents=new ArrayList<>();
+        List<AccidentModel> listAccidents= Utils.list;
         AccidentModel accidentModelFake=new AccidentModel("Placeholder image selected","Wonderland","solo","Alice vient de trébucher sur le chat de Cheschire. La Reine s'en vient. à suivre :)",
                 Placeholders.img_placeholder1);
 
