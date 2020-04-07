@@ -20,7 +20,7 @@ public class AccidentModel implements Parcelable, JSONString {
     private String type;
     private String details;
     private String imageb64;
-    private Double date;
+    private long date;
 
     @Override
     public String toString() {
@@ -39,7 +39,17 @@ public class AccidentModel implements Parcelable, JSONString {
         this.type=type;
         this.details=details;
         this.imageb64=imageb64;
-        this.date= ((double) System.currentTimeMillis()/1000);
+        this.date= System.currentTimeMillis()/1000;
+
+    }
+
+    public AccidentModel(String title, String address, String type, String details, String imageb64,long date){
+        this.title=title;
+        this.address=address;
+        this.type=type;
+        this.details=details;
+        this.imageb64=imageb64;
+        this.date= date;
 
     }
 
@@ -64,24 +74,24 @@ public class AccidentModel implements Parcelable, JSONString {
         return imageb64;
     }
 
-    public Double getDate() {
+    public long getDate() {
         return date;
     }
 
 
 
     public String userFormatDate(){
-         long difftime= (long)((System.currentTimeMillis()/1000)-date);
+         long difftime= (System.currentTimeMillis()/1000)-date;
 
          if(difftime == 0){
              return "A l'instant";
          }
          if(difftime > 0){
-            return "Il y a "+Utils.convertToHighestScalePossible((long) difftime)+" "+Utils.scaleReached((long) difftime);
+            return "Il y a "+Utils.convertToHighestScalePossible(difftime)+" "+Utils.scaleReached(difftime);
          }
 
          if(difftime < 0){
-             return "Dans "+ Utils.convertToHighestScalePossible((long) -difftime)+" "+Utils.scaleReached((long) -difftime);
+             return "Dans "+ Utils.convertToHighestScalePossible(-difftime)+" "+Utils.scaleReached( -difftime);
          }
          return difftime+" seconds";
     }
@@ -92,7 +102,7 @@ public class AccidentModel implements Parcelable, JSONString {
         type = in.readString();
         details = in.readString();
         imageb64 = in.readString();
-        date = in.readDouble();
+        date = in.readLong();
     }
 
 

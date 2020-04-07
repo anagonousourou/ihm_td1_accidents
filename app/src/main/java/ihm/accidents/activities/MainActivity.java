@@ -4,12 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import org.osmdroid.views.MapView;
@@ -20,6 +23,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.RemoteViews;
+
+import java.io.File;
 
 import ihm.accidents.application.IncidentApplication;
 import ihm.accidents.models.AccidentModel;
@@ -56,9 +61,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+        org.osmdroid.config.IConfigurationProvider osmConf = org.osmdroid.config.Configuration.getInstance();
+        File basePath = new File(this.getCacheDir().getAbsolutePath(), "osmdroid");
+        osmConf.setOsmdroidBasePath(basePath);
+        File tileCache = new File(osmConf.getOsmdroidBasePath().getAbsolutePath(), "tile");
+        osmConf.setOsmdroidTileCache(tileCache);
+            Fragment fragmentMap = new SomeFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.placeHolderMapFragment, fragmentMap).commit();
 
-        Fragment fragmentMap = new SomeFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.placeHolderMapFragment ,fragmentMap).commit();
     }
 
     public void displayNotificationTest(View view){
@@ -95,5 +105,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent=new Intent(getApplicationContext(), CreationAccidentActivity.class);
         startActivity(intent);
     }
+
+
 
 }

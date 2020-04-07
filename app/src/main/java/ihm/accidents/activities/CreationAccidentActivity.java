@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,7 +52,7 @@ public class CreationAccidentActivity extends AppCompatActivity {
 
     public void onButtonCreationCliked(View button) {
         EditText editTextAdresse = findViewById(R.id.adresse);
-        EditText editTextType = findViewById(R.id.type);
+        Spinner editTextType = findViewById(R.id.type);
         EditText editTextCommentaire = findViewById(R.id.commentaire);
         InputMethodManager imm = (InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editTextAdresse.getWindowToken(), 0);
@@ -64,7 +65,7 @@ public class CreationAccidentActivity extends AppCompatActivity {
         imm.hideSoftInputFromWindow(editTextType.getWindowToken(), 0);
         String type;
         try {
-            type = editTextType.getText() + "";
+            type = editTextType.getSelectedItem() + "";
         } catch (StringIndexOutOfBoundsException e) {
             type = "";
         }

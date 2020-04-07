@@ -12,6 +12,17 @@
     <string name="desc_accident" translatable="true"> Description: %1$s  </string>
     <string name="distance_incident_list_item" translatable="true">Accident à %1$s %2$s</string>
     <string name="details_notif_accident">Un conducteur de quad a été éjecté de son véhicule (Quad)…</string>
-
+    <string name="hint_adresse_str">adresse</string>
+    <string name="commentaire_hint_str">commentaire Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam.</string>
+    <string-array name="accident_types">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
 
 </resources>

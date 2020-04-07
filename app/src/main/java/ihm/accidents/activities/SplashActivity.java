@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import my.ihm.exercice6.R;
 
 public class SplashActivity extends AppCompatActivity {
-    public final int temps=3000;
+    public final int temps=200;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -3,6 +3,7 @@ package ihm.accidents.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ public class ListIncidentAdapter extends RecyclerView.Adapter<ListIncidentAdapte
         holder.accidentImage.setImageBitmap(accidentsList.get(position).getImageBitmap());
         holder.accidentDistance.setText(accidentsList.get(position).getAddress());
         holder.wrapperItem.setOnClickListener((view)->{
+            Log.d(TAG, "onBindViewHolder: Salut "+holder.wrapperItem);
             Intent resultIntent = new Intent(context, DetailsAccidentActivity.class);
             resultIntent.putExtra(Utils.accidentKey,accidentsList.get(position));
             activity.startActivity(resultIntent);
