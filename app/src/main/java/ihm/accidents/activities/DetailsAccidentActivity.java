@@ -3,12 +3,9 @@ package ihm.accidents.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.telephony.SmsManager;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -48,7 +45,7 @@ public class DetailsAccidentActivity extends Activity {
     }
     public void goToSendMessage(View view) {
         Intent sendMessage = new Intent(this ,SendMessageActivity.class);
-        sendMessage.putExtra(Utils.accidentKey,accidentModel);
+        sendMessage.putExtra(Utils.accidentKey,this.accidentModel);
         startActivity(sendMessage);
     }
 }

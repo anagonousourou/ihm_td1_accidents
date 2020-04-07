@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.telephony.SmsManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -58,16 +57,11 @@ public class SendMessageActivity extends AppCompatActivity {
         Intent intent = getIntent();
         AccidentModel accidentModel = intent.getParcelableExtra(Utils.accidentKey);
         EditText number = findViewById(R.id.tel);
-        //String message = "Attention\n"+accidentModel.getTitle()+"\nA l'adresse: "+accidentModel.getAddress();
-        String message = "say hello";
-        Log.d(TAG, message);
-        Log.d(TAG, accidentModel.toString());
-        Log.d(TAG, accidentModel.toJSONString());
-
+        String message = "Attention\n"+accidentModel.getTitle()+"\nA l'adresse: "+accidentModel.getAddress();
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(number.getText().toString(),null,message,null,null);
         Toast.makeText(this, "Votre message a été envoyé" , Toast.LENGTH_LONG).show();
-        Intent goback = new Intent(SendMessageActivity.this,MainActivity.class);
-        startActivity(goback);
+        Intent goBack = new Intent(SendMessageActivity.this,MainActivity.class);
+        startActivity(goBack);
     }
 }
