@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -24,6 +25,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import ihm.accidents.adapters.AdresseAutoCompleteAdapter;
 import ihm.accidents.models.AccidentModel;
 import ihm.accidents.utils.Utils;
 import my.ihm.exercice6.R;
@@ -37,9 +40,12 @@ public class CreationAccidentActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
-        imageView=findViewById(R.id.photoView);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.creation_accident);
+        imageView=findViewById(R.id.photoView);
+        AutoCompleteTextView adressView= findViewById(R.id.adresse);
+        adressView.setAdapter(new AdresseAutoCompleteAdapter(this,android.R.layout.simple_dropdown_item_1line));
+
     }
 
     private String getTableValue(String idd){

@@ -16,3 +16,4 @@ app/.settings
 .externalNativeBuild
 .cxx
 /web-service/node_modules
+node_modules/

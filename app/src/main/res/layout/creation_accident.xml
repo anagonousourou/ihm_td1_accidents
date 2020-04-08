@@ -32,10 +32,10 @@
         android:layout_below="@+id/adresse"
         android:entries="@array/accident_types"
         android:layout_width="match_parent"
-        android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
         android:layout_height="wrap_content" />
     <Button
-        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_below="@id/type"
         android:layout_centerHorizontal="true"
         android:id="@+id/photo"
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:drawableStart="@android:drawable/ic_menu_camera"
         android:onClick="takePic"
-        android:text="Ajouter une photo" />
+        android:text="@string/txt_btn_add_photo" />
 
     <EditText
         android:textSize="10pt"
