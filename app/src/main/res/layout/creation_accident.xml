@@ -26,7 +26,7 @@
 
     <Spinner
         android:layout_marginTop="10dp"
-        android:hint="type d'accident"
+        android:tooltipText="type d'accident"
         android:textSize="14pt"
         android:id="@+id/type"
         android:layout_below="@+id/adresse"

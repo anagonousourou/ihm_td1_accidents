@@ -46,6 +46,7 @@ public class ListIncidentAdapter extends RecyclerView.Adapter<ListIncidentAdapte
         holder.wrapperItem.setOnClickListener((view)->{
             Log.d(TAG, "onBindViewHolder: Salut "+holder.wrapperItem);
             Intent resultIntent = new Intent(context, DetailsAccidentActivity.class);
+            Log.d(TAG,accidentsList.get(position).getImageb64());
             resultIntent.putExtra(Utils.accidentKey,accidentsList.get(position));
             activity.startActivity(resultIntent);
 
