@@ -31,24 +31,23 @@
         android:id="@+id/type"
         android:layout_below="@+id/adresse"
         android:entries="@array/accident_types"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_marginRight="5dp"
         android:layout_height="wrap_content" />
     <Button
         android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@id/type"
-        android:layout_alignParentRight="true"
+        android:layout_below="@id/type"
+        android:layout_centerHorizontal="true"
         android:id="@+id/photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/adresse"
         android:drawableStart="@android:drawable/ic_menu_camera"
         android:onClick="takePic"
         android:text="Ajouter une photo" />
 
     <EditText
         android:textSize="10pt"
-        android:layout_below="@id/type"
+        android:layout_below="@id/photo"
         android:id="@+id/commentaire"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
