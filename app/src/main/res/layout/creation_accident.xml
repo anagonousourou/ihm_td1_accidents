@@ -12,7 +12,7 @@
     android:id="@+id/creation">
 
 
-    <EditText
+    <AutoCompleteTextView
         android:textSize="12pt"
         android:id="@+id/adresse"
         android:layout_width="match_parent"
