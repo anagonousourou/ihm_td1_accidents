@@ -1,5 +1,9 @@
 .DS_Store
 .idea/
 node_modules/
-mocks/*
 !mocks/.gitkeep
+.gradle/
+.vscode/
+*.iml
+app/build/
+local.properties
