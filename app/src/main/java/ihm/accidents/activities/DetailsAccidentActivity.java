@@ -3,6 +3,7 @@ package ihm.accidents.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,14 +20,14 @@ import my.ihm.exercice6.R;
  */
 public class DetailsAccidentActivity extends Activity {
     private static final String TAG = "DetailsAccidentActivity";
-
+    private AccidentModel accidentModel;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.details_accident_activity);
 
         Intent intent = getIntent();
-        AccidentModel accidentModel = intent.getParcelableExtra(Utils.accidentKey);
+        this.accidentModel = intent.getParcelableExtra(Utils.accidentKey);
         TextView titretv =  this.findViewById(R.id.titre_details_accident_txtview);
         TextView lieutv =  this.findViewById(R.id.lieu_accident_txtview);
         TextView momenttv = this.findViewById(R.id.temps_accident_txtview);
@@ -41,5 +42,10 @@ public class DetailsAccidentActivity extends Activity {
         lieutv.setText(getString(R.string.lieu_accident, accidentModel.getAddress()));
         titretv.setText(getString(R.string.titre_accident, accidentModel.getTitle()));
 
+    }
+    public void goToSendMessage(View view) {
+        Intent sendMessage = new Intent(this ,SendMessageActivity.class);
+        sendMessage.putExtra(Utils.accidentKey,this.accidentModel);
+        startActivity(sendMessage);
     }
 }
