@@ -29,7 +29,7 @@ import java.io.File;
 import ihm.accidents.application.IncidentApplication;
 import ihm.accidents.models.AccidentModel;
 import ihm.accidents.utils.Utils;
-import my.ihm.exercice6.R;
+import ihm.accidents.R;
 import ihm.accidents.fragments.SomeFragment;
 
 

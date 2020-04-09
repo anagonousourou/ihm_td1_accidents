@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import my.ihm.exercice6.R;
+import ihm.accidents.R;
 
 public class SomeFragment extends Fragment {
     private static final String TAG = "SomeFragment";

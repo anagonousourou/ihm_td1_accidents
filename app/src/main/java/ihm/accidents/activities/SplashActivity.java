@@ -6,29 +6,19 @@ import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import my.ihm.exercice6.R;
+import ihm.accidents.R;
 
 public class SplashActivity extends AppCompatActivity {
-    public final int temps = 200;
+    public final int temps = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        };
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-
+        new Handler().postDelayed(() -> {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
         }, temps);
     }
 }

@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory;
 import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,10 +17,16 @@ public class Utils {
     public static final long secondsInDay = 24 * 60 * 60;
     public static final long secondsInMinute = 60;
     public static final long secondsInHour = 60 * 60;
+    public static final String apiKeyOpencagedata="d23bb7fdffb74ee086bd061c3fa99264";
+    public static final String urlApiOpencageData="https://api.opencagedata.com/geocode/v1/json?key=";
     public static List<AccidentModel> list=new ArrayList<>();
 
     private Utils() {
 
+    }
+
+    public static String getRevereseGeocodingUrl(double latitude,double longitude) throws UnsupportedEncodingException {
+        return urlApiOpencageData+apiKeyOpencagedata+"&q=" +URLEncoder.encode(+latitude+","+longitude, "UTF-8");
     }
 
     public static String scaleReached(long seconds) {

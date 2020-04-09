@@ -8,7 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import my.ihm.exercice6.R;
+
+import ihm.accidents.R;
 import ihm.accidents.fragments.SomeFragment;
 
 public class ChoicePathActivity extends AppCompatActivity {

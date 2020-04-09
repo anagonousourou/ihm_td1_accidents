@@ -24,7 +24,7 @@ import java.util.List;
 import ihm.accidents.activities.DetailsAccidentActivity;
 import ihm.accidents.models.AccidentModel;
 import ihm.accidents.utils.Utils;
-import my.ihm.exercice6.R;
+import ihm.accidents.R;
 
 public class ListIncidentAdapter extends RecyclerView.Adapter<ListIncidentAdapter.ViewHolder> {
     private static final String TAG = "ListIncidentAdapter";

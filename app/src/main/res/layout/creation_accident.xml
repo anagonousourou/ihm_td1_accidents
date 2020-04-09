@@ -11,17 +11,31 @@
     android:paddingRight="8dp"
     android:id="@+id/creation">
 
-
+    <LinearLayout
+        android:id="@+id/wrapper_adr_btn"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content">
     <AutoCompleteTextView
         android:textSize="12pt"
         android:id="@+id/adresse"
-        android:layout_width="match_parent"
+        android:layout_weight="0.8"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:inputType="text"
-        android:hint="adresse"
+        android:hint="adresse ou lieu"
         />
 
+    <ImageButton
+        android:onClick="retrieveLocationAndPlug"
+        android:background="#00000000"
+        android:id="@+id/get_adress_btn"
+        android:layout_weight="0.2"
+        android:layout_width="0dp"
+        android:src="@drawable/baseline_my_location_24"
+        android:layout_height="match_parent"/>
+
+    </LinearLayout>
 
 
     <Spinner
@@ -29,7 +43,7 @@
         android:tooltipText="type d'accident"
         android:textSize="14pt"
         android:id="@+id/type"
-        android:layout_below="@+id/adresse"
+        android:layout_below="@+id/wrapper_adr_btn"
         android:entries="@array/accident_types"
         android:layout_width="match_parent"
         android:layout_marginEnd="5dp"

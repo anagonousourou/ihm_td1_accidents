@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import ihm.accidents.models.AccidentModel;
 import ihm.accidents.utils.Utils;
-import my.ihm.exercice6.R;
+import ihm.accidents.R;
 
 public class SendMessageActivity extends AppCompatActivity {
 

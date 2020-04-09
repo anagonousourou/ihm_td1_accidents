@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ihm.accidents.utils.AdresseFetcher;
-import my.ihm.exercice6.R;
+import ihm.accidents.R;
 
 public class AdresseAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
     private static final String TAG = "AdrAutoCompleteAdapter";

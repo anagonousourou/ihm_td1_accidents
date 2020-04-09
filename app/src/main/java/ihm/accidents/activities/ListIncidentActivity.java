@@ -14,7 +14,7 @@ import ihm.accidents.adapters.ListIncidentAdapter;
 import ihm.accidents.models.AccidentModel;
 import ihm.accidents.utils.Placeholders;
 import ihm.accidents.utils.Utils;
-import my.ihm.exercice6.R;
+import ihm.accidents.R;
 
 public class ListIncidentActivity extends Activity {
     private RecyclerView recyclerViewIncidents;
