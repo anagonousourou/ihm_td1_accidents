@@ -5,16 +5,13 @@ android {
     buildToolsVersion "29.0.2"
 
 
-    viewBinding {
-        enabled = true
-    }
     dataBinding {
         enabled = true
     }
 
     defaultConfig {
         applicationId "ihm.accidents"
-        minSdkVersion 26
+        minSdkVersion 29
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"

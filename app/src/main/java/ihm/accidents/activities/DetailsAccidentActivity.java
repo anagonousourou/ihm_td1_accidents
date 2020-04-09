@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
+
 import ihm.accidents.databinding.DetailsAccidentActivityBinding;
 import ihm.accidents.models.AccidentModel;
 import ihm.accidents.utils.Utils;
@@ -30,8 +31,8 @@ public class DetailsAccidentActivity extends Activity {
         dataBinding= DataBindingUtil.setContentView(this,R.layout.details_accident_activity);
         Intent intent = getIntent();
         this.accidentModel = intent.getParcelableExtra(Utils.accidentKey);
-        dataBinding.setAccidentData(this.accidentModel);
-        /*
+
+
         TextView titretv =  this.findViewById(R.id.titre_details_accident_txtview);
         TextView lieutv =  this.findViewById(R.id.lieu_accident_txtview);
         TextView momenttv = this.findViewById(R.id.temps_accident_txtview);
@@ -44,7 +45,7 @@ public class DetailsAccidentActivity extends Activity {
 
         momenttv.setText(getString(R.string.temps_accident,accidentModel.userFormatDate()));
         lieutv.setText(getString(R.string.lieu_accident, accidentModel.getAddress()));
-        titretv.setText(getString(R.string.titre_accident, accidentModel.getTitle()));*/
+        titretv.setText(getString(R.string.titre_accident, accidentModel.getTitle()));
 
     }
     public void goToSendMessage(View view) {

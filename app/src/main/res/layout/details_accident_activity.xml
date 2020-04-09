@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
+
+<LinearLayout tools:viewBindingIgnore="true"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    >
-    <data>
-        <variable
-            name="accidentData"
-            type="ihm.accidents.models.AccidentModel" />
-    </data>
-<LinearLayout
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_margin="8dp"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
     <TextView
         android:textSize="16sp"
         android:id="@+id/titre_details_accident_txtview"
@@ -68,4 +64,3 @@
 
 
 </LinearLayout>
-</layout>
