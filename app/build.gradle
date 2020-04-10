@@ -4,13 +4,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
 
-    viewBinding {
-        enabled = true
-    }
 
-    dataBinding {
-        enabled = true
-    }
 
     defaultConfig {
         applicationId "my.myself.exercice6"
