@@ -4,6 +4,9 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
 
+    viewBinding{
+        enabled = true
+    }
 
     dataBinding {
         enabled = true
@@ -11,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId "ihm.accidents"
-        minSdkVersion 29
+        minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -48,5 +51,7 @@ dependencies {
     testImplementation 'org.testifyproject.junit5:junit5:1.0.6'
     testImplementation 'org.testifyproject.mock:mockito:1.0.6'
     implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
 }

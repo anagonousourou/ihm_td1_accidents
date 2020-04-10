@@ -3,6 +3,7 @@ package ihm.accidents.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,21 +32,14 @@ public class DetailsAccidentActivity extends Activity {
         dataBinding= DataBindingUtil.setContentView(this,R.layout.details_accident_activity);
         Intent intent = getIntent();
         this.accidentModel = intent.getParcelableExtra(Utils.accidentKey);
+        dataBinding.setAccident(this.accidentModel);
+        Log.d(TAG, "onCreate: "+accidentModel.toString());
 
 
-        TextView titretv =  this.findViewById(R.id.titre_details_accident_txtview);
-        TextView lieutv =  this.findViewById(R.id.lieu_accident_txtview);
-        TextView momenttv = this.findViewById(R.id.temps_accident_txtview);
-        TextView detailstv= this.findViewById(R.id.desc_accident_txtview);
+
         ImageView imageView=this.findViewById(R.id.image_details_accident);
 
         imageView.setImageBitmap(accidentModel.getImageBitmap());
-        detailstv.setText(accidentModel.getDetails());
-
-
-        momenttv.setText(getString(R.string.temps_accident,accidentModel.userFormatDate()));
-        lieutv.setText(getString(R.string.lieu_accident, accidentModel.getAddress()));
-        titretv.setText(getString(R.string.titre_accident, accidentModel.getTitle()));
 
     }
     public void goToSendMessage(View view) {

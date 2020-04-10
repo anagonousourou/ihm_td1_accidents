@@ -18,7 +18,7 @@
 
 
     <application android:name="ihm.accidents.application.IncidentApplication" android:allowBackup="true" android:icon="@mipmap/ic_launcher" android:label="InfoIncident" android:roundIcon="@mipmap/logo" android:supportsRtl="true" android:theme="@style/AppTheme">
-        <provider android:name="androidx.core.content.FileProvider" android:exported="false" android:authorities="com.eat_with_us" android:grantUriPermissions="true">
+        <provider android:name="androidx.core.content.FileProvider" android:exported="false" android:authorities="ihm.accidents" android:grantUriPermissions="true">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/provider_paths" />
         </provider>
 
