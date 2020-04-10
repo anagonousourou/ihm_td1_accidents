@@ -7,4 +7,5 @@ module.exports = new BaseModel('Accident', {
   commentaire: Joi.string(),
   photoB64: Joi.string(),
   dateCreation: Joi.date(),
+  imageUrl: Joi.string()
 })

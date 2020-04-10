@@ -3,6 +3,7 @@ const morgan = require('morgan')
 const express = require('express')
 const bodyParser = require('body-parser')
 const api = require('./api')
+const { indexroute } = require('./pages')
 
 module.exports = (cb) => {
   const app = express()
@@ -11,6 +12,8 @@ module.exports = (cb) => {
   app.use(bodyParser.json({}))
   app.use(morgan('[:date[iso]] :method :url :status :response-time ms - :res[content-length]'))
   app.use('/api', api)
+  app.use(express.static('uploads')) //to allow the ulploads directory to be served over http
+  app.use('/', (req, res) => indexroute(req, res))
   app.use('*', (req, res) => res.status(404).end())
   const server = app.listen(process.env.PORT || 9428, () => cb && cb(server))
 }

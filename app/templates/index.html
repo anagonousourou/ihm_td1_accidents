@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API for the IHM course</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+<body>
+    <header class="p-2">
+        <h3>IHM TD1 Accident</h3>
+    </header>
+
+
+    <form enctype="multipart/form-data" action="/api/accidents" method="post">
+
+        <input class="form-control" type="file" name="accidentImage" id="accidentImage">
+
+        <button class="btn btn-success">Validate</button>
+    </form>
+</body>
+</html>

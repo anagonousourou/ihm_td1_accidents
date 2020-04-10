@@ -7,3 +7,6 @@ node_modules/
 *.iml
 app/build/
 local.properties
+gradlew.bat
+gradlew
+gradle/
