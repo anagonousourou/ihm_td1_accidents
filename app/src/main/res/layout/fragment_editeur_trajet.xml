@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="5dp"
+
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+<TextView
+    android:textSize="10pt"
+    android:fontFamily="sans-serif-black"
+    android:id="@+id/label_depart"
+    android:layout_width="wrap_content"
+    android:text="@string/depart_str"
+    android:layout_height="wrap_content"/>
+    <AutoCompleteTextView
+        android:textSize="10pt"
+        android:fontFamily="sans-serif-black"
+        android:layout_below="@+id/label_depart"
+        android:layout_width="match_parent"
+        android:hint="@string/depart_str"
+        android:id="@+id/edit_depart"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:textSize="10pt"
+        android:fontFamily="sans-serif-black"
+        android:layout_below="@+id/edit_depart"
+        android:id="@+id/label_destination"
+        android:layout_width="wrap_content"
+        android:text="@string/destination_str"
+        android:layout_height="wrap_content"/>
+    <AutoCompleteTextView
+        android:textSize="10pt"
+        android:fontFamily="sans-serif-black"
+        android:id="@+id/edit_destination"
+        android:layout_below="@+id/label_destination"
+        android:layout_width="match_parent"
+        android:hint="@string/destination_str"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:background="#CC008000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textColor="#FFFFFF"
+        android:text="Trouvez"
+        android:layout_below="@+id/edit_destination"/>
+
+</RelativeLayout>

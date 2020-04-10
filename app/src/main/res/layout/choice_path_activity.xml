@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:tools="http://schemas.android.com/tools"
     tools:viewBindingIgnore="true"
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
@@ -11,4 +11,9 @@
         android:id="@+id/placeHolderMapFragment"
         />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:id="@+id/placeHolderEditeurFragment"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>
