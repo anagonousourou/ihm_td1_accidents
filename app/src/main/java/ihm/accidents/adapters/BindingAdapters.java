@@ -13,4 +13,9 @@ public class BindingAdapters {
         Glide.with(view.getContext()).load(bitmap).into(view);
     }
 
+    @BindingAdapter("imageResource")
+    public static void setImageUrl(ImageView view, String url) {
+        Glide.with(view.getContext()).load(url).into(view);
+    }
+
 }

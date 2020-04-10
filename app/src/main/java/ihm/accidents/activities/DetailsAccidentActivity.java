@@ -37,10 +37,6 @@ public class DetailsAccidentActivity extends Activity {
 
 
 
-        ImageView imageView=this.findViewById(R.id.image_details_accident);
-
-        imageView.setImageBitmap(accidentModel.getImageBitmap());
-
     }
     public void goToSendMessage(View view) {
         Intent sendMessage = new Intent(this ,SendMessageActivity.class);

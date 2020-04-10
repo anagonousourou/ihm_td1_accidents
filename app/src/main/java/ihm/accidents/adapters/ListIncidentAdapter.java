@@ -17,8 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 import ihm.accidents.activities.DetailsAccidentActivity;
@@ -40,24 +38,18 @@ public class ListIncidentAdapter extends RecyclerView.Adapter<ListIncidentAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.accidentTitle.setText(accidentsList.get(position).getTitle());
-        holder.accidentImage.setImageBitmap(accidentsList.get(position).getImageBitmap());
+        AccidentModel accidentModel=accidentsList.get(position);
+        holder.accidentTitle.setText(accidentModel.getTitle());
+        BindingAdapters.setImageUrl(holder.accidentImage,accidentModel.getImageUrl());
         holder.accidentDistance.setText(accidentsList.get(position).getAddress());
         holder.wrapperItem.setOnClickListener((view)->{
             Log.d(TAG, "onBindViewHolder: Salut "+holder.wrapperItem);
             Intent resultIntent = new Intent(context, DetailsAccidentActivity.class);
-            Log.d(TAG,accidentsList.get(position).getImageb64());
+            Log.d(TAG,accidentsList.get(position).getImageUrl());
             resultIntent.putExtra(Utils.accidentKey,accidentsList.get(position));
             activity.startActivity(resultIntent);
 
         });
-
-        /*if (position%2==0){
-            holder.wrapperItem.setBackgroundColor(context.getColor(R.color.silver));
-        }
-        else{
-            holder.wrapperItem.setBackgroundColor(context.getColor(R.color.lightgrey));
-        }*/
 
     }
 

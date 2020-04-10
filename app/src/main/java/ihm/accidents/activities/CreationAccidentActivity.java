@@ -1,16 +1,12 @@
 package ihm.accidents.activities;
 
 import android.Manifest;
-import android.app.Notification;
-import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -33,7 +29,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,6 +41,7 @@ import java.util.List;
 
 import ihm.accidents.adapters.AdresseAutoCompleteAdapter;
 import ihm.accidents.models.AccidentModel;
+import ihm.accidents.services.AccidentUploader;
 import ihm.accidents.utils.Utils;
 import ihm.accidents.R;
 import okhttp3.Call;
@@ -63,9 +59,11 @@ public class CreationAccidentActivity extends AppCompatActivity implements Callb
     private int notificationID = 1;
     private Bitmap image;
     private String pathToPhoto = null;
+    private File photoFile=null;
     private AutoCompleteTextView adresseTextView;
     private ImageView imageView;
     private final OkHttpClient client = new OkHttpClient();
+    private final AccidentUploader accidentUploader=new AccidentUploader();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,21 +112,15 @@ public class CreationAccidentActivity extends AppCompatActivity implements Callb
             adresse = "";
         }
         imm.hideSoftInputFromWindow(editTextType.getWindowToken(), 0);
-        String type;
-        try {
-            type = editTextType.getSelectedItem() + "";
-        } catch (StringIndexOutOfBoundsException e) {
-            type = "";
-        }
+        String type = editTextType.getSelectedItem() + "";
+
         imm.hideSoftInputFromWindow(editTextCommentaire.getWindowToken(), 0);
-        String commentaire;
-        commentaire = editTextCommentaire.getText() + "";
-        String image64 = "";
-        if (image != null) {
-            image64 = Utils.convertTo64(image);
-        }
+        String commentaire = editTextCommentaire.getText() + "";
         if (!adresse.equals("") && !type.equals("")) {
-            AccidentModel accidentModel = new AccidentModel("", adresse, type, commentaire, image64);
+
+            AccidentModel accidentModel = new AccidentModel("", adresse, type, commentaire);
+            Log.d(TAG, "onButtonCreationCliked: "+photoFile);
+            accidentUploader.postAccidentToServer(photoFile,accidentModel);
             Toast.makeText(this, "accident créé", Toast.LENGTH_LONG).show();
             Utils.list.add(accidentModel);
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -185,6 +177,7 @@ public class CreationAccidentActivity extends AppCompatActivity implements Callb
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
+                photoFile = new File(pathToPhoto);
                 image = BitmapFactory.decodeFile(pathToPhoto);
                 imageView.setImageBitmap(image);
             }

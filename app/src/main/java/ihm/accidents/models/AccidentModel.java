@@ -8,9 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONString;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-
 import ihm.accidents.utils.Utils;
 
 
@@ -19,7 +16,7 @@ public class AccidentModel implements Parcelable, JSONString {
     private String address;
     private String type;
     private String details;
-    private String imageb64;
+    private String imageUrl= "https://www.nswcompensationlawyers.com.au/media/Video-Placeholder-Motor-Accident-1024x576.png";
     private long date;
 
     @Override
@@ -32,23 +29,42 @@ public class AccidentModel implements Parcelable, JSONString {
                 '}';
     }
 
+    protected AccidentModel(Parcel in) {
+        title=in.readString();
+        address = in.readString();
+        type = in.readString();
+        details = in.readString();
+        imageUrl = in.readString();
+        date = in.readLong();
+    }
 
-    public AccidentModel(String title, String address, String type, String details, String imageb64){
+    public AccidentModel(String title, String address, String type, String details, String url){
         this.title=title;
         this.address=address;
         this.type=type;
         this.details=details;
-        this.imageb64=imageb64;
-        this.date= System.currentTimeMillis()/1000;
+        this.imageUrl=url;
+        this.date= System.currentTimeMillis();
 
     }
 
-    public AccidentModel(String title, String address, String type, String details, String imageb64,long date){
+    public AccidentModel(String title, String address, String type, String details){
         this.title=title;
         this.address=address;
         this.type=type;
         this.details=details;
-        this.imageb64=imageb64;
+        this.date= System.currentTimeMillis();
+
+    }
+
+
+
+    public AccidentModel(String title, String address, String type, String details, String imageUrl, long date){
+        this.title=title;
+        this.address=address;
+        this.type=type;
+        this.details=details;
+        this.imageUrl = imageUrl;
         this.date= date;
 
     }
@@ -70,18 +86,20 @@ public class AccidentModel implements Parcelable, JSONString {
         return details;
     }
 
-    public String getImageb64() {
-        return imageb64;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     public long getDate() {
         return date;
     }
 
-
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public String userFormatDate(){
-         long difftime= (System.currentTimeMillis()/1000)-date;
+         long difftime= System.currentTimeMillis()-date;
 
          if(difftime == 0){
              return "A l'instant";
@@ -94,20 +112,6 @@ public class AccidentModel implements Parcelable, JSONString {
              return "Dans "+ Utils.convertToHighestScalePossible(-difftime)+" "+Utils.scaleReached( -difftime);
          }
          return difftime+" seconds";
-    }
-
-    protected AccidentModel(Parcel in) {
-        title=in.readString();
-        address = in.readString();
-        type = in.readString();
-        details = in.readString();
-        imageb64 = in.readString();
-        date = in.readLong();
-    }
-
-
-    public Bitmap getImageBitmap(){
-        return Utils.fromBase64(this.imageb64);
     }
 
     public static AccidentModel fromJson(String jsonString){
@@ -138,7 +142,7 @@ public class AccidentModel implements Parcelable, JSONString {
         dest.writeString(address);
         dest.writeString(type);
         dest.writeString(details);
-        dest.writeString(imageb64);
+        dest.writeString(imageUrl);
         dest.writeDouble(date);
     }
 
@@ -149,7 +153,7 @@ public class AccidentModel implements Parcelable, JSONString {
                     .put("address",address)
                     .put("type",type)
                     .put("details",details)
-                    .put("imageb64",imageb64)
+                    .put("imageUrl", imageUrl)
                     .put("date",date).toString();
         } catch (JSONException e) {
             e.printStackTrace();

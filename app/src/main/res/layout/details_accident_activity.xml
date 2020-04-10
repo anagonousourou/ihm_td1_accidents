@@ -25,7 +25,7 @@
         android:layout_height="0dp"/>
     <ImageView
         android:id="@+id/image_details_accident"
-        app:imageResource="@{accident.imageBitmap}"
+        app:imageResource="@{accident.imageUrl}"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.4"/>

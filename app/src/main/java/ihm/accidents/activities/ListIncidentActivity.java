@@ -12,6 +12,7 @@ import java.util.List;
 
 import ihm.accidents.adapters.ListIncidentAdapter;
 import ihm.accidents.models.AccidentModel;
+import ihm.accidents.services.AccidentDownloader;
 import ihm.accidents.utils.Placeholders;
 import ihm.accidents.utils.Utils;
 import ihm.accidents.R;
@@ -19,6 +20,7 @@ import ihm.accidents.R;
 public class ListIncidentActivity extends Activity {
     private RecyclerView recyclerViewIncidents;
     private ListIncidentAdapter adapter;
+    private AccidentDownloader accidentDownloader=new AccidentDownloader();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class ListIncidentActivity extends Activity {
 
         listAccidents.add(accidentModelFake);
         listAccidents.add(accidentModelFake2);
+        accidentDownloader.getAccidentsFromServer(listAccidents, this, adapter);
         recyclerViewIncidents.setLayoutManager(new LinearLayoutManager(this));
         adapter.setAccidentsList(listAccidents);
 
