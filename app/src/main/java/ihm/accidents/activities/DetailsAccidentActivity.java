@@ -3,12 +3,16 @@ package ihm.accidents.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 
+
+import ihm.accidents.databinding.DetailsAccidentActivityBinding;
 import ihm.accidents.models.AccidentModel;
 import ihm.accidents.utils.Utils;
 import ihm.accidents.R;
@@ -20,27 +24,22 @@ import ihm.accidents.R;
  */
 public class DetailsAccidentActivity extends Activity {
     private static final String TAG = "DetailsAccidentActivity";
+    DetailsAccidentActivityBinding dataBinding;
     private AccidentModel accidentModel;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.details_accident_activity);
-
+        dataBinding= DataBindingUtil.setContentView(this,R.layout.details_accident_activity);
         Intent intent = getIntent();
         this.accidentModel = intent.getParcelableExtra(Utils.accidentKey);
-        TextView titretv =  this.findViewById(R.id.titre_details_accident_txtview);
-        TextView lieutv =  this.findViewById(R.id.lieu_accident_txtview);
-        TextView momenttv = this.findViewById(R.id.temps_accident_txtview);
-        TextView detailstv= this.findViewById(R.id.desc_accident_txtview);
+        dataBinding.setAccident(this.accidentModel);
+        Log.d(TAG, "onCreate: "+accidentModel.toString());
+
+
+
         ImageView imageView=this.findViewById(R.id.image_details_accident);
 
         imageView.setImageBitmap(accidentModel.getImageBitmap());
-        detailstv.setText(accidentModel.getDetails());
-
-
-        momenttv.setText(getString(R.string.temps_accident,accidentModel.userFormatDate()));
-        lieutv.setText(getString(R.string.lieu_accident, accidentModel.getAddress()));
-        titretv.setText(getString(R.string.titre_accident, accidentModel.getTitle()));
 
     }
     public void goToSendMessage(View view) {

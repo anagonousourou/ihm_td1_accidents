@@ -42,6 +42,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import ihm.accidents.adapters.AdresseAutoCompleteAdapter;
 import ihm.accidents.models.AccidentModel;
@@ -59,7 +60,7 @@ public class CreationAccidentActivity extends AppCompatActivity implements Callb
     private static final int PERMISSION_ACCESS_FINE_LOCATION = 2;
     private LocationManager locationManager;
     private static final int PERMISSION_ACCESS_COARSE_LOCATION = 1;
-    private int notificationID=1;
+    private int notificationID = 1;
     private Bitmap image;
     private String pathToPhoto = null;
     private AutoCompleteTextView adresseTextView;
@@ -67,33 +68,34 @@ public class CreationAccidentActivity extends AppCompatActivity implements Callb
     private final OkHttpClient client = new OkHttpClient();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "retrieveLocationAndPlug: We don't have permissions to ACCESS COARSE LOCATION");
-            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_COARSE_LOCATION },
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                     PERMISSION_ACCESS_COARSE_LOCATION);
         }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "retrieveLocationAndPlug: We don't have permissions to ACCESS FINE LOCATION");
-            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION },
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSION_ACCESS_FINE_LOCATION);
         }
 
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.creation_accident);
-        imageView=findViewById(R.id.photoView);
-        this.adresseTextView= findViewById(R.id.adresse);
-        this.adresseTextView.setAdapter(new AdresseAutoCompleteAdapter(this,android.R.layout.simple_dropdown_item_1line));
+        imageView = findViewById(R.id.photoView);
+        this.adresseTextView = findViewById(R.id.adresse);
+        this.adresseTextView.setAdapter(new AdresseAutoCompleteAdapter(this, android.R.layout.simple_dropdown_item_1line));
 
     }
 
-    private String getTableValue(String idd){
-        EditText editText=findViewById(R.id.adresse);
-        InputMethodManager imm=(InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
+    private String getTableValue(String idd) {
+        EditText editText = findViewById(R.id.adresse);
+        getApplicationContext();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         return "";
     }
@@ -103,7 +105,7 @@ public class CreationAccidentActivity extends AppCompatActivity implements Callb
         EditText editTextAdresse = findViewById(R.id.adresse);
         Spinner editTextType = findViewById(R.id.type);
         EditText editTextCommentaire = findViewById(R.id.commentaire);
-        InputMethodManager imm = (InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editTextAdresse.getWindowToken(), 0);
         String adresse;
         try {
@@ -121,23 +123,23 @@ public class CreationAccidentActivity extends AppCompatActivity implements Callb
         imm.hideSoftInputFromWindow(editTextCommentaire.getWindowToken(), 0);
         String commentaire;
         commentaire = editTextCommentaire.getText() + "";
-        String image64="";
-        if(image!=null) {
-            image64=Utils.convertTo64(image);
+        String image64 = "";
+        if (image != null) {
+            image64 = Utils.convertTo64(image);
         }
         if (!adresse.equals("") && !type.equals("")) {
             AccidentModel accidentModel = new AccidentModel("", adresse, type, commentaire, image64);
-            Toast.makeText(this,"accident créé", Toast.LENGTH_LONG ).show();
+            Toast.makeText(this, "accident créé", Toast.LENGTH_LONG).show();
             Utils.list.add(accidentModel);
-            Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
 
 
         }
     }
 
-    public void goBack(View v){
-        Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+    public void goBack(View v) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
 
@@ -163,8 +165,6 @@ public class CreationAccidentActivity extends AppCompatActivity implements Callb
     }
 
 
-
-
     public void takePic(View v) {
         Intent takePic = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePic.resolveActivity(getPackageManager()) != null) {
@@ -172,7 +172,7 @@ public class CreationAccidentActivity extends AppCompatActivity implements Callb
             photoFile = createPhotoFile();
             if (photoFile != null) {
                 pathToPhoto = photoFile.getAbsolutePath();
-                Uri photoURI = FileProvider.getUriForFile(CreationAccidentActivity.this, "com.eat_with_us", photoFile);
+                Uri photoURI = FileProvider.getUriForFile(CreationAccidentActivity.this, "ihm.accidents", photoFile);
                 takePic.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePic, 1);
             }
@@ -181,7 +181,7 @@ public class CreationAccidentActivity extends AppCompatActivity implements Callb
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        imageView=findViewById(R.id.photoView);
+        imageView = findViewById(R.id.photoView);
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
@@ -202,11 +202,37 @@ public class CreationAccidentActivity extends AppCompatActivity implements Callb
         }
         return imageFile;
     }
+
     private boolean isConnected() {
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
+    }
+
+    private Location getLastKnownLocation() {
+        LocationManager mLocationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+        List<String> providers = mLocationManager.getProviders(true);
+        Location bestLocation = null;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    PERMISSION_ACCESS_COARSE_LOCATION);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSION_ACCESS_FINE_LOCATION);
+
+        }
+        for (String provider : providers) {
+
+            Location l = mLocationManager.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
     }
 
 
@@ -223,7 +249,7 @@ public class CreationAccidentActivity extends AppCompatActivity implements Callb
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
             if(locationManager!=null){
-                Location location=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                Location location=this.getLastKnownLocation();
                 if(location!=null){
                     try {
                         String url=Utils.getRevereseGeocodingUrl(location.getLatitude(),location.getLongitude());
@@ -281,7 +307,7 @@ public class CreationAccidentActivity extends AppCompatActivity implements Callb
             runOnUiThread(()->
                     Toast.makeText(this,"Could not get your adress, sorry",Toast.LENGTH_SHORT).show()
             );
-            Log.e(TAG, "onResponse: ",e );;
+            Log.e(TAG, "onResponse: ",e );
         }
 
 
