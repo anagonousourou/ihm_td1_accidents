@@ -10,7 +10,7 @@
     <string name="desc_accident" translatable="true"> Description: %1$s  </string>
     <string name="distance_incident_list_item" translatable="true">Accident à %1$s %2$s</string>
     <string name="details_notif_accident">Un conducteur de quad a été éjecté de son véhicule (Quad)…</string>
-    <string name="commentaire_hint_str">commentaire Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, s diam.</string>
+    <string name="commentaire_hint_str">commentaire</string>
     <string name="txt_btn_add_photo">Ajouter une photo</string>
     <string name="depart_str">Départ</string>
     <string name="destination_str">Destination</string>

@@ -55,15 +55,7 @@ public class AccidentUploader implements Callback {
             Log.d(TAG, "onResponse: Unexpected code  "+ response);
         }
         else{
-            try {
-                JSONObject resObj=new JSONObject(response.body().string());
-                this.accident.setImageUrl(Utils.webserviceUrl+"/"+resObj.getString("imageUrl"));
-            } catch (JSONException e) {
-                Log.e(TAG, "onResponse: json response error",e );
-            }
             Log.d(TAG, "onResponse: successfully update the accident image url");
-
-
         }
 
     }

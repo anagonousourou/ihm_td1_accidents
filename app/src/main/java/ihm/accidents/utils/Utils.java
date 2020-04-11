@@ -14,13 +14,19 @@ import ihm.accidents.models.AccidentModel;
 
 public class Utils {
     public static final String accidentKey = "accidentData";
+    public static final String locationKey="location";
     public static final long secondsInDay = 24 * 60 * 60;
     public static final long secondsInMinute = 60;
     public static final long secondsInHour = 60 * 60;
     public static final String webserviceUrl="https://webserviceinfoincident.herokuapp.com";
     public static final String apiKeyOpencagedata="d23bb7fdffb74ee086bd061c3fa99264";
     public static final String urlApiOpencageData="https://api.opencagedata.com/geocode/v1/json?key=";
-    public static List<AccidentModel> list=new ArrayList<>();
+    public static final AccidentModel accidentModelFake=new AccidentModel("Placeholder image selected","Wonderland","solo","Alice vient de trébucher sur le chat de Cheschire. La Reine s'en vient. à suivre :)",
+            Placeholders.img_placeholder1);
+
+    public static final AccidentModel accidentModelFake2=new AccidentModel("Breaking News","Polytech Nice Sophia","solo","OMG, Un étudiant est tombé de son quad. :) mdr",
+            Placeholders.img_placeholder2);
+
 
     private Utils() {
 

@@ -28,9 +28,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,20 +39,17 @@ import java.util.List;
 import ihm.accidents.adapters.AdresseAutoCompleteAdapter;
 import ihm.accidents.models.AccidentModel;
 import ihm.accidents.services.AccidentUploader;
+import ihm.accidents.services.ReverseGeocoder;
 import ihm.accidents.utils.Utils;
 import ihm.accidents.R;
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 
-public class CreationAccidentActivity extends AppCompatActivity implements Callback {
+public class CreationAccidentActivity extends IhmAbstractActivity {
     private static final String TAG = "CreationAccidentActivit";
-    private static final int PERMISSION_ACCESS_FINE_LOCATION = 2;
+
     private LocationManager locationManager;
-    private static final int PERMISSION_ACCESS_COARSE_LOCATION = 1;
+
     private int notificationID = 1;
     private Bitmap image;
     private String pathToPhoto = null;
@@ -64,6 +58,7 @@ public class CreationAccidentActivity extends AppCompatActivity implements Callb
     private ImageView imageView;
     private final OkHttpClient client = new OkHttpClient();
     private final AccidentUploader accidentUploader=new AccidentUploader();
+    private final ReverseGeocoder reverseGeocoder=new ReverseGeocoder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +117,6 @@ public class CreationAccidentActivity extends AppCompatActivity implements Callb
             Log.d(TAG, "onButtonCreationCliked: "+photoFile);
             accidentUploader.postAccidentToServer(photoFile,accidentModel);
             Toast.makeText(this, "accident créé", Toast.LENGTH_LONG).show();
-            Utils.list.add(accidentModel);
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
 
@@ -135,26 +129,7 @@ public class CreationAccidentActivity extends AppCompatActivity implements Callb
         startActivity(intent);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_ACCESS_COARSE_LOCATION:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d(TAG, "onRequestPermissionsResult: ALL GOOD");
-                } else {
-                    Toast.makeText(this, "Need your coarse location!", Toast.LENGTH_SHORT).show();
-                }
 
-                break;
-            case PERMISSION_ACCESS_FINE_LOCATION:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d(TAG, "onRequestPermissionsResult: ALL GOOD WE HAVE FINE LOCATION ");
-                } else {
-                    Toast.makeText(this, "Need your fine location!", Toast.LENGTH_SHORT).show();
-                }
-                break;
-        }
-    }
 
 
     public void takePic(View v) {
@@ -203,30 +178,7 @@ public class CreationAccidentActivity extends AppCompatActivity implements Callb
         return networkInfo != null && networkInfo.isConnected();
     }
 
-    private Location getLastKnownLocation() {
-        LocationManager mLocationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
-        List<String> providers = mLocationManager.getProviders(true);
-        Location bestLocation = null;
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    PERMISSION_ACCESS_COARSE_LOCATION);
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSION_ACCESS_FINE_LOCATION);
 
-        }
-        for (String provider : providers) {
-
-            Location l = mLocationManager.getLastKnownLocation(provider);
-            if (l == null) {
-                continue;
-            }
-            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
-                // Found best last known location: %s", l);
-                bestLocation = l;
-            }
-        }
-        return bestLocation;
-    }
 
 
 
@@ -245,11 +197,7 @@ public class CreationAccidentActivity extends AppCompatActivity implements Callb
                 Location location=this.getLastKnownLocation();
                 if(location!=null){
                     try {
-                        String url=Utils.getRevereseGeocodingUrl(location.getLatitude(),location.getLongitude());
-                        Log.d(TAG, "retrieveLocationAndPlug: "+url);
-                        Request request = new Request.Builder().url(url).build();
-
-                        client.newCall(request).enqueue(this);
+                        reverseGeocoder.findAddressFromLocation(location,this,this.adresseTextView);
                     }
                     catch (UnsupportedEncodingException exception){
                         Log.e(TAG, "retrieveLocationAndPlug: ",exception );
@@ -273,37 +221,5 @@ public class CreationAccidentActivity extends AppCompatActivity implements Callb
         }
     }
 
-    @Override
-    public void onFailure(@NotNull Call call, @NotNull IOException e) {
 
-    }
-
-    @Override
-    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-        if (!response.isSuccessful()) {
-            runOnUiThread(()->
-                Toast.makeText(this,"Could not get your adress, sorry",Toast.LENGTH_SHORT).show()
-            );
-        }
-
-        final String body = response.body().string();
-
-
-        try {
-
-            final String adresse = new JSONObject(body).getJSONArray("results").getJSONObject(0).getString("formatted");
-            runOnUiThread(() -> {
-                adresseTextView.setText(adresse);
-
-            });
-        } catch (JSONException e) {
-            runOnUiThread(()->
-                    Toast.makeText(this,"Could not get your adress, sorry",Toast.LENGTH_SHORT).show()
-            );
-            Log.e(TAG, "onResponse: ",e );
-        }
-
-
-
-    }
 }

@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ihm.accidents.activities.DetailsAccidentActivity;
@@ -29,7 +30,7 @@ public class ListIncidentAdapter extends RecyclerView.Adapter<ListIncidentAdapte
     private final Context context;
     private final Activity activity;
 
-    private List<AccidentModel> accidentsList=Utils.list;
+    private List<AccidentModel> accidentsList= new ArrayList<>();
 
     public ListIncidentAdapter(Context ctx, Activity activity){
         this.context=ctx;

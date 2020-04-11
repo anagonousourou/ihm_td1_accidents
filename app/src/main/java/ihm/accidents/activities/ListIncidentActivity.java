@@ -21,6 +21,7 @@ public class ListIncidentActivity extends Activity {
     private RecyclerView recyclerViewIncidents;
     private ListIncidentAdapter adapter;
     private AccidentDownloader accidentDownloader=new AccidentDownloader();
+    private final List<AccidentModel> listAccidents= new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,15 +31,8 @@ public class ListIncidentActivity extends Activity {
         recyclerViewIncidents=findViewById(R.id.list_incidents_id);
         adapter=new ListIncidentAdapter(this,this);
         recyclerViewIncidents.setAdapter(adapter);
-        List<AccidentModel> listAccidents= Utils.list;
-        AccidentModel accidentModelFake=new AccidentModel("Placeholder image selected","Wonderland","solo","Alice vient de trébucher sur le chat de Cheschire. La Reine s'en vient. à suivre :)",
-                Placeholders.img_placeholder1);
 
-        AccidentModel accidentModelFake2=new AccidentModel("Breaking News","Polytech Nice Sophia","solo","OMG, Un étudiant est tombé de son quad. :) mdr",
-                Placeholders.img_placeholder2);
 
-        listAccidents.add(accidentModelFake);
-        listAccidents.add(accidentModelFake2);
         accidentDownloader.getAccidentsFromServer(listAccidents, this, adapter);
         recyclerViewIncidents.setLayoutManager(new LinearLayoutManager(this));
         adapter.setAccidentsList(listAccidents);
