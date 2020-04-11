@@ -29,11 +29,14 @@ public class ReverseGeocoder implements Callback {
     public void findAddressFromLocation(Location location, Activity activity, AutoCompleteTextView autoCompleteTextView) throws UnsupportedEncodingException {
         this.activity=activity;
         this.autoCompleteTextView=autoCompleteTextView;
-        String url= Utils.getRevereseGeocodingUrl(location.getLatitude(),location.getLongitude());
-        Log.d(TAG, "retrieveLocationAndPlug: "+url);
-        Request request = new Request.Builder().url(url).build();
+        if(location!=null){
+            String url= Utils.getRevereseGeocodingUrl(location.getLatitude(),location.getLongitude());
+            Log.d(TAG, "retrieveLocationAndPlug: "+url);
+            Request request = new Request.Builder().url(url).build();
 
-        client.newCall(request).enqueue(this);
+            client.newCall(request).enqueue(this);
+        }
+
 
     }
     @Override

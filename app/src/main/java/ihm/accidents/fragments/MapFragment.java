@@ -31,16 +31,16 @@ import java.util.List;
 
 import ihm.accidents.R;
 
-public class SomeFragment extends Fragment {
+public class MapFragment extends Fragment {
     private static final String TAG = "SomeFragment";
     private MapView map;
     private ArrayList<OverlayItem> items = new ArrayList<>();
 
-    public SomeFragment() {
+    public MapFragment() {
         this.items.add(new OverlayItem("C'est chez moi :D", "test", new GeoPoint(43.684129, 7.202671)));
     }
 
-    public SomeFragment(String address, String title) {
+    public MapFragment(String address, String title) {
         this.items.add(new OverlayItem(title, "test", this.getLocationFromAddress(getContext(), address)));
     }
 

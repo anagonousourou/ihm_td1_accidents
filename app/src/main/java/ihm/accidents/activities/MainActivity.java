@@ -4,10 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import android.Manifest;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
@@ -29,7 +27,7 @@ import ihm.accidents.application.IncidentApplication;
 import ihm.accidents.models.AccidentModel;
 import ihm.accidents.utils.Utils;
 import ihm.accidents.R;
-import ihm.accidents.fragments.SomeFragment;
+import ihm.accidents.fragments.MapFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -65,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         osmConf.setOsmdroidBasePath(basePath);
         File tileCache = new File(osmConf.getOsmdroidBasePath().getAbsolutePath(), "tile");
         osmConf.setOsmdroidTileCache(tileCache);
-            Fragment fragmentMap = new SomeFragment();
+            Fragment fragmentMap = new MapFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.placeHolderMapFragment, fragmentMap).commit();
 
     }

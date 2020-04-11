@@ -29,6 +29,9 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -45,10 +48,12 @@ import ihm.accidents.R;
 import okhttp3.OkHttpClient;
 
 
-public class CreationAccidentActivity extends IhmAbstractActivity {
+public class CreationAccidentActivity extends AppCompatActivity {
     private static final String TAG = "CreationAccidentActivit";
+    protected static final int PERMISSION_ACCESS_FINE_LOCATION = 2;
+    protected static final int PERMISSION_ACCESS_COARSE_LOCATION = 1;
 
-    private LocationManager locationManager;
+    private FusedLocationProviderClient fusedLocationProviderClient;
 
     private int notificationID = 1;
     private Bitmap image;
@@ -80,6 +85,7 @@ public class CreationAccidentActivity extends IhmAbstractActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.creation_accident);
         imageView = findViewById(R.id.photoView);
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         this.adresseTextView = findViewById(R.id.adresse);
         this.adresseTextView.setAdapter(new AdresseAutoCompleteAdapter(this, android.R.layout.simple_dropdown_item_1line));
 
@@ -191,33 +197,57 @@ public class CreationAccidentActivity extends IhmAbstractActivity {
         }
         else{
             Log.d(TAG, "retrieveLocationAndPlug: We have the permissions for location");
-            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-            if(locationManager!=null){
-                Location location=this.getLastKnownLocation();
-                if(location!=null){
-                    try {
-                        reverseGeocoder.findAddressFromLocation(location,this,this.adresseTextView);
-                    }
-                    catch (UnsupportedEncodingException exception){
-                        Log.e(TAG, "retrieveLocationAndPlug: ",exception );
-                    }
-                }
-                else{
+            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(location -> {
+                if(location==null){
                     Log.d(TAG, "retrieveLocationAndPlug: location was null");
                     Toast.makeText(this,"Could not get your location",Toast.LENGTH_SHORT).show();
                 }
-            }
-            else{
-                Log.d(TAG, "retrieveLocationAndPlug: locationManager was null");
-                Toast.makeText(this,"Could not get your location",Toast.LENGTH_SHORT).show();
-            }
+                else {
+                    try {
+                        reverseGeocoder.findAddressFromLocation(location,this,this.adresseTextView);
+                    } catch (UnsupportedEncodingException e) {
+                        Log.e(TAG, "retrieveLocationAndPlug UnsupportedOperation: ",e );
+                    }
+                }
+
+            }).addOnFailureListener(e->{
+                Log.e(TAG, "retrieveLocationAndPlug-FailureListener: ",e );
+            });
+
+
+
+
+
+        }
 
 
 
 
 
 
+    }
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_ACCESS_COARSE_LOCATION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "onRequestPermissionsResult: ALL GOOD");
+                } else {
+                    Toast.makeText(this, "Need your coarse location!", Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+            case PERMISSION_ACCESS_FINE_LOCATION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "onRequestPermissionsResult: ALL GOOD WE HAVE FINE LOCATION ");
+                } else {
+                    Toast.makeText(this, "Need your fine location!", Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
     }
 
