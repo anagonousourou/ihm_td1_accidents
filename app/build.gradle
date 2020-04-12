@@ -37,6 +37,10 @@ android {
 }
 
 dependencies {
+    def work_version = "2.3.4"
+
+
+    implementation "androidx.work:work-runtime:$work_version"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -46,14 +50,19 @@ dependencies {
     implementation 'androidx.preference:preference:1.1.0'
     implementation 'org.osmdroid:osmdroid-android:6.1.6'
     testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
     implementation 'org.json:json:20190722'
-    testImplementation 'org.testifyproject.junit5:junit5:1.0.6'
-    testImplementation 'org.testifyproject.mock:mockito:1.0.6'
+
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
+
+    testImplementation 'org.testifyproject.junit5:junit5:1.0.6'
+    testImplementation 'org.testifyproject.mock:mockito:1.0.6'
+
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation "androidx.work:work-testing:$work_version"
 
 }

@@ -2,29 +2,41 @@ package ihm.accidents.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import org.osmdroid.views.MapView;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 import ihm.accidents.application.IncidentApplication;
 import ihm.accidents.models.AccidentModel;
+import ihm.accidents.services.NotifierService;
 import ihm.accidents.utils.Utils;
 import ihm.accidents.R;
 import ihm.accidents.fragments.MapFragment;
@@ -33,6 +45,9 @@ import ihm.accidents.fragments.MapFragment;
 public class MainActivity extends AppCompatActivity {
     private  MapView mapView;
     private int notificationID=1;
+    private static final String TAG = "MainActivity";
+    protected static final int PERMISSION_ACCESS_FINE_LOCATION = 2;
+    protected static final int PERMISSION_ACCESS_COARSE_LOCATION = 1;
 
 
     @Override
@@ -55,6 +70,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //On commence par vérifier si on a les permissions de Localisation et on les demande si besoin
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            Log.d(TAG, "retrieveLocationAndPlug: We don't have permissions to ACCESS COARSE LOCATION");
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    PERMISSION_ACCESS_COARSE_LOCATION);
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            Log.d(TAG, "retrieveLocationAndPlug: We don't have permissions to ACCESS FINE LOCATION");
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSION_ACCESS_FINE_LOCATION);
+        }
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
@@ -65,6 +94,19 @@ public class MainActivity extends AppCompatActivity {
         osmConf.setOsmdroidTileCache(tileCache);
             Fragment fragmentMap = new MapFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.placeHolderMapFragment, fragmentMap).commit();
+
+        Constraints constraints = new Constraints.Builder()
+
+                .build();
+
+        PeriodicWorkRequest saveRequest =
+                new PeriodicWorkRequest.Builder(NotifierService.class, 16, TimeUnit.MINUTES)
+                        .setConstraints(constraints)
+
+                        .build();
+
+        WorkManager.getInstance(this)
+                .enqueueUniquePeriodicWork ("Notifier", ExistingPeriodicWorkPolicy.KEEP, saveRequest);
 
     }
 
@@ -101,6 +143,28 @@ public class MainActivity extends AppCompatActivity {
     public void goToCreation(View v){
         Intent intent=new Intent(getApplicationContext(), CreationAccidentActivity.class);
         startActivity(intent);
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_ACCESS_COARSE_LOCATION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "onRequestPermissionsResult: ALL GOOD");
+                } else {
+                    Toast.makeText(this, "Need your coarse location!", Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+            case PERMISSION_ACCESS_FINE_LOCATION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "onRequestPermissionsResult: ALL GOOD WE HAVE FINE LOCATION ");
+                } else {
+                    Toast.makeText(this, "Need your fine location!", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
     }
 
 

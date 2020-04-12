@@ -2,8 +2,6 @@ package ihm.accidents.activities;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,8 +17,6 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-
-import java.util.List;
 
 import ihm.accidents.R;
 import ihm.accidents.fragments.EditeurTrajetFragment;
@@ -42,7 +38,7 @@ public class ChoicePathActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        //On commence par vérifier si on les permissions de Localisation et on les demande si besoin
+        //On commence par vérifier si on a les permissions de Localisation et on les demande si besoin
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "retrieveLocationAndPlug: We don't have permissions to ACCESS COARSE LOCATION");

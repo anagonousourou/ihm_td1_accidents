@@ -34,7 +34,10 @@ public class EditeurTrajetFragment extends Fragment {
             Bundle bundle=getArguments();
 
             try {
-                reverseGeocoder.findAddressFromLocation(bundle.getParcelable(Utils.locationKey),getActivity(),departTv);
+                if(bundle!=null){
+                    reverseGeocoder.findAddressFromLocation(bundle.getParcelable(Utils.locationKey),getActivity(),departTv);
+                }
+
             } catch (UnsupportedEncodingException e) {
                 Log.e(TAG, "onCreateView: Impossible to get location",e );
 

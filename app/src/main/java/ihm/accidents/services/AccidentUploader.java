@@ -55,7 +55,7 @@ public class AccidentUploader implements Callback {
             Log.d(TAG, "onResponse: Unexpected code  "+ response);
         }
         else{
-            Log.d(TAG, "onResponse: successfully update the accident image url");
+            Log.d(TAG, "onResponse: successfully send the accident");
         }
 
     }
