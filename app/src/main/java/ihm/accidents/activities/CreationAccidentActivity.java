@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.Location;
-import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -122,7 +120,7 @@ public class CreationAccidentActivity extends AppCompatActivity {
             AccidentModel accidentModel = new AccidentModel("", adresse, type, commentaire);
             Log.d(TAG, "onButtonCreationCliked: "+photoFile);
             accidentUploader.postAccidentToServer(photoFile,accidentModel);
-            Toast.makeText(this, "accident créé", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Accident créé", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
 

@@ -39,6 +39,23 @@ public class AccidentDownloader implements Callback {
         client.newCall(request).enqueue(this);
 
     }
+
+    public List<AccidentModel> accidentsFromServerSync() throws IOException, JSONException {
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        Response response= client.newCall(request).execute();
+        if(response.isSuccessful()){
+            String serverResponse=response.body().string();
+
+            JSONArray accidentsJson= new JSONObject(serverResponse).getJSONArray("accidents");
+            return AccidentModel.listFromJson(accidentsJson.toString());
+        }
+        else{
+            throw new IOException("Problem while downloading accidents from server:"+response);
+        }
+
+    }
     @Override
     public void onFailure(@NotNull Call call, @NotNull IOException e) {
 
@@ -55,14 +72,10 @@ public class AccidentDownloader implements Callback {
                 JSONArray accidentsJson=jsonObject.getJSONArray("accidents");
                 for (int i = 0; i < accidentsJson.length(); i++) {
                     JSONObject accidentJson=accidentsJson.getJSONObject(i);
-                    if(accidentJson.has("imageUrl")){
-                        this.accidents.add(new AccidentModel("",accidentJson.getString("adresse"),
-                                accidentJson.getString("type"),
-                                accidentJson.getString("commentaire"),
-                                Utils.webserviceUrl+"/"+ accidentJson.getString("imageUrl")
-                        ));
+                    AccidentModel accident= AccidentModel.fromJson(accidentJson.toString());
+                    if(accident!=null){
+                        this.accidents.add(accident);
                     }
-
                 }
                 activity.runOnUiThread(()->{
                     adapter.notifyDataSetChanged();

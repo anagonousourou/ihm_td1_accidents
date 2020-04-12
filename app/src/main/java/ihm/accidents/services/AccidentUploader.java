@@ -1,7 +1,9 @@
 package ihm.accidents.services;
 
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -26,10 +28,12 @@ public class AccidentUploader implements Callback {
     private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
     private static final MediaType MEDIA_TYPE_JPG = MediaType.parse("image/jpg");
     private final OkHttpClient client = new OkHttpClient();
+
     private  AccidentModel accident;
 
     
     public void postAccidentToServer(File photoFile, AccidentModel accidentModel){
+
         Log.d(TAG, "postAccidentToServer: ");
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("adresse", accidentModel.getAddress()).addFormDataPart("type", accidentModel.getType())
@@ -53,9 +57,11 @@ public class AccidentUploader implements Callback {
     public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
         if (!response.isSuccessful()){
             Log.d(TAG, "onResponse: Unexpected code  "+ response);
+
         }
         else{
             Log.d(TAG, "onResponse: successfully send the accident");
+
         }
 
     }

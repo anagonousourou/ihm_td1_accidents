@@ -3,15 +3,22 @@ package ihm.accidents.models;
 import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONString;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ihm.accidents.utils.KeysTags;
 import ihm.accidents.utils.Utils;
 
 
 public class AccidentModel implements Parcelable, JSONString {
+    private static final String TAG = "AccidentModel";
     private String title;
     private String address;
     private String type;
@@ -69,6 +76,47 @@ public class AccidentModel implements Parcelable, JSONString {
 
     }
 
+    public static AccidentModel fromJson(String jsonString) {
+        try{
+            JSONObject accidentJson = new JSONObject(jsonString);
+
+            if(accidentJson.has(KeysTags.addressKey) && accidentJson.has(KeysTags.commentKey) &&
+                    accidentJson.has(KeysTags.dateKey)&& accidentJson.has(KeysTags.imageUrlKey) && accidentJson.has(KeysTags.typeKey)){
+                return new AccidentModel("",accidentJson.getString(KeysTags.addressKey),
+                        accidentJson.getString(KeysTags.typeKey),
+                        accidentJson.getString(KeysTags.commentKey),
+                        accidentJson.getString("imageUrl").startsWith("http")?accidentJson.getString("imageUrl"):Utils.webserviceUrl+"/"+ accidentJson.getString("imageUrl")
+
+                );
+            }
+        }
+        catch (Exception e){
+            Log.e(TAG, "fromJson: ",e );
+            return null;
+        }
+        return null;
+    }
+
+    public static List<AccidentModel> listFromJson(String jsonString){
+        List<AccidentModel> accidents=new ArrayList<>();
+        JSONArray accidentsJson= null;
+        try {
+            accidentsJson = new JSONArray(jsonString);
+            for (int i = 0; i < accidentsJson.length(); i++) {
+                JSONObject accidentJson=accidentsJson.getJSONObject(i);
+                AccidentModel accident= AccidentModel.fromJson(accidentJson.toString());
+                if(accident!=null){
+                    accidents.add(accident);
+                }
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "listFromJson: input not correct", e);
+            return accidents;
+        }
+
+        return accidents;
+    }
+
 
     public String getTitle() {
         return title;
@@ -114,10 +162,7 @@ public class AccidentModel implements Parcelable, JSONString {
          return difftime+" seconds";
     }
 
-    public static AccidentModel fromJson(String jsonString){
-        //TODO
-        return null;
-    }
+
 
     public static final Creator<AccidentModel> CREATOR = new Creator<AccidentModel>() {
         @Override
@@ -150,11 +195,11 @@ public class AccidentModel implements Parcelable, JSONString {
     public String toJSONString() {
         try {
             return new JSONObject().put("title",title)
-                    .put("address",address)
-                    .put("type",type)
-                    .put("details",details)
-                    .put("imageUrl", imageUrl)
-                    .put("date",date).toString();
+                    .put(KeysTags.addressKey,address)
+                    .put(KeysTags.typeKey,type)
+                    .put(KeysTags.commentKey,details)
+                    .put(KeysTags.imageUrlKey, imageUrl)
+                    .put(KeysTags.dateKey,date).toString();
         } catch (JSONException e) {
             e.printStackTrace();
             return new JSONObject().toString();
