@@ -5,17 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
-
+import ihm.accidents.R;
 import ihm.accidents.databinding.DetailsAccidentActivityBinding;
 import ihm.accidents.models.AccidentModel;
 import ihm.accidents.utils.Utils;
-import ihm.accidents.R;
 
 
 /**

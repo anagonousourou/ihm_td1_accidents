@@ -1,10 +1,10 @@
 package ihm.accidents.models;
 
-import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,6 +26,7 @@ public class AccidentModel implements Parcelable, JSONString {
     private String imageUrl= "https://www.nswcompensationlawyers.com.au/media/Video-Placeholder-Motor-Accident-1024x576.png";
     private long date;
 
+    @NotNull
     @Override
     public String toString() {
         return "AccidentModel{" +
@@ -85,7 +86,8 @@ public class AccidentModel implements Parcelable, JSONString {
                 return new AccidentModel("",accidentJson.getString(KeysTags.addressKey),
                         accidentJson.getString(KeysTags.typeKey),
                         accidentJson.getString(KeysTags.commentKey),
-                        accidentJson.getString("imageUrl").startsWith("http")?accidentJson.getString("imageUrl"):Utils.webserviceUrl+"/"+ accidentJson.getString("imageUrl")
+                        accidentJson.getString("imageUrl").startsWith("http")?accidentJson.getString("imageUrl"):Utils.webserviceUrl+"/"+ accidentJson.getString("imageUrl"),
+                        Long.parseLong(accidentJson.getString(KeysTags.dateKey))
 
                 );
             }
@@ -99,9 +101,9 @@ public class AccidentModel implements Parcelable, JSONString {
 
     public static List<AccidentModel> listFromJson(String jsonString){
         List<AccidentModel> accidents=new ArrayList<>();
-        JSONArray accidentsJson= null;
+
         try {
-            accidentsJson = new JSONArray(jsonString);
+            JSONArray accidentsJson = new JSONArray(jsonString);
             for (int i = 0; i < accidentsJson.length(); i++) {
                 JSONObject accidentJson=accidentsJson.getJSONObject(i);
                 AccidentModel accident= AccidentModel.fromJson(accidentJson.toString());
@@ -142,12 +144,10 @@ public class AccidentModel implements Parcelable, JSONString {
         return date;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
+
 
     public String userFormatDate(){
-         long difftime= System.currentTimeMillis()-date;
+         long difftime= System.currentTimeMillis() - this.date;
 
          if(difftime == 0){
              return "A l'instant";
@@ -156,10 +156,7 @@ public class AccidentModel implements Parcelable, JSONString {
             return "Il y a "+Utils.convertToHighestScalePossible(difftime)+" "+Utils.scaleReached(difftime);
          }
 
-         if(difftime < 0){
-             return "Dans "+ Utils.convertToHighestScalePossible(-difftime)+" "+Utils.scaleReached( -difftime);
-         }
-         return difftime+" seconds";
+        return "Dans "+ Utils.convertToHighestScalePossible(-difftime)+" "+Utils.scaleReached( -difftime);
     }
 
 
@@ -188,7 +185,7 @@ public class AccidentModel implements Parcelable, JSONString {
         dest.writeString(type);
         dest.writeString(details);
         dest.writeString(imageUrl);
-        dest.writeDouble(date);
+        dest.writeLong(date);
     }
 
     @Override

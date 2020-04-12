@@ -10,16 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ihm.accidents.R;
 import ihm.accidents.adapters.ListIncidentAdapter;
 import ihm.accidents.models.AccidentModel;
 import ihm.accidents.services.AccidentDownloader;
-import ihm.accidents.utils.Placeholders;
-import ihm.accidents.utils.Utils;
-import ihm.accidents.R;
 
 public class ListIncidentActivity extends Activity {
-    private RecyclerView recyclerViewIncidents;
-    private ListIncidentAdapter adapter;
     private AccidentDownloader accidentDownloader=new AccidentDownloader();
     private final List<AccidentModel> listAccidents= new ArrayList<>();
 
@@ -28,8 +24,8 @@ public class ListIncidentActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_incident);
 
-        recyclerViewIncidents=findViewById(R.id.list_incidents_id);
-        adapter=new ListIncidentAdapter(this,this);
+        RecyclerView recyclerViewIncidents = findViewById(R.id.list_incidents_id);
+        ListIncidentAdapter adapter = new ListIncidentAdapter(this, this);
         recyclerViewIncidents.setAdapter(adapter);
 
 

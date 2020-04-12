@@ -26,23 +26,22 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
+import ihm.accidents.R;
 import ihm.accidents.adapters.AdresseAutoCompleteAdapter;
 import ihm.accidents.models.AccidentModel;
 import ihm.accidents.services.AccidentUploader;
 import ihm.accidents.services.ReverseGeocoder;
-import ihm.accidents.utils.Utils;
-import ihm.accidents.R;
 import okhttp3.OkHttpClient;
 
 
@@ -53,8 +52,7 @@ public class CreationAccidentActivity extends AppCompatActivity {
 
     private FusedLocationProviderClient fusedLocationProviderClient;
 
-    private int notificationID = 1;
-    private Bitmap image;
+
     private String pathToPhoto = null;
     private File photoFile=null;
     private AutoCompleteTextView adresseTextView;
@@ -157,7 +155,7 @@ public class CreationAccidentActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
                 photoFile = new File(pathToPhoto);
-                image = BitmapFactory.decodeFile(pathToPhoto);
+                Bitmap image = BitmapFactory.decodeFile(pathToPhoto);
                 imageView.setImageBitmap(image);
             }
         }
@@ -209,9 +207,9 @@ public class CreationAccidentActivity extends AppCompatActivity {
                     }
                 }
 
-            }).addOnFailureListener(e->{
-                Log.e(TAG, "retrieveLocationAndPlug-FailureListener: ",e );
-            });
+            }).addOnFailureListener(e->
+                Log.e(TAG, "retrieveLocationAndPlug-FailureListener: ",e )
+            );
 
 
 
@@ -229,7 +227,7 @@ public class CreationAccidentActivity extends AppCompatActivity {
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSION_ACCESS_COARSE_LOCATION:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

@@ -49,6 +49,7 @@ public class SendMessageActivity extends AppCompatActivity {
                 String number = cursor.getString(column);
                 EditText tel = findViewById(R.id.tel);
                 tel.setText(number);
+                cursor.close();
             }
         }
     }

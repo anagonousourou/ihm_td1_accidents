@@ -18,6 +18,8 @@ import androidx.fragment.app.Fragment;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
+import org.jetbrains.annotations.NotNull;
+
 import ihm.accidents.R;
 import ihm.accidents.fragments.EditeurTrajetFragment;
 import ihm.accidents.fragments.MapFragment;
@@ -25,7 +27,6 @@ import ihm.accidents.utils.Utils;
 
 public class ChoicePathActivity extends AppCompatActivity {
     private static final String TAG = "ChoicePathActivity";
-    private FusedLocationProviderClient fusedLocationClient;
     protected static final int PERMISSION_ACCESS_FINE_LOCATION = 2;
     protected static final int PERMISSION_ACCESS_COARSE_LOCATION = 1;
 
@@ -57,13 +58,13 @@ public class ChoicePathActivity extends AppCompatActivity {
         setContentView(R.layout.choice_path_activity);
 
         //on obtient un object fusedLocationProviderClient
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         //le fragment de la carte
         Fragment fragmentMap=new MapFragment();
         //le fragment pour éditer
         Fragment fragmentEditeur=new EditeurTrajetFragment();
-        Log.d(TAG, "onCreate: "+fusedLocationClient);
+        Log.d(TAG, "onCreate: "+ fusedLocationClient);
 
         //le getLastLocation peut lever une exception si on a pas les permissions ce qui
         //peut etre le cas si c'est la premiere fois qu'on ouvre l'activité
@@ -77,7 +78,7 @@ public class ChoicePathActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.placeHolderMapFragment ,fragmentMap).commit();
             getSupportFragmentManager().beginTransaction().replace(R.id.placeHolderEditeurFragment ,fragmentEditeur).commit();
         }).addOnFailureListener(e->{
-            Toast.makeText(this,"Cannot get your location",Toast.LENGTH_SHORT);
+            Toast.makeText(this,"Cannot get your location",Toast.LENGTH_SHORT).show();
             Log.e(TAG, "onCreate Exception : ",e );
             getSupportFragmentManager().beginTransaction().replace(R.id.placeHolderMapFragment ,fragmentMap).commit();
             getSupportFragmentManager().beginTransaction().replace(R.id.placeHolderEditeurFragment ,fragmentEditeur).commit();
@@ -92,7 +93,7 @@ public class ChoicePathActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSION_ACCESS_COARSE_LOCATION:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

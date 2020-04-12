@@ -36,9 +36,10 @@ public class Utils {
         return urlApiOpencageData+apiKeyOpencagedata+"&q=" +URLEncoder.encode(+latitude+","+longitude, "UTF-8");
     }
 
-    public static String scaleReached(long seconds) {
+    public static String scaleReached(long milliseconds) {
+        long seconds = milliseconds/1000;
         if (seconds >= secondsInDay) {
-            return "day";
+            return "jour";
         }
         if (seconds >= secondsInHour) {
             return "heure";
@@ -46,10 +47,11 @@ public class Utils {
         if (seconds >= secondsInMinute) {
             return "minute";
         }
-        return "second";
+        return "seconde";
     }
 
-    public static int convertToHighestScalePossible(long seconds) {
+    public static int convertToHighestScalePossible(long milliseconds) {
+        long seconds=milliseconds/1000;
         if (seconds >= secondsInDay) {
             return (int) (seconds / secondsInDay);
         }

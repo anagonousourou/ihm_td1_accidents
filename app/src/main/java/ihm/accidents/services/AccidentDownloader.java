@@ -77,9 +77,9 @@ public class AccidentDownloader implements Callback {
                         this.accidents.add(accident);
                     }
                 }
-                activity.runOnUiThread(()->{
-                    adapter.notifyDataSetChanged();
-                });
+                activity.runOnUiThread(()->
+                    adapter.notifyDataSetChanged()
+                );
 
             } catch (JSONException e) {
                 Log.e(TAG, "onResponse: json transformation of whole response failed:",e);

@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -22,10 +23,12 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import ihm.accidents.activities.DetailsAccidentActivity;
 import ihm.accidents.application.IncidentApplication;
 import ihm.accidents.models.AccidentModel;
+import ihm.accidents.utils.KeysTags;
 import ihm.accidents.utils.Utils;
 import ihm.accidents.R;
 
@@ -37,19 +40,30 @@ public class NotifierService extends Worker {
         super(context, workerParams);
     }
 
+    private void writeLastUpdateDateToFile(){
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(
+                KeysTags.preferencesFile, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putLong(KeysTags.dateLastNotifUpdateKey,System.currentTimeMillis());
+        editor.apply();
+    }
     @NonNull
     @Override
     public Result doWork() {
         try{
+            SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(
+                    KeysTags.preferencesFile, Context.MODE_PRIVATE);
+            long lastUpdate=sharedPref.getLong(KeysTags.dateLastNotifUpdateKey,System.currentTimeMillis()-16*60*1000);
                 //we download the accidents Synchronously since we are already in another thread
-                List<AccidentModel> accidents=accidentDownloader.accidentsFromServerSync();
+                List<AccidentModel> accidents=accidentDownloader.accidentsFromServerSync().stream().filter(accidentModel -> accidentModel.getDate() > lastUpdate).collect(Collectors.toList());
                 if(accidents.isEmpty()){
                     //if there is no accident we return success
+                    writeLastUpdateDateToFile();
                     return Result.success();
                 }
                 else{
                     Intent resultIntent = new Intent(getApplicationContext(), DetailsAccidentActivity.class);
-                    //we get the first accident:later we we filter to have only new and relevant acccidents
+                    //we get the first accident
                     AccidentModel accident= accidents.get(0);
 
                     resultIntent.putExtra(Utils.accidentKey,accident);
@@ -83,7 +97,7 @@ public class NotifierService extends Worker {
                         }
                     });
 
-
+                    writeLastUpdateDateToFile();
                     return Result.success();
                 }
 
@@ -95,6 +109,7 @@ public class NotifierService extends Worker {
             Log.e(TAG, "doWork: an exception occurred ", e);
             return Result.retry();
         }
+
 
     }
 }
