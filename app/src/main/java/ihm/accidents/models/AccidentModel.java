@@ -25,6 +25,7 @@ public class AccidentModel implements Parcelable, JSONString {
     private String details;
     private String imageUrl= "https://www.nswcompensationlawyers.com.au/media/Video-Placeholder-Motor-Accident-1024x576.png";
     private long date;
+    private long deviceId;
 
     @NotNull
     @Override
@@ -44,6 +45,18 @@ public class AccidentModel implements Parcelable, JSONString {
         details = in.readString();
         imageUrl = in.readString();
         date = in.readLong();
+        deviceId=in.readLong();
+    }
+
+    public AccidentModel(String title, String address, String type, String details, String url,long deviceId){
+        this.title=title;
+        this.address=address;
+        this.type=type;
+        this.details=details;
+        this.imageUrl=url;
+        this.date= System.currentTimeMillis();
+        this.deviceId=deviceId;
+
     }
 
     public AccidentModel(String title, String address, String type, String details, String url){
@@ -53,7 +66,6 @@ public class AccidentModel implements Parcelable, JSONString {
         this.details=details;
         this.imageUrl=url;
         this.date= System.currentTimeMillis();
-
     }
 
     public AccidentModel(String title, String address, String type, String details){
@@ -67,13 +79,14 @@ public class AccidentModel implements Parcelable, JSONString {
 
 
 
-    public AccidentModel(String title, String address, String type, String details, String imageUrl, long date){
+    public AccidentModel(String title, String address, String type, String details, String imageUrl, long date,long deviceId){
         this.title=title;
         this.address=address;
         this.type=type;
         this.details=details;
         this.imageUrl = imageUrl;
         this.date= date;
+        this.deviceId=deviceId;
 
     }
 
@@ -81,13 +94,17 @@ public class AccidentModel implements Parcelable, JSONString {
         try{
             JSONObject accidentJson = new JSONObject(jsonString);
 
-            if(accidentJson.has(KeysTags.addressKey) && accidentJson.has(KeysTags.commentKey) &&
+            if(accidentJson.has(KeysTags.addressKey) && accidentJson.has(KeysTags.commentKey) && accidentJson.has(KeysTags.deviceIdKey) &&
                     accidentJson.has(KeysTags.dateKey)&& accidentJson.has(KeysTags.imageUrlKey) && accidentJson.has(KeysTags.typeKey)){
-                return new AccidentModel("",accidentJson.getString(KeysTags.addressKey),
+                return new AccidentModel(
+                        "",
+                        accidentJson.getString(KeysTags.addressKey),
                         accidentJson.getString(KeysTags.typeKey),
                         accidentJson.getString(KeysTags.commentKey),
                         accidentJson.getString("imageUrl").startsWith("http")?accidentJson.getString("imageUrl"):Utils.webserviceUrl+"/"+ accidentJson.getString("imageUrl"),
-                        Long.parseLong(accidentJson.getString(KeysTags.dateKey))
+                        Long.parseLong(accidentJson.getString(KeysTags.dateKey)),
+                        Long.parseLong(accidentJson.getString(KeysTags.deviceIdKey))
+
 
                 );
             }
@@ -144,7 +161,13 @@ public class AccidentModel implements Parcelable, JSONString {
         return date;
     }
 
+    public void setDeviceId(long deviceId) {
+        this.deviceId = deviceId;
+    }
 
+    public long getDeviceId() {
+        return deviceId;
+    }
 
     public String userFormatDate(){
          long difftime= System.currentTimeMillis() - this.date;
@@ -186,6 +209,7 @@ public class AccidentModel implements Parcelable, JSONString {
         dest.writeString(details);
         dest.writeString(imageUrl);
         dest.writeLong(date);
+        dest.writeLong(deviceId);
     }
 
     @Override
@@ -196,7 +220,9 @@ public class AccidentModel implements Parcelable, JSONString {
                     .put(KeysTags.typeKey,type)
                     .put(KeysTags.commentKey,details)
                     .put(KeysTags.imageUrlKey, imageUrl)
-                    .put(KeysTags.dateKey,date).toString();
+                    .put(KeysTags.dateKey,date)
+                    .put(KeysTags.deviceIdKey,deviceId)
+                    .toString();
         } catch (JSONException e) {
             e.printStackTrace();
             return new JSONObject().toString();

@@ -3,6 +3,7 @@ package ihm.accidents.activities;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -36,16 +37,18 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 import ihm.accidents.R;
 import ihm.accidents.adapters.AdresseAutoCompleteAdapter;
 import ihm.accidents.models.AccidentModel;
 import ihm.accidents.services.AccidentUploader;
 import ihm.accidents.services.ReverseGeocoder;
+import ihm.accidents.utils.KeysTags;
 import okhttp3.OkHttpClient;
 
 
-public class CreationAccidentActivity extends AppCompatActivity {
+public class CreationAccidentActivity extends IhmAbstractActivity {
     private static final String TAG = "CreationAccidentActivit";
     protected static final int PERMISSION_ACCESS_FINE_LOCATION = 2;
     protected static final int PERMISSION_ACCESS_COARSE_LOCATION = 1;
@@ -116,6 +119,7 @@ public class CreationAccidentActivity extends AppCompatActivity {
         if (!adresse.equals("") && !type.equals("")) {
 
             AccidentModel accidentModel = new AccidentModel("", adresse, type, commentaire);
+            accidentModel.setDeviceId(  getDeviceId());
             Log.d(TAG, "onButtonCreationCliked: "+photoFile);
             accidentUploader.postAccidentToServer(photoFile,accidentModel);
             Toast.makeText(this, "Accident créé", Toast.LENGTH_LONG).show();
@@ -130,6 +134,8 @@ public class CreationAccidentActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
+
+
 
 
 

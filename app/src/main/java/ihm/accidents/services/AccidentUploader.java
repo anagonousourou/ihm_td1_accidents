@@ -37,7 +37,8 @@ public class AccidentUploader implements Callback {
         Log.d(TAG, "postAccidentToServer: ");
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("adresse", accidentModel.getAddress()).addFormDataPart("type", accidentModel.getType())
-                .addFormDataPart("commentaire", accidentModel.getDetails()).addFormDataPart("photoB64", accidentModel.getImageUrl())
+                .addFormDataPart("commentaire", accidentModel.getDetails())
+                .addFormDataPart("deviceId",String.valueOf(accidentModel.getDeviceId()))
                 .addFormDataPart("dateCreation", String.valueOf(accidentModel.getDate()))
                 .addFormDataPart("accidentImage", "square.png",
                         RequestBody.create(
@@ -57,6 +58,7 @@ public class AccidentUploader implements Callback {
     public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
         if (!response.isSuccessful()){
             Log.d(TAG, "onResponse: Unexpected code  "+ response);
+            Log.d(TAG, "onResponse: details"+response.body().string());
 
         }
         else{

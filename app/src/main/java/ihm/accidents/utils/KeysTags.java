@@ -9,6 +9,7 @@ public class KeysTags {
     public static final String typeKey="type";
     public static final String preferencesFile="ihm.td1.accidents.uniquefilename";
     public static final String dateLastNotifUpdateKey="dateLastNotifUpdateKey";
+    public static final String deviceIdKey="deviceId";
 
 
 }

@@ -17,7 +17,6 @@
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content">
     <AutoCompleteTextView
-        android:textSize="12pt"
         android:id="@+id/adresse"
         android:layout_weight="0.8"
         android:layout_width="0dp"

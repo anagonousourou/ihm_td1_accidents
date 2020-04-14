@@ -28,6 +28,7 @@ import androidx.work.WorkManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import ihm.accidents.R;
@@ -92,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         setUpNotifierService();
         setUpPreferencesFile();
+        setUpDeviceId();
 
     }
 
@@ -122,6 +124,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    private void setUpDeviceId(){
+        Random rand=new Random();
+        SharedPreferences sharedPref = this.getSharedPreferences(
+                KeysTags.preferencesFile, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        if(!sharedPref.contains(KeysTags.deviceIdKey)){
+            editor.putLong(KeysTags.deviceIdKey,rand.nextLong());
+            editor.apply();
+        }
     }
 
 

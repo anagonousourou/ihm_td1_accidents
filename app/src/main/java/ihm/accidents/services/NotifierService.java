@@ -23,6 +23,7 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import ihm.accidents.activities.DetailsAccidentActivity;
@@ -54,8 +55,9 @@ public class NotifierService extends Worker {
             SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(
                     KeysTags.preferencesFile, Context.MODE_PRIVATE);
             long lastUpdate=sharedPref.getLong(KeysTags.dateLastNotifUpdateKey,System.currentTimeMillis()-16*60*1000);
+            long deviceId=sharedPref.getLong(KeysTags.deviceIdKey,new Random().nextLong());
                 //we download the accidents Synchronously since we are already in another thread
-                List<AccidentModel> accidents=accidentDownloader.accidentsFromServerSync().stream().filter(accidentModel -> accidentModel.getDate() > lastUpdate).collect(Collectors.toList());
+                List<AccidentModel> accidents=accidentDownloader.accidentsFromServerSync().stream().filter(accidentModel -> accidentModel.getDate() > lastUpdate && accidentModel.getDeviceId() != deviceId).collect(Collectors.toList());
                 if(accidents.isEmpty()){
                     //if there is no accident we return success
                     writeLastUpdateDateToFile();
