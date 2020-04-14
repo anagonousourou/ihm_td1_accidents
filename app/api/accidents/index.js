@@ -51,6 +51,12 @@ router.post('/', upload.single('accidentImage'), (req, res, next) => {
 })
 
 
-
+router.delete('/:AccidentId', (req, res) => {
+  try {
+    res.status(200).json(Accident.delete(req.params.AccidentId))
+  } catch (err) {
+    res.status(500).json(err)
+  }
+})
 
 module.exports = router
