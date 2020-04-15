@@ -34,4 +34,13 @@ public class ListIncidentActivity extends Activity {
         adapter.setAccidentsList(listAccidents);
 
     }
+/*
+    @Override
+    protected void onStart(){
+        super.onStart();
+        RecyclerView recyclerViewIncidents = findViewById(R.id.list_incidents_id);
+        ListIncidentAdapter adapter = new ListIncidentAdapter(this, this);
+        recyclerViewIncidents.setAdapter(adapter);
+        accidentDownloader.getAccidentsFromServer(listAccidents, this, adapter);
+    }*/
 }

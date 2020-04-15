@@ -19,6 +19,7 @@ import ihm.accidents.utils.Utils;
 
 public class AccidentModel implements Parcelable, JSONString {
     private static final String TAG = "AccidentModel";
+    private long id;
     private String title;
     private String address;
     private String type;
@@ -46,6 +47,7 @@ public class AccidentModel implements Parcelable, JSONString {
         imageUrl = in.readString();
         date = in.readLong();
         deviceId=in.readLong();
+        id=in.readLong();
     }
 
     public AccidentModel(String title, String address, String type, String details, String url,long deviceId){
@@ -79,7 +81,7 @@ public class AccidentModel implements Parcelable, JSONString {
 
 
 
-    public AccidentModel(String title, String address, String type, String details, String imageUrl, long date,long deviceId){
+    public AccidentModel(String title, String address, String type, String details, String imageUrl, long date,long deviceId,long accidentId){
         this.title=title;
         this.address=address;
         this.type=type;
@@ -87,7 +89,7 @@ public class AccidentModel implements Parcelable, JSONString {
         this.imageUrl = imageUrl;
         this.date= date;
         this.deviceId=deviceId;
-
+        this.id=accidentId;
     }
 
     public static AccidentModel fromJson(String jsonString) {
@@ -102,10 +104,9 @@ public class AccidentModel implements Parcelable, JSONString {
                         accidentJson.getString(KeysTags.typeKey),
                         accidentJson.has(KeysTags.commentKey)?accidentJson.getString(KeysTags.commentKey):"",
                         accidentJson.getString("imageUrl").startsWith("http")?accidentJson.getString("imageUrl"):Utils.webserviceUrl+"/"+ accidentJson.getString("imageUrl"),
-                        Long.parseLong(accidentJson.getString(KeysTags.dateKey)),
-                        Long.parseLong(accidentJson.getString(KeysTags.deviceIdKey))
-
-
+                        accidentJson.getLong(KeysTags.dateKey),
+                        accidentJson.getLong(KeysTags.deviceIdKey),
+                        accidentJson.getLong(KeysTags.idKey)
                 );
             }
         }
@@ -210,6 +211,7 @@ public class AccidentModel implements Parcelable, JSONString {
         dest.writeString(imageUrl);
         dest.writeLong(date);
         dest.writeLong(deviceId);
+        dest.writeLong(id);
     }
 
     @Override
@@ -227,5 +229,9 @@ public class AccidentModel implements Parcelable, JSONString {
             e.printStackTrace();
             return new JSONObject().toString();
         }
+    }
+
+    public long getid() {
+        return id;
     }
 }

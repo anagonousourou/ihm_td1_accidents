@@ -12,6 +12,7 @@ public class KeysTags {
     public static final String deviceIdKey="deviceId";
     public static final String notifEnabledKey="notificationsActive";
     public static final String notifierWorkTag="notifierWorkTagService";
+    public static final String idKey="id";
 
 
 }
