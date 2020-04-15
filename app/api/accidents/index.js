@@ -38,8 +38,11 @@ router.get('/:accidentId', (req, res) => {
 })
 router.post('/', upload.single('accidentImage'), (req, res, next) => {
   try {
+    
+    if (req.body.dateCreation === undefined) {
+      req.body.dateCreation = Date.now()
+    }
     console.log(req.body)
-
     if (req.file === undefined) {
       const accident = Accident.create({ imageUrl: 'https://cdn3.iconfinder.com/data/icons/basic-ui-6/40/Asset_12-512.png', ...req.body })
       res.status(201).json(accident)
