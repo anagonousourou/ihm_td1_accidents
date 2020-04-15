@@ -9,6 +9,11 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import ihm.accidents.R;
 import ihm.accidents.databinding.DetailsAccidentActivityBinding;
 import ihm.accidents.models.AccidentModel;
@@ -39,5 +44,28 @@ public class DetailsAccidentActivity extends Activity {
         Intent sendMessage = new Intent(this ,SendMessageActivity.class);
         sendMessage.putExtra(Utils.accidentKey,this.accidentModel);
         startActivity(sendMessage);
+    }
+
+    public void deleteMessage(View view){
+        Thread t= new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(Utils.webserviceUrl+"/api/accidents/"+accidentModel.getid()+"/");
+                    HttpURLConnection http = (HttpURLConnection) url.openConnection();
+                    http.setRequestMethod("DELETE");
+                    http.connect();
+                   // finish(); //retourne à l'activité précedente
+                    Intent i= new Intent(DetailsAccidentActivity.this,MainActivity.class);
+                    startActivity(i);
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
     }
 }
