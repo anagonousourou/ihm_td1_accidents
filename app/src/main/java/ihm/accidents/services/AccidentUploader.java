@@ -35,16 +35,20 @@ public class AccidentUploader implements Callback {
     public void postAccidentToServer(File photoFile, AccidentModel accidentModel){
 
         Log.d(TAG, "postAccidentToServer: ");
-        RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("adresse", accidentModel.getAddress()).addFormDataPart("type", accidentModel.getType())
                 .addFormDataPart("commentaire", accidentModel.getDetails())
                 .addFormDataPart("deviceId",String.valueOf(accidentModel.getDeviceId()))
-                .addFormDataPart("dateCreation", String.valueOf(accidentModel.getDate()))
-                .addFormDataPart("accidentImage", "square.png",
-                        RequestBody.create(
-                                photoFile,
-                                MEDIA_TYPE_PNG))
-                .build();
+                .addFormDataPart("dateCreation", String.valueOf(accidentModel.getDate()));
+
+                if(photoFile!=null){
+                    builder=builder.addFormDataPart("accidentImage", "square.png",
+                            RequestBody.create(
+                                    photoFile,
+                                    MEDIA_TYPE_PNG));
+                }
+                RequestBody requestBody=builder.build();
+
 
         Request request = new Request.Builder()
 

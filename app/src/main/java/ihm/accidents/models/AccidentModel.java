@@ -94,13 +94,13 @@ public class AccidentModel implements Parcelable, JSONString {
         try{
             JSONObject accidentJson = new JSONObject(jsonString);
 
-            if(accidentJson.has(KeysTags.addressKey) && accidentJson.has(KeysTags.commentKey) && accidentJson.has(KeysTags.deviceIdKey) &&
+            if(accidentJson.has(KeysTags.addressKey) && accidentJson.has(KeysTags.deviceIdKey) &&
                     accidentJson.has(KeysTags.dateKey)&& accidentJson.has(KeysTags.imageUrlKey) && accidentJson.has(KeysTags.typeKey)){
                 return new AccidentModel(
                         "",
                         accidentJson.getString(KeysTags.addressKey),
                         accidentJson.getString(KeysTags.typeKey),
-                        accidentJson.getString(KeysTags.commentKey),
+                        accidentJson.has(KeysTags.commentKey)?accidentJson.getString(KeysTags.commentKey):"",
                         accidentJson.getString("imageUrl").startsWith("http")?accidentJson.getString("imageUrl"):Utils.webserviceUrl+"/"+ accidentJson.getString("imageUrl"),
                         Long.parseLong(accidentJson.getString(KeysTags.dateKey)),
                         Long.parseLong(accidentJson.getString(KeysTags.deviceIdKey))

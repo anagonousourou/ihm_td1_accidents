@@ -37,7 +37,7 @@ import ihm.accidents.services.NotifierService;
 import ihm.accidents.utils.KeysTags;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends IhmAbstractActivity {
 
 
     private static final String TAG = "MainActivity";
@@ -59,6 +59,11 @@ public class MainActivity extends AppCompatActivity {
 
             this.startActivity(intent);
 
+        }
+        if(item.getItemId()==R.id.parameterItem){
+            Intent intent=new Intent(this, ParameterActivity.class );
+
+            this.startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -97,22 +102,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void setUpNotifierService(){
-        Constraints constraints = new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)//besoin de connexion internet
-                .setRequiresBatteryNotLow(true)//quand la batterie n'est pas faible
-                .build();
-
-        PeriodicWorkRequest saveRequest =
-                new PeriodicWorkRequest.Builder(NotifierService.class, 16, TimeUnit.MINUTES)
-                        .setConstraints(constraints)
-
-
-                        .build();
-
-        WorkManager.getInstance(this)
-                .enqueueUniquePeriodicWork ("Notifier", ExistingPeriodicWorkPolicy.KEEP, saveRequest);
-    }
 
     private void setUpPreferencesFile(){
         SharedPreferences sharedPref = this.getSharedPreferences(

@@ -9,4 +9,10 @@
         android:icon="@drawable/cursor"
         app:showAsAction="always"
         />
+    <item
+        android:id="@+id/parameterItem"
+        android:title="@string/parametre_str"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/baseline_settings_24"/>
+
 </menu>

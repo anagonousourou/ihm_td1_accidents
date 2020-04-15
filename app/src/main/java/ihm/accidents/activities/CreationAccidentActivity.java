@@ -208,6 +208,7 @@ public class CreationAccidentActivity extends IhmAbstractActivity {
                 else {
                     try {
                         reverseGeocoder.findAddressFromLocation(location,this,this.adresseTextView);
+
                     } catch (UnsupportedEncodingException e) {
                         Log.e(TAG, "retrieveLocationAndPlug UnsupportedOperation: ",e );
                     }

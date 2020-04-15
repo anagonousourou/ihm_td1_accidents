@@ -51,6 +51,7 @@ public class NotifierService extends Worker {
     @NonNull
     @Override
     public Result doWork() {
+        Log.d(TAG, "doWork: worker called");
         try{
             SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(
                     KeysTags.preferencesFile, Context.MODE_PRIVATE);

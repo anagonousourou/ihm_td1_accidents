@@ -14,12 +14,23 @@
     <string name="txt_btn_add_photo">Ajouter une photo</string>
     <string name="depart_str">Départ</string>
     <string name="destination_str">Destination</string>
+    <string name="parametre_str">Paramètres</string>
     <string-array name="accident_types">
         <item>Personne seule :)</item>
         <item>Vélo</item>
         <item>Voiture(s)</item>
         <item>Camion (s) </item>
         <item>Trains ou TGV ou métro</item>
+    </string-array>
+
+    <string-array name="distances_notif">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
     </string-array>
 
 </resources>
