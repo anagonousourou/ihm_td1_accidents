@@ -9,9 +9,6 @@
     "lint": "./node_modules/.bin/eslint -c .eslintrc.js app/",
     "lint:fix": "./node_modules/.bin/eslint -c .eslintrc.js app/ --fix"
   },
-  "precommit": [
-    "lint"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/windu02/2019-2020-ps6-backend"
