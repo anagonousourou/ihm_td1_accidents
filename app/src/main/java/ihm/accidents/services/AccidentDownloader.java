@@ -73,7 +73,9 @@ public class AccidentDownloader implements Callback {
                 for (int i = 0; i < accidentsJson.length(); i++) {
                     JSONObject accidentJson=accidentsJson.getJSONObject(i);
                     AccidentModel accident= AccidentModel.fromJson(accidentJson.toString());
+
                     if(accident!=null){
+                        //Log.d("AccidentDownloader",accident.getAddress()+"--"+accident.getid());
                         this.accidents.add(accident);
                     }
                 }

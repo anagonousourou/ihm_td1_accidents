@@ -51,9 +51,11 @@ public class DetailsAccidentActivity extends Activity {
             @Override
             public void run() {
                 try {
+                    System.out.println("id accident:"+accidentModel.getid());
                     URL url = new URL(Utils.webserviceUrl+"/api/accidents/"+accidentModel.getid()+"/");
                     HttpURLConnection http = (HttpURLConnection) url.openConnection();
                     http.setRequestMethod("DELETE");
+                    
                     http.connect();
                    // finish(); //retourne à l'activité précedente
                     Intent i= new Intent(DetailsAccidentActivity.this,MainActivity.class);

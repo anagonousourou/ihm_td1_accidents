@@ -19,7 +19,7 @@ import ihm.accidents.utils.Utils;
 
 public class AccidentModel implements Parcelable, JSONString {
     private static final String TAG = "AccidentModel";
-    private int id;
+    private long id;
     private String title;
     private String address;
     private String type;
@@ -47,6 +47,7 @@ public class AccidentModel implements Parcelable, JSONString {
         imageUrl = in.readString();
         date = in.readLong();
         deviceId=in.readLong();
+        id=in.readLong();
     }
 
     public AccidentModel(String title, String address, String type, String details, String url,long deviceId){
@@ -80,7 +81,7 @@ public class AccidentModel implements Parcelable, JSONString {
 
 
 
-    public AccidentModel(String title, String address, String type, String details, String imageUrl, long date,long deviceId,int accidentId){
+    public AccidentModel(String title, String address, String type, String details, String imageUrl, long date,long deviceId,long accidentId){
         this.title=title;
         this.address=address;
         this.type=type;
@@ -105,7 +106,7 @@ public class AccidentModel implements Parcelable, JSONString {
                         accidentJson.getString("imageUrl").startsWith("http")?accidentJson.getString("imageUrl"):Utils.webserviceUrl+"/"+ accidentJson.getString("imageUrl"),
                         accidentJson.getLong(KeysTags.dateKey),
                         accidentJson.getLong(KeysTags.deviceIdKey),
-                        accidentJson.getInt(KeysTags.idKey)
+                        accidentJson.getLong(KeysTags.idKey)
                 );
             }
         }
@@ -210,6 +211,7 @@ public class AccidentModel implements Parcelable, JSONString {
         dest.writeString(imageUrl);
         dest.writeLong(date);
         dest.writeLong(deviceId);
+        dest.writeLong(id);
     }
 
     @Override
@@ -229,7 +231,7 @@ public class AccidentModel implements Parcelable, JSONString {
         }
     }
 
-    public int getid() {
+    public long getid() {
         return id;
     }
 }
