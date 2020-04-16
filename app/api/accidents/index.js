@@ -1,5 +1,5 @@
 const { Router } = require('express')
-
+const { prepareAccident } = require('./helper')
 const multer = require('multer')
 const { Accident } = require('../../models')
 
@@ -38,24 +38,27 @@ router.get('/:accidentId', (req, res) => {
 })
 router.post('/', upload.single('accidentImage'), (req, res, next) => {
   try {
-    
-    if (req.body.dateCreation === undefined) {
-      req.body.dateCreation = Date.now()
-    }
+
+
     console.log(req.body)
-    if (req.file === undefined) {
-      const accident = Accident.create({ imageUrl: 'https://cdn3.iconfinder.com/data/icons/basic-ui-6/40/Asset_12-512.png', ...req.body })
-      res.status(201).json(accident)
-    } else {
-      const accident = Accident.create({ imageUrl: req.file.filename, ...req.body })
+    prepareAccident(req.body, req.file).then(result => {
+      console.log(result);
+      const accident = Accident.create(result)
       res.status(201).json(accident)
     }
+    ).catch(error => {
+      console.log(error)
+      if (error.name === 'ValidationError') {
+        res.status(400).json(error.extra)
+      } else {
+        res.status(500).json(error)
+      }
+    })
+
+
+
   } catch (err) {
-    if (err.name === 'ValidationError') {
-      res.status(400).json(err.extra)
-    } else {
-      res.status(500).json(err)
-    }
+    res.status(500).json(err)
   }
 })
 
