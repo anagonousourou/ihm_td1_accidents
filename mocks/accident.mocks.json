@@ -62,5 +62,24 @@
     "longitude": "43.6598",
     "latitude": "7.2148",
     "id": 1587054053019
+  },{
+    "adresse": "Gare Routière Valbonne - Sophia Antipolis, 06560 Valbonne, France",
+    "deviceId": "455548454",
+    "type": "Bus",
+    "dateCreation": 1587069642144,
+    "imageUrl": "1587069640250603493801.png",
+    "longitude": "7.0372448",
+    "latitude": "43.62391",
+    "id": 1587069642614
+  },
+  {
+    "adresse": "32 Avenue de la République, 94800 Villejuif, France",
+    "deviceId": "9999958",
+    "type": "Vélo",
+    "dateCreation": 1587071005237,
+    "imageUrl": "1587071005204285245902.png",
+    "longitude": "2.3637151",
+    "latitude": "48.789341",
+    "id": 1587071005631
   }
 ]
