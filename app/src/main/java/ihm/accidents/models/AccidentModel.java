@@ -17,7 +17,7 @@ import ihm.accidents.utils.KeysTags;
 import ihm.accidents.utils.Utils;
 
 
-public class AccidentModel implements Parcelable, JSONString {
+public class AccidentModel implements Parcelable, JSONString,ILocation {
     private static final String TAG = "AccidentModel";
     private long id;
     private String title;
@@ -27,6 +27,8 @@ public class AccidentModel implements Parcelable, JSONString {
     private String imageUrl= "https://www.nswcompensationlawyers.com.au/media/Video-Placeholder-Motor-Accident-1024x576.png";
     private long date;
     private long deviceId;
+    private double lat;
+    private double lng;
 
     @NotNull
     @Override
@@ -50,16 +52,24 @@ public class AccidentModel implements Parcelable, JSONString {
         id=in.readLong();
     }
 
-    public AccidentModel(String title, String address, String type, String details, String url,long deviceId){
-        this.title=title;
-        this.address=address;
-        this.type=type;
-        this.details=details;
-        this.imageUrl=url;
-        this.date= System.currentTimeMillis();
-        this.deviceId=deviceId;
-
+    public AccidentModel(String title, String address, String type, String details, String url,long deviceId) {
+        this.title = title;
+        this.address = address;
+        this.type = type;
+        this.details = details;
+        this.imageUrl = url;
+        this.date = System.currentTimeMillis();
+        this.deviceId = deviceId;
     }
+
+
+
+
+
+
+
+
+
 
     public AccidentModel(String title, String address, String type, String details, String url){
         this.title=title;
@@ -81,7 +91,7 @@ public class AccidentModel implements Parcelable, JSONString {
 
 
 
-    public AccidentModel(String title, String address, String type, String details, String imageUrl, long date,long deviceId,long accidentId){
+    public AccidentModel(String title, String address, String type, String details, String imageUrl, long date,long deviceId,long accidentId,double longitude,double latitude){
         this.title=title;
         this.address=address;
         this.type=type;
@@ -90,6 +100,8 @@ public class AccidentModel implements Parcelable, JSONString {
         this.date= date;
         this.deviceId=deviceId;
         this.id=accidentId;
+        this.lat=latitude;
+        this.lng=longitude;
     }
 
     public static AccidentModel fromJson(String jsonString) {
@@ -106,12 +118,14 @@ public class AccidentModel implements Parcelable, JSONString {
                         accidentJson.getString("imageUrl").startsWith("http")?accidentJson.getString("imageUrl"):Utils.webserviceUrl+"/"+ accidentJson.getString("imageUrl"),
                         accidentJson.getLong(KeysTags.dateKey),
                         accidentJson.getLong(KeysTags.deviceIdKey),
-                        accidentJson.getLong(KeysTags.idKey)
+                        accidentJson.getLong(KeysTags.idKey),
+                        accidentJson.has(KeysTags.lngKey) ?accidentJson.getDouble(KeysTags.lngKey):0.0,
+                        accidentJson.has(KeysTags.latKey)? accidentJson.getDouble(KeysTags.latKey):0.0
                 );
             }
         }
         catch (Exception e){
-            Log.e(TAG, "fromJson: ",e );
+            Log.e(TAG, "fromJson: "+jsonString,e );
             return null;
         }
         return null;
@@ -233,5 +247,15 @@ public class AccidentModel implements Parcelable, JSONString {
 
     public long getid() {
         return id;
+    }
+
+    @Override
+    public double latitude() {
+        return lat;
+    }
+
+    @Override
+    public double longitude() {
+        return lng;
     }
 }

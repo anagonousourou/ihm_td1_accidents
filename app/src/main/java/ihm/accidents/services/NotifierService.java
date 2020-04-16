@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -21,7 +22,13 @@ import androidx.work.WorkerParameters;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.Task;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -52,57 +59,87 @@ public class NotifierService extends Worker {
     @Override
     public Result doWork() {
         Log.d(TAG, "doWork: worker called");
+
+
+            FusedLocationProviderClient fusedLocationProvider= LocationServices.getFusedLocationProviderClient(getApplicationContext());
+            Task<Location> locationTask= fusedLocationProvider.getLastLocation();
+            while (!locationTask.isComplete()){
+                Log.d(TAG, "doWork: waiting for location to be ready" );
+            }
+
+        try {
+            prepareNotification(locationTask.getResult());
+        } catch (IOException e) {
+            Log.e(TAG, "doWork: ",e );
+        } catch (JSONException e) {
+            Log.e(TAG, "doWork: ",e );
+        }
+
+
+        return Result.success();
+
+    }
+
+
+    private void prepareNotification(Location location) throws IOException, JSONException {
+        Log.d(TAG, "prepareNotification: Location found :"+location);
         try{
             SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(
                     KeysTags.preferencesFile, Context.MODE_PRIVATE);
+
             long lastUpdate=sharedPref.getLong(KeysTags.dateLastNotifUpdateKey,System.currentTimeMillis()-16*60*1000);
             long deviceId=sharedPref.getLong(KeysTags.deviceIdKey,new Random().nextLong());
-                //we download the accidents Synchronously since we are already in another thread
-                List<AccidentModel> accidents=accidentDownloader.accidentsFromServerSync().stream().filter(accidentModel -> accidentModel.getDate() > lastUpdate && accidentModel.getDeviceId() != deviceId).collect(Collectors.toList());
-                if(accidents.isEmpty()){
-                    //if there is no accident we return success
-                    writeLastUpdateDateToFile();
-                    return Result.success();
-                }
-                else{
-                    Intent resultIntent = new Intent(getApplicationContext(), DetailsAccidentActivity.class);
-                    //we get the first accident
-                    AccidentModel accident= accidents.get(0);
+            int radius=sharedPref.getInt(KeysTags.notifRadiusKey,30) *1000;
+            //we download the accidents Synchronously since we are already in another thread
+            List<AccidentModel> accidents=accidentDownloader.accidentsFromServerSync().stream().filter(accidentModel -> accidentModel.getDate() > lastUpdate && accidentModel.getDeviceId() != deviceId ).collect(Collectors.toList());
+            //if we have the location we add a filtering according to it
+            if(location!=null) {
+                accidents=accidents.stream().filter(accident -> accident.distanceTo(location) <= radius ).collect(Collectors.toList());
+            }
 
-                    resultIntent.putExtra(Utils.accidentKey,accident);
-                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
-                    stackBuilder.addNextIntentWithParentStack(resultIntent);
-                    PendingIntent resultPendingIntent =
-                            stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+            if(accidents.isEmpty()){
+                //if there is no accident we return success
+                writeLastUpdateDateToFile();
 
-                    RemoteViews custoNotif= new RemoteViews(getApplicationContext().getPackageName(),R.layout.notification);
-                    custoNotif.setTextViewText(R.id.title_accident_notif,"Type d'incident:" +accident.getType());
-                    custoNotif.setTextViewText(R.id.detail_accident_notif,accident.getDetails());
+            }
+            else{
+                Intent resultIntent = new Intent(getApplicationContext(), DetailsAccidentActivity.class);
+                //we get the first accident
+                AccidentModel accident= accidents.get(0);
 
-                    Glide.with(getApplicationContext()).asBitmap().load(accident.getImageUrl()).into(new CustomTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                            Log.d(TAG, "onResourceReady: the Bitmap is ready");
-                            custoNotif.setImageViewBitmap(R.id.preview_image_notif,resource);
-                            NotificationCompat.Builder notifBuilder = new NotificationCompat.Builder(getApplicationContext(), IncidentApplication.channelId)
-                                    .setAutoCancel(true)
-                                    .setDefaults(Notification.DEFAULT_ALL)
-                                    .setWhen(System.currentTimeMillis())
-                                    .setSmallIcon(R.mipmap.ic_launcher)
-                                    .setCustomContentView(custoNotif);
-                            notifBuilder.setContentIntent(resultPendingIntent);
-                            NotificationManagerCompat.from(getApplicationContext()).notify(notificationID, notifBuilder.build());
-                        }
+                resultIntent.putExtra(Utils.accidentKey,accident);
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+                stackBuilder.addNextIntentWithParentStack(resultIntent);
+                PendingIntent resultPendingIntent =
+                        stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                        @Override
-                        public void onLoadCleared(@Nullable Drawable placeholder) {
+                RemoteViews custoNotif= new RemoteViews(getApplicationContext().getPackageName(),R.layout.notification);
+                custoNotif.setTextViewText(R.id.title_accident_notif,"Type d'incident:" +accident.getType());
+                custoNotif.setTextViewText(R.id.detail_accident_notif,accident.getDetails());
 
-                        }
-                    });
+                Glide.with(getApplicationContext()).asBitmap().load(accident.getImageUrl()).into(new CustomTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        Log.d(TAG, "onResourceReady: the Bitmap is ready");
+                        custoNotif.setImageViewBitmap(R.id.preview_image_notif,resource);
+                        NotificationCompat.Builder notifBuilder = new NotificationCompat.Builder(getApplicationContext(), IncidentApplication.channelId)
+                                .setAutoCancel(true)
+                                .setDefaults(Notification.DEFAULT_ALL)
+                                .setWhen(System.currentTimeMillis())
+                                .setSmallIcon(R.mipmap.ic_launcher)
+                                .setCustomContentView(custoNotif);
+                        notifBuilder.setContentIntent(resultPendingIntent);
+                        NotificationManagerCompat.from(getApplicationContext()).notify(notificationID, notifBuilder.build());
+                    }
 
-                    writeLastUpdateDateToFile();
-                    return Result.success();
-                }
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                    }
+                });
+
+                writeLastUpdateDateToFile();
+            }
 
 
 
@@ -110,9 +147,9 @@ public class NotifierService extends Worker {
         }
         catch (Exception e){
             Log.e(TAG, "doWork: an exception occurred ", e);
-            return Result.retry();
+            throw  e;
+        }
         }
 
 
-    }
 }

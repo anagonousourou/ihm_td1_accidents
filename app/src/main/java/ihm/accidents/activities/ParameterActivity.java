@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Switch;
 
 import androidx.annotation.Nullable;
@@ -29,15 +30,29 @@ public class ParameterActivity extends IhmAbstractActivity implements AdapterVie
         Spinner spinner=findViewById(R.id.distance_notif_control);
         spinner.setOnItemSelectedListener(this);
         loadSwitchStateFromPreferences();
+        loadSpinnerValueFromPreferences(spinner);
 
     }
 
     private void loadSwitchStateFromPreferences(){
         Switch switchControl =findViewById(R.id.switch_notif);
         SharedPreferences sharedPreferences=getSharedPreferences(KeysTags.preferencesFile, Context.MODE_PRIVATE);
-        
-        switchControl.setChecked(sharedPreferences.getBoolean(KeysTags.notifEnabledKey,true));
+        boolean value=sharedPreferences.getBoolean(KeysTags.notifEnabledKey,true);
+        switchControl.setChecked(value);
+        findViewById(R.id.distance_notif_control).setEnabled(value);
 
+    }
+
+    private void loadSpinnerValueFromPreferences(Spinner spinner){
+        SharedPreferences sharedPreferences=getSharedPreferences(KeysTags.preferencesFile, Context.MODE_PRIVATE);
+        int lastValue=sharedPreferences.getInt(KeysTags.notifRadiusKey,5);//
+        SpinnerAdapter adapter =spinner.getAdapter();
+        for (int i = 0; i < adapter.getCount(); i++) {
+            if(adapter.getItem(i).toString().equals(String.valueOf(lastValue))){
+                spinner.setSelection(i);
+                return;
+            }
+        }
     }
 
     public void toggleNotificationEnable(View view) {
@@ -67,6 +82,10 @@ public class ParameterActivity extends IhmAbstractActivity implements AdapterVie
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             int rayon= Integer.parseInt(parent.getItemAtPosition(position).toString());
             Log.d(TAG, "onItemSelected: "+rayon);
+        SharedPreferences sharedPreferences=getSharedPreferences(KeysTags.preferencesFile, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putInt(KeysTags.notifRadiusKey,rayon);
+        editor.apply();
     }
 
     @Override

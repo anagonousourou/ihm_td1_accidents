@@ -17,6 +17,7 @@ import java.net.URL;
 import ihm.accidents.R;
 import ihm.accidents.databinding.DetailsAccidentActivityBinding;
 import ihm.accidents.models.AccidentModel;
+import ihm.accidents.services.AccidentDeleter;
 import ihm.accidents.utils.Utils;
 import okhttp3.OkHttpClient;
 
@@ -28,6 +29,7 @@ import okhttp3.OkHttpClient;
 public class DetailsAccidentActivity extends Activity {
     private static final String TAG = "DetailsAccidentActivity";
     DetailsAccidentActivityBinding dataBinding;
+    private AccidentDeleter accidentDeleter=new AccidentDeleter();
     private AccidentModel accidentModel;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,26 +50,9 @@ public class DetailsAccidentActivity extends Activity {
     }
 
     public void deleteMessage(View view){
+        Log.d(TAG, "deleteMessage: "+accidentModel.getid());
+            accidentDeleter.deleteAccident(accidentModel.getid(),this);
 
-        Thread t= new Thread(() -> {
-            try {
-                Log.d(TAG, "deleteMessage: "+"id accident:"+accidentModel.getid());
-                URL url = new URL(Utils.webserviceUrl+"/api/accidents/"+accidentModel.getid()+"/");
-                HttpURLConnection http = (HttpURLConnection) url.openConnection();
-                http.setRequestMethod("DELETE");
 
-                http.connect();
-               runOnUiThread(()->finish()
-
-               );
-
-            } catch (MalformedURLException e) {
-                Log.e(TAG, "deleteMessage: ",e );
-            } catch (IOException e) {
-                Log.e(TAG, "deleteMessage: ",e );
-               
-            }
-        });
-        t.start();
     }
 }

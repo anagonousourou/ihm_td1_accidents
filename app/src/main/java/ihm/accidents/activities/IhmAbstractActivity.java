@@ -38,6 +38,7 @@ public abstract class IhmAbstractActivity extends AppCompatActivity {
         PeriodicWorkRequest saveRequest =
                 new PeriodicWorkRequest.Builder(NotifierService.class, 15, TimeUnit.MINUTES)
                         .setConstraints(constraints)
+
                         .addTag(KeysTags.notifierWorkTag)
 
 

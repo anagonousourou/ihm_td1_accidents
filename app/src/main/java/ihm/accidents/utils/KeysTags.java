@@ -13,6 +13,9 @@ public class KeysTags {
     public static final String notifEnabledKey="notificationsActive";
     public static final String notifierWorkTag="notifierWorkTagService";
     public static final String idKey="id";
+    public static final String latKey="latitude";
+    public static final String lngKey="longitude";
+    public static final String notifRadiusKey="rayon.notifications";
 
 
 }

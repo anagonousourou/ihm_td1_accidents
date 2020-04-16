@@ -62,28 +62,29 @@
         android:orientation="horizontal">
 
         <Button
+            android:drawableStart="@drawable/baseline_delete_24"
             android:id="@+id/delete"
-            android:layout_width="189dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center|bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
-            android:layout_margin="5dp"
+            android:layout_marginEnd="2dp"
             android:background="@drawable/button_shape"
             android:onClick="deleteMessage"
             android:text="delete" />
 
         <Button
             android:id="@+id/send"
-            android:layout_width="189dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center|bottom"
+            android:drawableStart="@drawable/baseline_share_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
+            android:layout_marginStart="2dp"
             android:background="@drawable/button_shape"
             android:onClick="goToSendMessage"
             android:text="Partager via sms "
             android:textColor="#FFFFFF"
-            android:layout_margin="5dp"
-            android:textSize="20dp" />
+
+             />
     </LinearLayout>
 
 

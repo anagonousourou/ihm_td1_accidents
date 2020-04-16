@@ -41,8 +41,7 @@ public class MainActivity extends IhmAbstractActivity {
 
 
     private static final String TAG = "MainActivity";
-    protected static final int PERMISSION_ACCESS_FINE_LOCATION = 2;
-    protected static final int PERMISSION_ACCESS_COARSE_LOCATION = 1;
+
 
 
     @Override
@@ -70,20 +69,7 @@ public class MainActivity extends IhmAbstractActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //On commence par vérifier si on a les permissions de Localisation et on les demande si besoin
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "retrieveLocationAndPlug: We don't have permissions to ACCESS COARSE LOCATION");
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    PERMISSION_ACCESS_COARSE_LOCATION);
-        }
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "retrieveLocationAndPlug: We don't have permissions to ACCESS FINE LOCATION");
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSION_ACCESS_FINE_LOCATION);
-        }
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
@@ -138,26 +124,7 @@ public class MainActivity extends IhmAbstractActivity {
     }
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_ACCESS_COARSE_LOCATION:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d(TAG, "onRequestPermissionsResult: ALL GOOD");
-                } else {
-                    Toast.makeText(this, "Need your coarse location!", Toast.LENGTH_SHORT).show();
-                }
 
-                break;
-            case PERMISSION_ACCESS_FINE_LOCATION:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d(TAG, "onRequestPermissionsResult: ALL GOOD WE HAVE FINE LOCATION ");
-                } else {
-                    Toast.makeText(this, "Need your fine location!", Toast.LENGTH_SHORT).show();
-                }
-                break;
-        }
-    }
 
 
 
