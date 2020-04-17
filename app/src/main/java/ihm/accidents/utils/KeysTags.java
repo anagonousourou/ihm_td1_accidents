@@ -7,8 +7,8 @@ public class KeysTags {
     public static final String dateKey="dateCreation";
     public static final String commentKey="commentaire";
     public static final String typeKey="type";
-    public static final String preferencesFile="ihm.td1.accidents.uniquefilename";
-    public static final String dateLastNotifUpdateKey="dateLastNotifUpdateKey";
+    public static final String preferencesFile="ihm.td1.accidents.some.uniquefilename";
+    public static final String dateLastNotifUpdateKey="dateLastnotiFUpdateKey";
     public static final String deviceIdKey="deviceId";
     public static final String notifEnabledKey="notificationsActive";
     public static final String notifierWorkTag="notifierWorkTagService";

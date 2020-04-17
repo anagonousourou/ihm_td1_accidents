@@ -15,6 +15,7 @@
     <string name="depart_str">Départ</string>
     <string name="destination_str">Destination</string>
     <string name="parametre_str">Paramètres</string>
+    <string name="nouveaux_incidents_str"> %1$d nouveaux incidents</string>
     <string-array name="accident_types">
         <item>Personne seule :)</item>
         <item>Vélo</item>

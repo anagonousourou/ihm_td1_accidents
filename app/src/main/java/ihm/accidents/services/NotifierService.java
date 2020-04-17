@@ -29,11 +29,13 @@ import com.google.android.gms.tasks.Task;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 import ihm.accidents.activities.DetailsAccidentActivity;
+import ihm.accidents.activities.MultipleDetailsActivity;
 import ihm.accidents.application.IncidentApplication;
 import ihm.accidents.models.AccidentModel;
 import ihm.accidents.utils.KeysTags;
@@ -70,12 +72,15 @@ public class NotifierService extends Worker {
         try {
             prepareNotification(locationTask.getResult());
         } catch (IOException e) {
-            Log.e(TAG, "doWork: ",e );
+
+            Log.e(TAG, "doWork: retrying ",e );
+            return Result.retry();
         } catch (JSONException e) {
             Log.e(TAG, "doWork: ",e );
         }
 
-
+        Log.d(TAG, "doWork: work finished");
+        writeLastUpdateDateToFile();
         return Result.success();
 
     }
@@ -87,58 +92,85 @@ public class NotifierService extends Worker {
             SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(
                     KeysTags.preferencesFile, Context.MODE_PRIVATE);
 
-            long lastUpdate=sharedPref.getLong(KeysTags.dateLastNotifUpdateKey,System.currentTimeMillis()-16*60*1000);
+            long defDate=System.currentTimeMillis()-20*60*1000;
+            Log.d(TAG, "prepareNotification: defaultLastUpdateValue: "+defDate);
+
+            long lastUpdate=sharedPref.getLong(KeysTags.dateLastNotifUpdateKey,defDate);
+            Log.d(TAG, "prepareNotification: lastUpdate: "+lastUpdate);
             long deviceId=sharedPref.getLong(KeysTags.deviceIdKey,new Random().nextLong());
+            Log.d(TAG, "prepareNotification: deviceId:"+deviceId);
             int radius=sharedPref.getInt(KeysTags.notifRadiusKey,30) *1000;
             //we download the accidents Synchronously since we are already in another thread
-            List<AccidentModel> accidents=accidentDownloader.accidentsFromServerSync().stream().filter(accidentModel -> accidentModel.getDate() > lastUpdate && accidentModel.getDeviceId() != deviceId ).collect(Collectors.toList());
+            List<AccidentModel> accidents=accidentDownloader.accidentsFromServerSync();
+            Log.d(TAG, "prepareNotification: without filtering "+accidents);
+            accidents=accidents.stream().filter(accidentModel -> accidentModel.getDate() > lastUpdate && accidentModel.getDeviceId() != deviceId ).collect(Collectors.toList());
+            Log.d(TAG, "prepareNotification: with initial filtering "+accidents);
             //if we have the location we add a filtering according to it
             if(location!=null) {
                 accidents=accidents.stream().filter(accident -> accident.distanceTo(location) <= radius ).collect(Collectors.toList());
             }
+            Log.d(TAG, "prepareNotification: with location filtering "+accidents);
+            if(!accidents.isEmpty()) {
+                if(accidents.size()==1){
+                    Intent resultIntent = new Intent(getApplicationContext(), DetailsAccidentActivity.class);
+                    //we get the first and only accident
+                    AccidentModel accident= accidents.get(0);
 
-            if(accidents.isEmpty()){
-                //if there is no accident we return success
-                writeLastUpdateDateToFile();
+                    resultIntent.putExtra(Utils.accidentKey,accident);
+                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+                    stackBuilder.addNextIntentWithParentStack(resultIntent);
+                    PendingIntent resultPendingIntent =
+                            stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            }
-            else{
-                Intent resultIntent = new Intent(getApplicationContext(), DetailsAccidentActivity.class);
-                //we get the first accident
-                AccidentModel accident= accidents.get(0);
+                    RemoteViews custoNotif= new RemoteViews(getApplicationContext().getPackageName(),R.layout.notification);
+                    custoNotif.setTextViewText(R.id.title_accident_notif,"Type d'incident:" +accident.getType());
+                    custoNotif.setTextViewText(R.id.detail_accident_notif,accident.getDetails());
 
-                resultIntent.putExtra(Utils.accidentKey,accident);
-                TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
-                stackBuilder.addNextIntentWithParentStack(resultIntent);
-                PendingIntent resultPendingIntent =
-                        stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                    Glide.with(getApplicationContext()).asBitmap().load(accident.getImageUrl()).into(new CustomTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                            Log.d(TAG, "onResourceReady: the Bitmap is ready");
+                            custoNotif.setImageViewBitmap(R.id.preview_image_notif,resource);
+                            NotificationCompat.Builder notifBuilder = new NotificationCompat.Builder(getApplicationContext(), IncidentApplication.channelId)
+                                    .setAutoCancel(true)
+                                    .setDefaults(Notification.DEFAULT_ALL)
+                                    .setWhen(System.currentTimeMillis())
+                                    .setSmallIcon(R.mipmap.ic_launcher)
+                                    .setCustomContentView(custoNotif);
+                            notifBuilder.setContentIntent(resultPendingIntent);
+                            NotificationManagerCompat.from(getApplicationContext()).notify(notificationID, notifBuilder.build());
+                        }
 
-                RemoteViews custoNotif= new RemoteViews(getApplicationContext().getPackageName(),R.layout.notification);
-                custoNotif.setTextViewText(R.id.title_accident_notif,"Type d'incident:" +accident.getType());
-                custoNotif.setTextViewText(R.id.detail_accident_notif,accident.getDetails());
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
 
-                Glide.with(getApplicationContext()).asBitmap().load(accident.getImageUrl()).into(new CustomTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        Log.d(TAG, "onResourceReady: the Bitmap is ready");
-                        custoNotif.setImageViewBitmap(R.id.preview_image_notif,resource);
-                        NotificationCompat.Builder notifBuilder = new NotificationCompat.Builder(getApplicationContext(), IncidentApplication.channelId)
-                                .setAutoCancel(true)
-                                .setDefaults(Notification.DEFAULT_ALL)
-                                .setWhen(System.currentTimeMillis())
-                                .setSmallIcon(R.mipmap.ic_launcher)
-                                .setCustomContentView(custoNotif);
-                        notifBuilder.setContentIntent(resultPendingIntent);
-                        NotificationManagerCompat.from(getApplicationContext()).notify(notificationID, notifBuilder.build());
-                    }
+                        }
+                    });
 
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                }
+                else{
+                    Intent resultIntent = new Intent(getApplicationContext(), MultipleDetailsActivity.class);
+                    resultIntent.putParcelableArrayListExtra(Utils.accidentKey, new ArrayList<>(accidents));
+                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+                    stackBuilder.addNextIntentWithParentStack(resultIntent);
+                    PendingIntent resultPendingIntent =
+                            stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                    }
-                });
+                    RemoteViews custoNotif= new RemoteViews(getApplicationContext().getPackageName(),R.layout.multiple_notification);
+                    custoNotif.setTextViewText(R.id.recap_nb_notifs,getApplicationContext().getString(R.string.nouveaux_incidents_str,accidents.size()));
 
-                writeLastUpdateDateToFile();
+                    custoNotif.setTextViewText(R.id.list_types_incidents,accidents.stream().map(accident-> accident.getType()).reduce((a,b)-> a+" , "+b).get());
+                    NotificationCompat.Builder notifBuilder = new NotificationCompat.Builder(getApplicationContext(), IncidentApplication.channelId)
+                            .setAutoCancel(true)
+                            .setDefaults(Notification.DEFAULT_ALL)
+                            .setWhen(System.currentTimeMillis())
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setCustomContentView(custoNotif);
+                    notifBuilder.setContentIntent(resultPendingIntent);
+                    NotificationManagerCompat.from(getApplicationContext()).notify(notificationID, notifBuilder.build());
+                }
+
+
             }
 
 

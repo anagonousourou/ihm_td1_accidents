@@ -83,23 +83,13 @@ public class MainActivity extends IhmAbstractActivity {
 
 
         setUpNotifierService();
-        setUpPreferencesFile();
+        
         setUpDeviceId();
 
     }
 
 
-    private void setUpPreferencesFile(){
-        SharedPreferences sharedPref = this.getSharedPreferences(
-                KeysTags.preferencesFile, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        if(!sharedPref.contains(KeysTags.dateLastNotifUpdateKey)){
-            editor.putLong(KeysTags.dateLastNotifUpdateKey, System.currentTimeMillis());
-            editor.apply();
-        }
-
-
-    }
+    
 
     private void setUpDeviceId(){
         Random rand=new Random();
