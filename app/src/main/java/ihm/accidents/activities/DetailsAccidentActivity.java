@@ -44,9 +44,12 @@ public class DetailsAccidentActivity extends Activity {
 
     }
     public void goToSendMessage(View view) {
-        Intent sendMessage = new Intent(this ,SendMessageActivity.class);
-        sendMessage.putExtra(Utils.accidentKey,this.accidentModel);
-        startActivity(sendMessage);
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String message = "Attention\n"+accidentModel.getTitle()+"\n A l'adresse: "+accidentModel.getAddress();
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Nouvel Incident");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
+        startActivity(Intent.createChooser(sharingIntent, "Partager avec"));
     }
 
     public void deleteMessage(View view){

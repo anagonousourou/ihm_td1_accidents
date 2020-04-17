@@ -1,9 +1,12 @@
 package ihm.accidents.activities;
 
-import android.app.Activity;
+
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,9 +18,17 @@ import ihm.accidents.adapters.ListIncidentAdapter;
 import ihm.accidents.models.AccidentModel;
 import ihm.accidents.services.AccidentDownloader;
 
-public class ListIncidentActivity extends Activity {
+public class ListIncidentActivity extends AppCompatActivity {
     private AccidentDownloader accidentDownloader=new AccidentDownloader();
     private final List<AccidentModel> listAccidents= new ArrayList<>();
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.menu_list_accident,menu);
+        return true;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,14 +44,7 @@ public class ListIncidentActivity extends Activity {
         recyclerViewIncidents.setLayoutManager(new LinearLayoutManager(this));
         adapter.setAccidentsList(listAccidents);
 
+        setTitle("Liste d'incidents");
+
     }
-/*
-    @Override
-    protected void onStart(){
-        super.onStart();
-        RecyclerView recyclerViewIncidents = findViewById(R.id.list_incidents_id);
-        ListIncidentAdapter adapter = new ListIncidentAdapter(this, this);
-        recyclerViewIncidents.setAdapter(adapter);
-        accidentDownloader.getAccidentsFromServer(listAccidents, this, adapter);
-    }*/
 }

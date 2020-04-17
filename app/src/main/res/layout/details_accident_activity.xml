@@ -56,36 +56,36 @@
         android:layout_weight="0.1"
         android:text="@{String.format(@string/desc_accident,accident.details)}" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        >
 
-        <Button
-            android:drawableStart="@drawable/baseline_delete_24"
+        <ImageButton
+           android:layout_centerInParent="true"
+
+            android:src="@drawable/baseline_delete_black_48"
             android:id="@+id/delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginEnd="2dp"
-            android:background="@drawable/button_shape"
+            android:background="#00000000"
             android:onClick="deleteMessage"
             android:text="delete" />
 
-        <Button
+        <ImageButton
+            android:layout_centerInParent="true"
+            android:layout_toEndOf="@+id/delete"
             android:id="@+id/send"
-            android:drawableStart="@drawable/baseline_share_24"
+            android:src="@drawable/baseline_share_black_48"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginStart="2dp"
-            android:background="@drawable/button_shape"
+
+            android:background="#00000000"
             android:onClick="goToSendMessage"
-            android:text="Partager via sms "
             android:textColor="#FFFFFF"
 
              />
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </LinearLayout>
