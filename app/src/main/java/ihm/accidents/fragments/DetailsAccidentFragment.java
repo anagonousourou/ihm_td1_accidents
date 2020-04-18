@@ -2,6 +2,7 @@ package ihm.accidents.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,15 @@ import androidx.fragment.app.Fragment;
 import ihm.accidents.R;
 import ihm.accidents.databinding.DetailsAccidentActivityBinding;
 import ihm.accidents.models.AccidentModel;
+import ihm.accidents.services.AccidentDeleter;
 
 
 public class DetailsAccidentFragment extends Fragment {
 
+    private static final String TAG = "DetailsAccidentFragment";
+
     private final AccidentModel accident;
+    private AccidentDeleter accidentDeleter=new AccidentDeleter();
 
     public DetailsAccidentFragment(AccidentModel accidentModel){
         this.accident=accidentModel;
@@ -29,9 +34,8 @@ public class DetailsAccidentFragment extends Fragment {
         DetailsAccidentActivityBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.details_accident_activity, container, false);
         View view = binding.getRoot();
-        view.findViewById(R.id.send).setOnClickListener((v)->
-            goToSendMessage(v)
-        );
+        view.findViewById(R.id.send).setOnClickListener(this::goToSendMessage);
+        view.findViewById(R.id.delete).setOnClickListener(this::deleteMessage);
         binding.setAccident(this.accident);
         return view;
     }
@@ -43,5 +47,12 @@ public class DetailsAccidentFragment extends Fragment {
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Nouvel Incident");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
         startActivity(Intent.createChooser(sharingIntent, "Partager avec"));
+    }
+
+    public void deleteMessage(View view){
+        Log.d(TAG, "deleteMessage: "+accident.getid());
+        accidentDeleter.deleteAccident(accident.getid(),getActivity());
+
+
     }
 }

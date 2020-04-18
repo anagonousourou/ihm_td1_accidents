@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.viewpager2.widget.ViewPager2
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/pager"
-android:layout_width="match_parent"
-android:layout_height="match_parent" />
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <androidx.viewpager2.widget.ViewPager2
+
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageButton
+        android:onClick="previousPage"
+        android:id="@+id/left_chevron"
+        android:layout_width="wrap_content"
+        android:background="#00000000"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/baseline_chevron_left_black_48"
+        android:layout_height="wrap_content"/>
+    <ImageButton
+        android:onClick="nextPage"
+        android:id="@+id/right_chevron"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:background="#00000000"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/baseline_chevron_right_black_48"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>
+

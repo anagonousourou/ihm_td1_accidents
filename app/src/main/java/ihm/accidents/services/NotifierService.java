@@ -31,6 +31,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -159,7 +160,13 @@ public class NotifierService extends Worker {
                     RemoteViews custoNotif= new RemoteViews(getApplicationContext().getPackageName(),R.layout.multiple_notification);
                     custoNotif.setTextViewText(R.id.recap_nb_notifs,getApplicationContext().getString(R.string.nouveaux_incidents_str,accidents.size()));
 
-                    custoNotif.setTextViewText(R.id.list_types_incidents,accidents.stream().map(accident-> accident.getType()).reduce((a,b)-> a+" , "+b).get());
+                    Map<String, Long> typesCount= accidents.stream().collect(Collectors.groupingBy(AccidentModel::getType,Collectors.counting()) );
+                    StringBuilder builder=new StringBuilder();
+                    typesCount.forEach((type,nb)->
+                        builder.append(nb+" "+type+"," )
+                    );
+
+                    custoNotif.setTextViewText(R.id.list_types_incidents,builder.toString());
                     NotificationCompat.Builder notifBuilder = new NotificationCompat.Builder(getApplicationContext(), IncidentApplication.channelId)
                             .setAutoCancel(true)
                             .setDefaults(Notification.DEFAULT_ALL)

@@ -1,15 +1,15 @@
 package ihm.accidents.activities;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
-import androidx.viewpager2.adapter.FragmentViewHolder;
 import androidx.viewpager2.widget.ViewPager2;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,7 +19,9 @@ import ihm.accidents.models.AccidentModel;
 import ihm.accidents.utils.Utils;
 
 public class MultipleDetailsActivity extends FragmentActivity {
-
+    private Toast backToast;
+    private long backPressedTime=0;
+    private static final String TAG = "MultipleDetailsActivity";
     /**
      * The number of pages (wizard steps) to show in this demo.
      */
@@ -44,23 +46,62 @@ public class MultipleDetailsActivity extends FragmentActivity {
         // Instantiate a ViewPager2 and a PagerAdapter.
         viewPager = findViewById(R.id.pager);
         List<AccidentModel> accidentModels= getIntent().getParcelableArrayListExtra(Utils.accidentKey);
-        if(accidentModels==null){
-            accidentModels=new ArrayList<>();
+        if(accidentModels == null){
+            accidentModels = Arrays.asList(Utils.accidentModelFake2,Utils.accidentModelFake);
         }
         pagerAdapter = new ScreenSlidePagerAdapter(this, accidentModels );
+        List<AccidentModel> finalAccidentModels = accidentModels;
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                if(position==0){
+                    Log.d(TAG, "onPageSelected: "+position);
+                    findViewById(R.id.left_chevron).setVisibility(View.INVISIBLE);
+                }
+                if(position == finalAccidentModels.size()-1){
+                    findViewById(R.id.right_chevron).setVisibility(View.INVISIBLE);
+                }
 
+                if(position != 0){
+                    findViewById(R.id.left_chevron).setVisibility(View.VISIBLE);
+                }
+                if(position != finalAccidentModels.size()-1){
+                    findViewById(R.id.right_chevron).setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
         viewPager.setAdapter(pagerAdapter);
     }
 
     @Override
     public void onBackPressed() {
-        if (viewPager.getCurrentItem() == 0) {
-            // If the user is currently looking at the first step, allow the system to handle the
-            // Back button. This calls finish() on this activity and pops the back stack.
+        if(backPressedTime + 2000 > System.currentTimeMillis()){
             super.onBackPressed();
-        } else {
-            // Otherwise, select the previous step.
+            if(backToast!=null){
+                backToast.cancel();
+            }
+            return;
+        }
+        else{
+            backToast= Toast.makeText(this,"Appuyez encore pour quitter",Toast.LENGTH_SHORT);
+            backToast.show();
+            backPressedTime=System.currentTimeMillis();
+        }
+
+    }
+
+    public void previousPage(View view) {
+        if (viewPager.getCurrentItem() > 0) {
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+        }
+
+    }
+
+    public void nextPage(View view) {
+        if (viewPager.getCurrentItem() < viewPager.getAdapter().getItemCount()-1) {
+            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
         }
     }
 
@@ -84,16 +125,8 @@ public class MultipleDetailsActivity extends FragmentActivity {
             return new DetailsAccidentFragment(accidents.get(position));
         }
 
-        /**
-         *
-         * @param holder no idea
-         * @param position an index  from 0 to getItemCount()-1
-         * @param payloads the dataset that is to be displayed using the adapter
-         */
-        @Override
-        public void onBindViewHolder(@NonNull FragmentViewHolder holder, int position, @NonNull List<Object> payloads) {
-            super.onBindViewHolder(holder, position, payloads);
-        }
+
+
 
         /**
          *
