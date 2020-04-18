@@ -29,22 +29,22 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
-        <activity android:name="ihm.accidents.activities.MainActivity" android:theme="@style/Theme.AppCompat.Light"></activity>
+        <activity
+            android:name="ihm.accidents.activities.MainActivity"
+            android:theme="@style/Theme.AppCompat.Light" />
         <activity android:name="ihm.accidents.activities.ChoicePathActivity" android:theme="@style/Theme.AppCompat.Light" />
         <activity android:name="ihm.accidents.activities.CreationAccidentActivity" />
-        <activity android:name="ihm.accidents.models.NotificationModel" android:label="Details of notification">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+
+        <activity android:name="ihm.accidents.activities.DetailsAccidentActivity" />
+        <activity android:name="ihm.accidents.activities.ListIncidentActivity" />
+        <activity android:name=".activities.ParameterActivity" />
+        <activity android:name=".activities.MultipleDetailsActivity">
+
         </activity>
-        <activity android:label="Paramètres" android:name="ihm.accidents.activities.SendMessageActivity" />
-        <activity android:name="ihm.accidents.activities.DetailsAccidentActivity"></activity>
-        <activity android:name="ihm.accidents.activities.ListIncidentActivity"></activity>
-        <activity android:name=".activities.ParameterActivity"></activity>
 
 
     </application>
