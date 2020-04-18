@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:padding="5dp"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/notif_icon"
+            android:layout_width="88dp"
+            android:layout_height="61dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/baseline_notifications_black_36" />
+        <Switch
+            android:layout_toRightOf="@+id/notif_icon"
+            android:fontFamily="sans-serif-black"
+            android:textSize="30dp"
+            android:layout_width="match_parent"
+            android:text="Activer les notifications pour les incidents"
+            android:textOn="Oui"
+            android:textOff="Non"
+            android:onClick="toggleNotificationEnable"
+            android:id="@+id/switch_notif"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_toRightOf="@+id/notif_icon"
+            android:fontFamily="sans-serif-black"
+            android:layout_marginTop="5dp"
+            android:textSize="30dp"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/switch_notif"
+            android:id="@+id/label_distance_notif"
+            android:text="Rayon maximal des incidents (en Km) : "
+            android:layout_height="wrap_content"/>
+
+        <Spinner
+            android:id="@+id/distance_notif_control"
+            android:layout_width="115dp"
+            android:layout_height="43dp"
+            android:layout_below="@+id/switch_notif"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="2dp"
+            android:textAlignment="center"
+
+            android:entries="@array/distances_notif" />
+    </RelativeLayout>
+</RelativeLayout>
