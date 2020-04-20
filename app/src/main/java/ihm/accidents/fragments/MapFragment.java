@@ -40,28 +40,22 @@ public class MapFragment extends Fragment {
         this.items.add(new OverlayItem("C'est chez moi :D", "test", new GeoPoint(43.684129, 7.202671)));
     }
 
-    public MapFragment(String address, String title) {
-        this.items.add(new OverlayItem(title, "test", this.getLocationFromAddress(getContext(), address)));
+    public MapFragment(String address, String title, Context context) {
+        this.items.add(new OverlayItem(title, "test", this.getLocationFromAddress(context, address)));
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.some_layout, container, false);
         Log.d(TAG, "onCreateView: Outside Permissions Granted");
 
-         {
-
+        {
             Log.d(TAG, "onCreateView: Inside Permissions Granted");
             // Permission is granted
             Configuration.getInstance().load(getContext(), PreferenceManager.getDefaultSharedPreferences(getContext()));
-            map = root.findViewById(R.id.mapwidget);
+            map  = root.findViewById(R.id.mapwidget);
             Log.d("mapView Value", map.toString());
             map.setBuiltInZoomControls(true);
             map.setMultiTouchControls(true);
@@ -72,16 +66,16 @@ public class MapFragment extends Fragment {
             mapController.setCenter(startPoint);
             ItemizedOverlayWithFocus<OverlayItem> nOverlay = new ItemizedOverlayWithFocus<OverlayItem>(getContext(),
                     items, new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-                        @Override
-                        public boolean onItemSingleTapUp(int index, OverlayItem item) {
-                            return true;
-                        }
+                @Override
+                public boolean onItemSingleTapUp(int index, OverlayItem item) {
+                    return true;
+                }
 
-                        @Override
-                        public boolean onItemLongPress(int index, OverlayItem item) {
-                            return false;
-                        }
-                    });
+                @Override
+                public boolean onItemLongPress(int index, OverlayItem item) {
+                    return false;
+                }
+            });
 
             nOverlay.setFocusItemsOnTap(true);
             map.getOverlays().add(nOverlay);
@@ -105,7 +99,7 @@ public class MapFragment extends Fragment {
             location.getLatitude();
             location.getLongitude();
 
-            p = new GeoPoint((double) (location.getLatitude() * 1E6), (double) (location.getLongitude() * 1E6));
+            p = new GeoPoint((location.getLatitude()), (location.getLongitude()));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -124,4 +118,9 @@ public class MapFragment extends Fragment {
         super.onResume();
         map.onResume();
     }
+
+    public MapView getMap(){
+        return this.map;
+    }
+
 }

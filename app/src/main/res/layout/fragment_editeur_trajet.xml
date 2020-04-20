@@ -37,12 +37,13 @@
         android:layout_height="wrap_content"/>
 
     <Button
-        android:background="#CC008000"
+        android:id="@+id/find_route"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_destination"
         android:layout_centerHorizontal="true"
-        android:textColor="#FFFFFF"
-        android:text="Trouvez"
-        android:layout_below="@+id/edit_destination"/>
+        android:background="#CC008000"
+        android:text="Trouver"
+        android:textColor="#FFFFFF" />
 
 </RelativeLayout>
