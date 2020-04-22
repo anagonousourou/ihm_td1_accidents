@@ -24,11 +24,7 @@ const isNear = (latitude,longitude,distance,accidentId) => {
     const b = 2* Math.atan(Math.sqrt(a)/Math.sqrt(1-a));
 
     const distanceToAcc = 6371 * b
-    //console.log("latitude"+accident.latitude)
-    //console.log("longitude"+accident.longitude)
     console.log("distance to acc "+distanceToAcc)
-    //console.log("distance "+distance)
-    //console.log(distanceToAcc<=distance)
     return distanceToAcc<=distance;
 }
 
