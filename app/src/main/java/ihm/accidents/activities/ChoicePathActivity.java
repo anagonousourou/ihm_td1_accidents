@@ -46,15 +46,15 @@ import ihm.accidents.fragments.EditeurTrajetFragment;
 import ihm.accidents.fragments.MapFragment;
 import ihm.accidents.utils.Utils;
 
-public class ChoicePathActivity extends AppCompatActivity{
+public class ChoicePathActivity extends IhmAbstractActivity{
     private static final String TAG = "ChoicePathActivity";
     protected static final int PERMISSION_ACCESS_FINE_LOCATION = 2;
     protected static final int PERMISSION_ACCESS_COARSE_LOCATION = 1;
-    GeoPoint src, dst;
-    MapFragment fragmentMap;
-    EditeurTrajetFragment fragmentEditeur;
-    LocationManager locationManager;
-    String mWhichRouteProvider = "bicycle"; //CECI EST UN EXEMPLE, un TextView sera utilisé, plus tard
+    private GeoPoint src, dst;
+    private MapFragment fragmentMap;
+    private EditeurTrajetFragment fragmentEditeur;
+    private LocationManager locationManager;
+    private String mWhichRouteProvider = "bicycle"; //CECI EST UN EXEMPLE, un TextView sera utilisé, plus tard
 
 
     @Override
@@ -121,8 +121,8 @@ public class ChoicePathActivity extends AppCompatActivity{
             public void onLocationChanged(Location location) {
                 double latitude=location.getLatitude();
                 double longitude=location.getLongitude();
-                String msg = "New Latitude: "+latitude + "New Longitude: "+longitude;
-                Log.i("Current position : ", msg);
+                //String msg = "New Latitude: "+latitude + "New Longitude: "+longitude;
+                //Log.i("Current position : ", msg);
             }
 
             @Override

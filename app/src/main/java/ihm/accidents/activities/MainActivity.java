@@ -85,11 +85,17 @@ public class MainActivity extends IhmAbstractActivity {
         setUpNotifierService();
         
         setUpDeviceId();
+        setUpImagePreferenceDefault();
 
     }
 
 
-    
+    private void setUpImagePreferenceDefault(){
+        if(!this.preferenceService.hideActualPicturesExists()){
+            this.preferenceService.setHideActualPictures(false);
+        }
+
+    }
 
     private void setUpDeviceId(){
         Random rand=new Random();

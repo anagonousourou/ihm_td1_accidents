@@ -65,6 +65,30 @@ public class AccidentModel implements Parcelable, JSONString,ILocation {
 
 
 
+    public AccidentModel updateWithImagePreference(boolean hideImage ){
+        if(hideImage){
+            if(this.type.equals("Personne seule :)")){
+                this.imageUrl= Utils.webserviceUrl+"/silhouette.png";
+
+            }
+            else if(this.type.equals("Vélo")){
+                this.imageUrl=Utils.webserviceUrl+"/bicycle_with_rider.png";
+
+            }
+            else if(this.type.equals("Voiture(s)")){
+                this.imageUrl=Utils.webserviceUrl+"/car_accident_default.png";
+            }
+            else if(this.type.equals("Camion (s)")){
+                this.imageUrl=Utils.webserviceUrl+"/truck_accident.jpeg";
+
+            }
+
+            else if(this.type.equals("Trains ou TGV ou métro")){
+                this.imageUrl=Utils.webserviceUrl+"/train_wreck.jpg";
+            }
+        }
+        return this;
+    }
 
 
 

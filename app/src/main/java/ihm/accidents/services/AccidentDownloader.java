@@ -1,6 +1,7 @@
 package ihm.accidents.services;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
@@ -10,9 +11,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import ihm.accidents.adapters.ListIncidentAdapter;
 import ihm.accidents.models.AccidentModel;
+import ihm.accidents.utils.KeysTags;
 import ihm.accidents.utils.Utils;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -28,6 +31,16 @@ public class AccidentDownloader implements Callback {
     private static final String url= Utils.webserviceUrl+"/api/accidents/";
     private ListIncidentAdapter adapter;
     private Activity activity;
+    private Context context;
+    private PreferenceService preferenceService;
+
+
+
+
+    public AccidentDownloader(Context context){
+        this.context=context;
+        this.preferenceService= new PreferenceService(context);
+    }
 
     public void getAccidentsFromServer(List<AccidentModel> accidentModels, Activity activity, ListIncidentAdapter adapter){
         this.activity=activity;
@@ -41,6 +54,7 @@ public class AccidentDownloader implements Callback {
     }
 
     public List<AccidentModel> accidentsFromServerSync() throws IOException, JSONException {
+
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -49,7 +63,7 @@ public class AccidentDownloader implements Callback {
             String serverResponse=response.body().string();
 
             JSONArray accidentsJson= new JSONObject(serverResponse).getJSONArray("accidents");
-            return AccidentModel.listFromJson(accidentsJson.toString());
+            return AccidentModel.listFromJson(accidentsJson.toString()).stream().map(accident-> accident.updateWithImagePreference(preferenceService.hideActualPictures() )).collect(Collectors.toList());
         }
         else{
             throw new IOException("Problem while downloading accidents from server:"+response);
@@ -72,11 +86,11 @@ public class AccidentDownloader implements Callback {
                 JSONArray accidentsJson=jsonObject.getJSONArray("accidents");
                 for (int i = 0; i < accidentsJson.length(); i++) {
                     JSONObject accidentJson=accidentsJson.getJSONObject(i);
-                    AccidentModel accident= AccidentModel.fromJson(accidentJson.toString());
+                    AccidentModel accident= AccidentModel.fromJson(accidentJson.toString()) ;
 
                     if(accident!=null){
                         //Log.d("AccidentDownloader",accident.getAddress()+"--"+accident.getid());
-                        this.accidents.add(accident);
+                        this.accidents.add(accident.updateWithImagePreference(this.preferenceService.hideActualPictures()));
                     }
                 }
                 activity.runOnUiThread(()->

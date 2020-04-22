@@ -18,8 +18,8 @@ import ihm.accidents.adapters.ListIncidentAdapter;
 import ihm.accidents.models.AccidentModel;
 import ihm.accidents.services.AccidentDownloader;
 
-public class ListIncidentActivity extends AppCompatActivity {
-    private AccidentDownloader accidentDownloader=new AccidentDownloader();
+public class ListIncidentActivity extends IhmAbstractActivity {
+    private AccidentDownloader accidentDownloader;
     private final List<AccidentModel> listAccidents= new ArrayList<>();
 
 
@@ -33,6 +33,7 @@ public class ListIncidentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        accidentDownloader=new AccidentDownloader(this);
         setContentView(R.layout.list_incident);
 
         RecyclerView recyclerViewIncidents = findViewById(R.id.list_incidents_id);

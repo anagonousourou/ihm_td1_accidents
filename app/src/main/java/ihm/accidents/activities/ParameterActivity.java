@@ -31,6 +31,7 @@ public class ParameterActivity extends IhmAbstractActivity implements AdapterVie
         spinner.setOnItemSelectedListener(this);
         loadSwitchStateFromPreferences();
         loadSpinnerValueFromPreferences(spinner);
+        loadSwitchActualImagesStateFromPreferences();
 
     }
 
@@ -40,6 +41,14 @@ public class ParameterActivity extends IhmAbstractActivity implements AdapterVie
         boolean value=sharedPreferences.getBoolean(KeysTags.notifEnabledKey,true);
         switchControl.setChecked(value);
         findViewById(R.id.distance_notif_control).setEnabled(value);
+
+    }
+
+
+    private void loadSwitchActualImagesStateFromPreferences(){
+        Switch switchControl=findViewById(R.id.switch_actual_images);
+        Log.d(TAG, "loadSwitchActualImagesStateFromPreferences: "+this.preferenceService.hideActualPictures());
+        switchControl.setChecked(this.preferenceService.hideActualPictures());
 
     }
 
@@ -91,5 +100,10 @@ public class ParameterActivity extends IhmAbstractActivity implements AdapterVie
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    public void toggleHideActualImages(View view) {
+        Switch switchcontrol=(Switch)view;
+        this.preferenceService.setHideActualPictures( switchcontrol.isChecked() );
     }
 }

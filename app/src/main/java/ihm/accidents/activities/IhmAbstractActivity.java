@@ -3,7 +3,9 @@ package ihm.accidents.activities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.work.Constraints;
 import androidx.work.ExistingPeriodicWorkPolicy;
@@ -15,17 +17,25 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import ihm.accidents.services.NotifierService;
+import ihm.accidents.services.PreferenceService;
 import ihm.accidents.utils.KeysTags;
 
 
 public abstract class IhmAbstractActivity extends AppCompatActivity {
     private static final String TAG = "IhmAbstractActivity";
+    protected PreferenceService preferenceService;
 
 
     protected long getDeviceId(){
         SharedPreferences sharedPref = this.getSharedPreferences(
                 KeysTags.preferencesFile, Context.MODE_PRIVATE);
         return sharedPref.getLong(KeysTags.deviceIdKey, new Random().nextLong());
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        preferenceService=new PreferenceService(this);
+        super.onCreate(savedInstanceState);
     }
 
     protected void setUpNotifierService(){

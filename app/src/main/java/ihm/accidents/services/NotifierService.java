@@ -46,9 +46,10 @@ import ihm.accidents.R;
 public class NotifierService extends Worker {
     private final int notificationID=1;
     private static final String TAG = "NotifierService";
-    private final AccidentDownloader accidentDownloader=new AccidentDownloader();
+    private final AccidentDownloader accidentDownloader;
     public NotifierService(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
+        this.accidentDownloader=new AccidentDownloader(context);
     }
 
     private void writeLastUpdateDateToFile(){
