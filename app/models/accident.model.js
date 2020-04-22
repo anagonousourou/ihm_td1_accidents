@@ -8,6 +8,6 @@ module.exports = new BaseModel('Accident', {
   commentaire: Joi.string(),
   dateCreation: Joi.date(),
   imageUrl: Joi.string(),
-  latitude: Joi.string().required(),
-  longitude: Joi.string().required(),
+  latitude: Joi.string(),
+  longitude: Joi.string(),
 })
