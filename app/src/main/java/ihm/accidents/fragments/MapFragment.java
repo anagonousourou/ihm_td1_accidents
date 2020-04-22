@@ -15,6 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -30,13 +33,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ihm.accidents.R;
+import ihm.accidents.models.AccidentModel;
+import ihm.accidents.utils.Utils;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MapFragment extends Fragment {
     private static final String TAG = "SomeFragment";
     private MapView map;
     private ArrayList<OverlayItem> items = new ArrayList<>();
-
+    private GeoPoint posUser ;
     public MapFragment() {
+        posUser =  new GeoPoint(43.684129, 7.202671);
         this.items.add(new OverlayItem("C'est chez moi :D", "test", new GeoPoint(43.684129, 7.202671)));
     }
 
@@ -80,7 +89,25 @@ public class MapFragment extends Fragment {
             nOverlay.setFocusItemsOnTap(true);
             map.getOverlays().add(nOverlay);
         }
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    List<AccidentModel> accident = accidentsFromServerByDistance(100);
+                    Log.d("MapFragment",accident.toString());
+                    /**
+                     * ajouter liste accident à
+                     //to implement ajout des point de la liste la liste de GeoPoint
+                     */
 
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
         return root;
     }
 
@@ -122,5 +149,23 @@ public class MapFragment extends Fragment {
     public MapView getMap(){
         return this.map;
     }
+
+    public List<AccidentModel> accidentsFromServerByDistance(int distance) throws IOException, JSONException {
+        Request request = new Request.Builder()
+                .url( Utils.webserviceUrl+"/api/accidents/"+posUser.getLatitude()+"/"+posUser.getLongitude()+"/"+distance)
+                .build();
+        Response response= new OkHttpClient().newCall(request).execute();
+        if(response.isSuccessful()){
+            String serverResponse=response.body().string();
+
+            JSONArray accidentsJson= new JSONObject(serverResponse).getJSONArray("accidents");
+            return AccidentModel.listFromJson(accidentsJson.toString());
+        }
+        else{
+            throw new IOException("Problem while downloading accidents from server:"+response);
+        }
+
+    }
+
 
 }

@@ -26,15 +26,26 @@ import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import ihm.accidents.R;
 import ihm.accidents.fragments.MapFragment;
+import ihm.accidents.models.AccidentModel;
 import ihm.accidents.services.NotifierService;
 import ihm.accidents.utils.KeysTags;
+import ihm.accidents.utils.Utils;
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 public class MainActivity extends IhmAbstractActivity {
@@ -86,6 +97,7 @@ public class MainActivity extends IhmAbstractActivity {
         
         setUpDeviceId();
 
+
     }
 
 
@@ -112,7 +124,6 @@ public class MainActivity extends IhmAbstractActivity {
         Intent intent=new Intent(getApplicationContext(), CreationAccidentActivity.class);
         startActivity(intent);
     }
-
 
 
 
