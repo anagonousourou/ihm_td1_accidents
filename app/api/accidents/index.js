@@ -2,6 +2,7 @@ const { Router } = require('express')
 const { prepareAccident } = require('./helper')
 const multer = require('multer')
 const { Accident } = require('../../models')
+const {buildListNear} = require('./manager')
 
 
 const router = new Router()
@@ -29,6 +30,15 @@ router.get('/', (req, res) => {
     res.status(500).json(err)
   }
 })
+router.get('/:latitude/:longitude/:distance', (req, res) => {
+  try {
+    const accident = { accidents: [...buildListNear(req.params.latitude,req.params.longitude,req.params.distance)] }
+    res.status(200).json(accident)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+})
+
 router.get('/:accidentId', (req, res) => {
   try {
     res.status(200).json(Accident.getById(req.params.accidentId))

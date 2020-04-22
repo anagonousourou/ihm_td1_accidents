@@ -1,5 +1,5 @@
 {
-  "name": "2019-2020-ps6-backend",
+  "name": "IHM_TD1_ACCIDENTS",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/windu02/2019-2020-ps6-backend"
+    "url": "git+https://github.com/EtienneBEGUIER/ihm_td1_accidents"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/windu02/2019-2020-ps6-backend/issues"
+    "url": "https://github.com/EtienneBEGUIER/ihm_td1_accidents/issues"
   },
-  "homepage": "https://github.com/windu02/2019-2020-ps6-backend#readme",
+  "homepage": "https://github.com/EtienneBEGUIER/ihm_td1_accidents#readme",
   "dependencies": {
     "body-parser": "1.19.0",
     "cors": "2.8.5",
