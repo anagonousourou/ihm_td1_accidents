@@ -42,11 +42,11 @@ import okhttp3.Response;
 public class MapFragment extends Fragment {
     private static final String TAG = "SomeFragment";
     private MapView map;
-    private ArrayList<OverlayItem> items = new ArrayList<>();
-    private GeoPoint posUser ;
+    public ArrayList<OverlayItem> items = new ArrayList<>();
+    private List<AccidentModel> accidentList = new ArrayList<>();
+    private GeoPoint posUser;
     public MapFragment() {
-        posUser =  new GeoPoint(43.684129, 7.202671);
-        this.items.add(new OverlayItem("C'est chez moi :D", "test", new GeoPoint(43.684129, 7.202671)));
+        posUser =  new GeoPoint(43.622955, 7.098743);
     }
 
     public MapFragment(String address, String title, Context context) {
@@ -62,7 +62,6 @@ public class MapFragment extends Fragment {
 
         {
             Log.d(TAG, "onCreateView: Inside Permissions Granted");
-            // Permission is granted
             Configuration.getInstance().load(getContext(), PreferenceManager.getDefaultSharedPreferences(getContext()));
             map  = root.findViewById(R.id.mapwidget);
             Log.d("mapView Value", map.toString());
@@ -70,9 +69,41 @@ public class MapFragment extends Fragment {
             map.setMultiTouchControls(true);
             map.setTileSource(TileSourceFactory.MAPNIK);
             IMapController mapController = map.getController();
-            mapController.setZoom(18.0);
-            GeoPoint startPoint = new GeoPoint(43.684129, 7.202671);
+            mapController.setZoom(17.0);
+            GeoPoint startPoint = new GeoPoint(43.6238, 7.0498);
             mapController.setCenter(startPoint);
+
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+
+                        List<AccidentModel> accidents = accidentsFromServerByDistance(100);
+                        Log.d("MapFragment", accidents.toString());
+
+                        accidentList.addAll(accidents);
+
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            t.start();
+
+            try {
+                t.join() ; //Attendre la fin de l'exécution du thread.
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            Log.d("MapFragment bis", accidentList.toString());
+
+            for(int i = 0 ; i < accidentList.size() ; i++) {
+                GeoPoint gp = new GeoPoint(accidentList.get(i).latitude(), accidentList.get(i).longitude());
+                items.add(new OverlayItem(accidentList.get(i).getDetails(),  accidentList.get(i).getType(), gp));
+            }
+
             ItemizedOverlayWithFocus<OverlayItem> nOverlay = new ItemizedOverlayWithFocus<OverlayItem>(getContext(),
                     items, new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
                 @Override
@@ -89,27 +120,10 @@ public class MapFragment extends Fragment {
             nOverlay.setFocusItemsOnTap(true);
             map.getOverlays().add(nOverlay);
         }
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    List<AccidentModel> accident = accidentsFromServerByDistance(100);
-                    Log.d("MapFragment",accident.toString());
-                    /**
-                     * ajouter liste accident à
-                     //to implement ajout des point de la liste la liste de GeoPoint
-                     */
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        t.start();
         return root;
     }
+
 
     public GeoPoint getLocationFromAddress(Context context, String myAddress) {
 
@@ -166,6 +180,5 @@ public class MapFragment extends Fragment {
         }
 
     }
-
 
 }
