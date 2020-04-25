@@ -28,6 +28,10 @@ public final class PreferenceService {
         return preferences.getBoolean(KeysTags.hideActualImagesKey,true);
     }
 
+    public long retrieveDeviceId(){
+        return preferences.getLong(KeysTags.deviceIdKey,0);
+    }
+
 
 
 

@@ -16,6 +16,7 @@ import ihm.accidents.R;
 import ihm.accidents.databinding.DetailsAccidentActivityBinding;
 import ihm.accidents.models.AccidentModel;
 import ihm.accidents.services.AccidentDeleter;
+import ihm.accidents.services.PreferenceService;
 
 
 public class DetailsAccidentFragment extends Fragment {
@@ -24,6 +25,7 @@ public class DetailsAccidentFragment extends Fragment {
 
     private final AccidentModel accident;
     private AccidentDeleter accidentDeleter=new AccidentDeleter();
+    private  PreferenceService preferenceService;
 
     public DetailsAccidentFragment(AccidentModel accidentModel){
         this.accident=accidentModel;
@@ -36,6 +38,10 @@ public class DetailsAccidentFragment extends Fragment {
         View view = binding.getRoot();
         view.findViewById(R.id.send).setOnClickListener(this::goToSendMessage);
         view.findViewById(R.id.delete).setOnClickListener(this::deleteMessage);
+
+        preferenceService=new PreferenceService(getContext());
+
+        binding.setDeviceId(preferenceService.retrieveDeviceId());
         binding.setAccident(this.accident);
         return view;
     }
@@ -55,4 +61,6 @@ public class DetailsAccidentFragment extends Fragment {
 
 
     }
+
+
 }

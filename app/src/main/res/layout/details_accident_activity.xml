@@ -3,9 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
 <data>
+    <import type="android.view.View"/>
     <variable
         name="accident"
         type="ihm.accidents.models.AccidentModel" />
+    <variable
+        name="deviceId"
+        type="long" />
 </data>
 <LinearLayout
 
@@ -66,6 +70,7 @@
 
             android:src="@drawable/baseline_delete_black_48"
             android:id="@+id/delete"
+            android:visibility="@{deviceId==accident.deviceId ?View.VISIBLE: View.INVISIBLE}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#00000000"

@@ -134,14 +134,15 @@ public class AccidentModel implements Parcelable, JSONString,ILocation {
 
             if(accidentJson.has(KeysTags.addressKey) && accidentJson.has(KeysTags.deviceIdKey) &&
                     accidentJson.has(KeysTags.dateKey)&& accidentJson.has(KeysTags.imageUrlKey) && accidentJson.has(KeysTags.typeKey)){
+
                 return new AccidentModel(
                         "",
                         accidentJson.getString(KeysTags.addressKey),
                         accidentJson.getString(KeysTags.typeKey),
                         accidentJson.has(KeysTags.commentKey)?accidentJson.getString(KeysTags.commentKey):"",
                         accidentJson.getString("imageUrl").startsWith("http")?accidentJson.getString("imageUrl"):Utils.webserviceUrl+"/"+ accidentJson.getString("imageUrl"),
-                        accidentJson.getLong(KeysTags.dateKey),
-                        accidentJson.getLong(KeysTags.deviceIdKey),
+                        Long.parseLong(accidentJson.getString(KeysTags.dateKey)),
+                        Long.parseLong(accidentJson.getString(KeysTags.deviceIdKey)), //ATTENTION le getLong renvoie des valeurs autres que celles qui sont dans json
                         accidentJson.getLong(KeysTags.idKey),
                         accidentJson.has(KeysTags.lngKey) ?accidentJson.getDouble(KeysTags.lngKey):0.0,
                         accidentJson.has(KeysTags.latKey)? accidentJson.getDouble(KeysTags.latKey):0.0
