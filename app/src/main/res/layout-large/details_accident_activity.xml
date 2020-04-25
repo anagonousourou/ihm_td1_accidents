@@ -71,7 +71,7 @@
 
             <ImageButton
                 android:layout_centerInParent="true"
-                android:visibility="@{deviceId == accident.deviceId ?View.VISIBLE: View.INVISIBLE}"
+                android:visibility="@{deviceId == accident.deviceId ?View.VISIBLE: View.GONE}"
                 android:src="@drawable/baseline_delete_black_48"
                 android:id="@+id/delete"
                 android:layout_width="wrap_content"
