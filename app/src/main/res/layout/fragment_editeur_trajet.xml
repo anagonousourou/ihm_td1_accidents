@@ -36,12 +36,23 @@
         android:hint="@string/destination_str"
         android:layout_height="wrap_content"/>
 
+    <Spinner
+        android:id="@+id/transport"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_destination"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="8dp"
+        android:background="#7A2196F3"/>
+
     <Button
         android:id="@+id/find_route"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_destination"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="50dp"
         android:background="#CC008000"
         android:text="Trouver"
         android:textColor="#FFFFFF" />

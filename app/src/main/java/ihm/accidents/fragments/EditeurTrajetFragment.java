@@ -11,16 +11,20 @@ import android.view.View;
 import android.view.View.*;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 import ihm.accidents.R;
 import ihm.accidents.activities.ChoicePathActivity;
@@ -33,6 +37,8 @@ public class EditeurTrajetFragment extends Fragment {
     private AutoCompleteTextView departTv;
     private final ReverseGeocoder reverseGeocoder=new ReverseGeocoder();
     private Button sendBtn;
+    private Spinner spinner;
+    private String transport;
 
     @Nullable
     @Override
@@ -40,7 +46,9 @@ public class EditeurTrajetFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_editeur_trajet, container, false);
         sendBtn = root.findViewById(R.id.find_route);
         this.departTv=root.findViewById(R.id.edit_depart);
+        spinner = root.findViewById(R.id.transport);
         ImageButton myLocationBtn=root.findViewById(R.id.my_location_btn);
+        setMeanOfTransport();
         myLocationBtn.setOnClickListener((view)->{
             ChoicePathActivity myActivity = (ChoicePathActivity) getActivity();
             myActivity.enableGeoLocalization(root);
@@ -69,10 +77,34 @@ public class EditeurTrajetFragment extends Fragment {
                 String dst = ((EditText) root.findViewById(R.id.edit_destination)).getText().toString();
                 ChoicePathActivity myActivity = (ChoicePathActivity) getActivity();
                 if (!src.isEmpty() && !dst.isEmpty()){
-                    myActivity.setRoute(src, dst);
+                    myActivity.setRoute(src, dst, transport);
                 }
             }
         });
         return root;
+    }
+
+    private void setMeanOfTransport() {
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("Routier");
+        arrayList.add("À pied");
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_dropdown_item, arrayList);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(arrayAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 1) {
+                    transport = "pedestrian";
+                } else {
+                    transport = "bicycle";
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 }

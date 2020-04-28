@@ -119,10 +119,6 @@ public class ChoicePathActivity extends IhmAbstractActivity{
         LocationListener locationListenerGPS = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                double latitude=location.getLatitude();
-                double longitude=location.getLongitude();
-                //String msg = "New Latitude: "+latitude + "New Longitude: "+longitude;
-                //Log.i("Current position : ", msg);
             }
 
             @Override
@@ -170,7 +166,8 @@ public class ChoicePathActivity extends IhmAbstractActivity{
         }
     }
 
-    public void setRoute(String srcAdr, String dstAdr) {
+    public void setRoute(String srcAdr, String dstAdr, String transport) {
+        mWhichRouteProvider = transport;
         src = fragmentMap.getLocationFromAddress(getApplicationContext(), srcAdr);
         dst = fragmentMap.getLocationFromAddress(getApplicationContext(), dstAdr);
         ArrayList<GeoPoint> route = new ArrayList<>();
