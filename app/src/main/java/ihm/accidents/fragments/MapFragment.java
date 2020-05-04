@@ -2,6 +2,10 @@ package ihm.accidents.fragments;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -26,7 +30,6 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.OverlayItem;
-
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -118,6 +121,34 @@ public class MapFragment extends Fragment {
             });
 
             nOverlay.setFocusItemsOnTap(true);
+            for(int i=0; i<nOverlay.size(); i++){
+                switch (nOverlay.getItem(i).getSnippet()){
+                    case "Vélo":
+                        Drawable marker1 = getResources().getDrawable(R.drawable.bikemarker);
+                        Bitmap bitmap1 = ((BitmapDrawable) marker1).getBitmap();
+                        marker1 = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap1, 40, 50, true));
+                        nOverlay.getItem(i).setMarker(marker1);
+                        break;
+                    case "Voiture(s)":
+                        Drawable marker2 = getResources().getDrawable(R.drawable.carmarker);
+                        Bitmap bitmap2 = ((BitmapDrawable) marker2).getBitmap();
+                        marker2 = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap2, 40, 50, true));
+                        nOverlay.getItem(i).setMarker(marker2);
+                        break;
+                    case "Personne seule :":
+                        Drawable marker3 = getResources().getDrawable(R.drawable.pedestrianmarker);
+                        Bitmap bitmap3 = ((BitmapDrawable) marker3).getBitmap();
+                        marker3 = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap3, 50, 50, true));
+                        nOverlay.getItem(i).setMarker(marker3);
+                        break;
+                    default:
+                        Drawable marker4 = getResources().getDrawable(R.drawable.marker);
+                        Bitmap bitmap4 = ((BitmapDrawable) marker4).getBitmap();
+                        marker4 = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap4, 50, 50, true));
+                        nOverlay.getItem(i).setMarker(marker4);
+                        break;
+                }
+            }
             map.getOverlays().add(nOverlay);
         }
 
