@@ -7,20 +7,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -53,7 +48,6 @@ public class ChoicePathActivity extends IhmAbstractActivity{
     private GeoPoint src, dst;
     private MapFragment fragmentMap;
     private EditeurTrajetFragment fragmentEditeur;
-    private LocationManager locationManager;
     private String mWhichRouteProvider = "bicycle"; //CECI EST UN EXEMPLE, un TextView sera utilisé, plus tard
 
 
@@ -102,7 +96,11 @@ public class ChoicePathActivity extends IhmAbstractActivity{
                 //la location peut être nulle mais on laisse le fragmentEditeur se débrouiller avec ça
                 Log.d(TAG, "onCreate: OnSucessGetLastlocation " + location);
                 locationBundle.putParcelable(Utils.locationKey, location);
-
+                    if(location == null){
+                        asksToEnableGeo();
+                    } else {
+                        Toast.makeText(this, "Géolocalisation activée !", Toast.LENGTH_LONG).show();
+                    }
                 fragmentEditeur.setArguments(locationBundle);
                 getSupportFragmentManager().beginTransaction().replace(R.id.placeHolderMapFragment, fragmentMap).commit();
                 getSupportFragmentManager().beginTransaction().replace(R.id.placeHolderEditeurFragment, fragmentEditeur).commit();
@@ -114,34 +112,6 @@ public class ChoicePathActivity extends IhmAbstractActivity{
                 getSupportFragmentManager().beginTransaction().replace(R.id.placeHolderEditeurFragment, fragmentEditeur).commit();
             });
         }
-
-        //Création d'un listener pour le GPS
-        LocationListener locationListenerGPS = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-            }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-
-            }
-        };
-
-        //Génération de la position de l'utilisateur
-        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                2000,
-                0, locationListenerGPS);
 
     }
 
@@ -179,46 +149,45 @@ public class ChoicePathActivity extends IhmAbstractActivity{
     }
 
     public void generateRoads(Road[] roads){
-        Road road = roads[0];
+        for(Road road : roads) {
+            if (road.mStatus != Road.STATUS_OK)
+                Toast.makeText(this, "Error when loading the road - status=" + road.mStatus, Toast.LENGTH_SHORT).show();
 
-        if (road.mStatus != Road.STATUS_OK)
-            Toast.makeText(this, "Error when loading the road - status=" + road.mStatus, Toast.LENGTH_SHORT).show();
+            List<Overlay> tmp = fragmentMap.getMap().getOverlays().stream().filter(o -> !(o instanceof Polyline)).collect(Collectors.toList());
+            fragmentMap.getMap().getOverlays().clear();
+            fragmentMap.getMap().getOverlays().addAll(tmp);
+            fragmentMap.getMap().getController().setCenter(src);
 
-        List<Overlay> tmp = fragmentMap.getMap().getOverlays().stream().filter(o -> !(o instanceof Polyline)).collect(Collectors.toList());
-        fragmentMap.getMap().getOverlays().clear();
-        fragmentMap.getMap().getOverlays().addAll(tmp);
-        fragmentMap.getMap().getController().setCenter(src);
+            //Création de la route step by step
+            for (int i = 0; i < road.mRouteHigh.size() - 1; i++) {
+                ArrayList<GeoPoint> currentPath = new ArrayList<>();
+                currentPath.add(road.mRouteHigh.get(i));
+                currentPath.add(road.mRouteHigh.get(i + 1));
 
-        //Création de la route step by step
-        for(int i = 0; i < road.mRouteHigh.size() - 1; i++){
-            ArrayList<GeoPoint> currentPath = new ArrayList<>();
-            currentPath.add(road.mRouteHigh.get(i));
-            currentPath.add(road.mRouteHigh.get(i + 1));
-
-            createOneRoad(currentPath);
+                createOneRoad(currentPath);
+            }
         }
 
         fragmentMap.getMap().invalidate();
     }
 
     public void createOneRoad(ArrayList<GeoPoint> route){
-        Polyline lastLine = new Polyline();
-        lastLine.setTitle("Un trajet");
-        lastLine.setWidth(5);
-        lastLine.setColor(Color.CYAN);
-        lastLine.setPoints(route);
-        lastLine.setGeodesic(true);
-        lastLine.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, fragmentMap.getMap()));
+        Polyline line = new Polyline();
+        line.setWidth(5);
+        line.setColor(Color.RED);
+        line.setPoints(route);
+        line.setGeodesic(true);
+        line.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, fragmentMap.getMap()));
 
-        fragmentMap.getMap().getOverlays().add(lastLine);
+        fragmentMap.getMap().getOverlays().add(line);
     }
 
-    public void enableGeoLocalization(View root) {
+
+    public void asksToEnableGeo() {
         //Message + redirection vers paramètres si géolocalisation désactivée
-        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
             alertDialog.setTitle("Géolocalisation");
-            alertDialog.setMessage("Votre géolocalisation est désactivée. Veuillez l'activer dans vos paramètres.");
+            alertDialog.setMessage("Votre géolocalisation est désactivée. Veuillez l'activer dans vos paramètres, puis redémarrer l'appli.");
             alertDialog.setPositiveButton("Paramètres de géolocalisation", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
                     Intent intent=new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
@@ -232,10 +201,7 @@ public class ChoicePathActivity extends IhmAbstractActivity{
             });
             AlertDialog alert=alertDialog.create();
             alert.show();
-        }
-        else{
-            Toast.makeText(this, "Géolocalisation activée !", Toast.LENGTH_LONG).show();
-        }
+
     }
 
     /**
@@ -252,6 +218,8 @@ public class ChoicePathActivity extends IhmAbstractActivity{
         protected Road[] doInBackground(ArrayList<GeoPoint>... params) {
             ArrayList<GeoPoint> waypoints = params[0];
             RoadManager roadManager;
+            ArrayList<GeoPoint> tmp = new ArrayList<>();
+            tmp.add(new GeoPoint(43.736524, 7.413023));
             Locale locale = Locale.getDefault();
             switch (mWhichRouteProvider){
                 case "bicycle":
@@ -265,6 +233,8 @@ public class ChoicePathActivity extends IhmAbstractActivity{
                 case "fastest":
                     roadManager = new MapQuestRoadManager("fIEGwqlAyXgEuVHVigNkRB5dkCMYvbwX");
                     roadManager.addRequestOption("routeType=fastest");
+                    roadManager.addRequestOption("prefers=highway");
+                    roadManager.addRequestOption("drivingStyle=normal");
                     break;
                 case "shortest":
                     roadManager = new MapQuestRoadManager("fIEGwqlAyXgEuVHVigNkRB5dkCMYvbwX");
