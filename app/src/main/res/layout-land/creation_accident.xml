@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:viewBindingIgnore="true"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:id="@+id/creation">
+
+    <LinearLayout
+        android:id="@+id/wrapper_adr_btn"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content">
+    <AutoCompleteTextView
+        android:id="@+id/adresse"
+        android:layout_weight="0.8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:hint="adresse ou lieu"
+        />
+
+    <ImageButton
+        android:onClick="retrieveLocationAndPlug"
+        android:background="#00000000"
+        android:id="@+id/get_adress_btn"
+        android:layout_weight="0.2"
+        android:layout_width="0dp"
+        android:src="@drawable/baseline_my_location_24"
+        android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+
+    <Spinner
+        android:layout_marginTop="10dp"
+        android:tooltipText="type d'accident"
+        android:textSize="14pt"
+        android:id="@+id/type"
+        android:layout_below="@+id/wrapper_adr_btn"
+        android:entries="@array/accident_types"
+        android:layout_width="match_parent"
+        android:layout_marginEnd="5dp"
+        android:layout_height="wrap_content" />
+
+
+    <EditText
+        android:textSize="10pt"
+
+        android:id="@+id/commentaire"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:layout_below="@+id/type"
+        android:hint="@string/commentaire_hint_str"
+        android:layout_marginTop="10dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@+id/commentaire">
+
+    <ImageView
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:id="@+id/photoView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@android:drawable/ic_menu_camera"
+         />
+
+        <Button
+            android:id="@+id/photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/type"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="5dp"
+            android:drawableStart="@android:drawable/ic_menu_camera"
+            android:layout_gravity="center"
+            android:onClick="takePic"
+            android:text="@string/txt_btn_add_photo" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btns_wrapper"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        >
+
+        <Button
+            android:id="@+id/retour"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+
+            android:layout_weight="0.9"
+
+            android:onClick="goBack"
+            android:drawableStart="@drawable/abc_vector_test"
+            android:text="Annuler" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"/>
+
+        <Button
+            android:id="@+id/btn_new_incident"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.9"
+            android:drawableLeft="@android:drawable/ic_input_add"
+            android:onClick="onButtonCreationCliked"
+
+
+            android:padding="5dp"
+            android:text="Valider" />
+
+    </LinearLayout>
+
+</RelativeLayout>
