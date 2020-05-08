@@ -54,7 +54,7 @@
             android:layout_marginEnd="5dp"
             android:layout_weight="1"
             android:entries="@array/accident_types"
-            android:textSize="14pt"
+            android:textSize="20dp"
             android:tooltipText="type d'accident" />
 
     </LinearLayout>
@@ -69,8 +69,7 @@
 
 
     <EditText
-        android:textSize="10pt"
-
+        android:textSize="20dp"
         android:id="@+id/commentaire"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -104,6 +103,7 @@
             android:layout_below="@id/type"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="5dp"
+            android:textSize="20dp"
             android:drawableStart="@android:drawable/ic_menu_camera"
             android:layout_gravity="center"
             android:onClick="takePic"
@@ -127,6 +127,7 @@
             android:id="@+id/retour"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textSize="20dp"
 
 
             android:layout_weight="0.9"
@@ -147,6 +148,7 @@
             android:layout_weight="0.9"
             android:drawableLeft="@android:drawable/ic_input_add"
             android:onClick="onButtonCreationCliked"
+            android:textSize="20dp"
 
 
             android:padding="5dp"
