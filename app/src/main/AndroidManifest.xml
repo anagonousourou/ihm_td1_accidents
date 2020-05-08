@@ -27,7 +27,9 @@
         </provider>
 
 
-        <activity android:name="ihm.accidents.activities.SplashActivity" android:theme="@style/Theme.AppCompat.Light">
+        <activity android:name="ihm.accidents.activities.SplashActivity"
+            android:theme="@style/Theme.AppCompat.Light"
+            android:configChanges="orientation|screenSize|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -38,17 +40,22 @@
 
         <activity
             android:name="ihm.accidents.activities.MainActivity"
-            android:theme="@style/Theme.AppCompat.Light" />
-        <activity android:name="ihm.accidents.activities.ChoicePathActivity" android:theme="@style/Theme.AppCompat.Light" />
-        <activity android:name="ihm.accidents.activities.CreationAccidentActivity" />
+            android:theme="@style/Theme.AppCompat.Light"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name="ihm.accidents.activities.ChoicePathActivity" android:theme="@style/Theme.AppCompat.Light"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name="ihm.accidents.activities.CreationAccidentActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
 
 
-        <activity android:name="ihm.accidents.activities.DetailsAccidentActivity" />
-        <activity android:name="ihm.accidents.activities.ListIncidentActivity" />
-        <activity android:name=".activities.ParameterActivity" />
-        <activity android:name=".activities.MultipleDetailsActivity">
-
-        </activity>
+        <activity android:name="ihm.accidents.activities.DetailsAccidentActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name="ihm.accidents.activities.ListIncidentActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name=".activities.ParameterActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name=".activities.MultipleDetailsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
 
 
     </application>

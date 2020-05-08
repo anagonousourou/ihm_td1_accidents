@@ -61,34 +61,39 @@
         android:layout_marginTop="10dp"
         />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_below="@+id/commentaire">
+        android:layout_above="@id/btns_wrapper"
+        android:layout_below="@id/commentaire">
 
-    <ImageView
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:id="@+id/photoView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="@android:drawable/ic_menu_camera"
-         />
-
-        <Button
-            android:id="@+id/photo"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/type"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="5dp"
-            android:drawableStart="@android:drawable/ic_menu_camera"
-            android:layout_gravity="center"
-            android:onClick="takePic"
-            android:text="@string/txt_btn_add_photo" />
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/photoView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:background="@android:drawable/ic_menu_camera" />
+
+            <Button
+                android:id="@+id/photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/type"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:drawableStart="@android:drawable/ic_menu_camera"
+                android:onClick="takePic"
+                android:text="@string/txt_btn_add_photo" />
+
+        </LinearLayout>
+    </ScrollView>
 
 
     <LinearLayout

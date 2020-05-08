@@ -27,6 +27,7 @@ import org.osmdroid.bonuspack.routing.MapQuestRoadManager;
 import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
@@ -166,6 +167,16 @@ public class ChoicePathActivity extends IhmAbstractActivity{
 
                 createOneRoad(currentPath);
             }
+            Marker start = new Marker(fragmentMap.getMap());
+            start.setTextIcon("D");
+            start.setPosition(road.mRouteHigh.get(0));
+
+            Marker end = new Marker(fragmentMap.getMap());
+            end.setTextIcon("A");
+            end.setPosition(road.mRouteHigh.get(0));
+
+            fragmentMap.getMap().getOverlays().add(start);
+            fragmentMap.getMap().getOverlays().add(end);
         }
 
         fragmentMap.getMap().invalidate();
