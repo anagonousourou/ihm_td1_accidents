@@ -44,8 +44,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"/>
         <activity android:name="ihm.accidents.activities.ChoicePathActivity" android:theme="@style/Theme.AppCompat.Light"
             android:configChanges="orientation|screenSize|keyboardHidden"/>
-        <activity android:name="ihm.accidents.activities.CreationAccidentActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name="ihm.accidents.activities.CreationAccidentActivity"/>
 
 
         <activity android:name="ihm.accidents.activities.DetailsAccidentActivity"

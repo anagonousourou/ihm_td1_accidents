@@ -160,7 +160,8 @@ public class ChoicePathActivity extends IhmAbstractActivity{
             fragmentMap.getMap().getController().setCenter(src);
 
             //Création de la route step by step
-            for (int i = 0; i < road.mRouteHigh.size() - 1; i++) {
+            int i = 0;
+            for (; i < road.mRouteHigh.size() - 1; i++) {
                 ArrayList<GeoPoint> currentPath = new ArrayList<>();
                 currentPath.add(road.mRouteHigh.get(i));
                 currentPath.add(road.mRouteHigh.get(i + 1));
@@ -173,7 +174,7 @@ public class ChoicePathActivity extends IhmAbstractActivity{
 
             Marker end = new Marker(fragmentMap.getMap());
             end.setTextIcon("A");
-            end.setPosition(road.mRouteHigh.get(0));
+            end.setPosition(road.mRouteHigh.get(i));
 
             fragmentMap.getMap().getOverlays().add(start);
             fragmentMap.getMap().getOverlays().add(end);
