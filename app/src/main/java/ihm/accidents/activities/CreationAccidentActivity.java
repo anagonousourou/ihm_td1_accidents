@@ -56,8 +56,8 @@ public class CreationAccidentActivity extends IhmAbstractActivity {
     private FusedLocationProviderClient fusedLocationProviderClient;
 
 
-    private String pathToPhoto = null;
-    private File photoFile=null;
+    static String pathToPhoto = null;
+    private File photoFile = null;
     private AutoCompleteTextView adresseTextView;
     private ImageView imageView;
     private final OkHttpClient client = new OkHttpClient();
@@ -66,6 +66,7 @@ public class CreationAccidentActivity extends IhmAbstractActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "retrieveLocationAndPlug: We don't have permissions to ACCESS COARSE LOCATION");
@@ -80,14 +81,17 @@ public class CreationAccidentActivity extends IhmAbstractActivity {
                     PERMISSION_ACCESS_FINE_LOCATION);
         }
 
-
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.creation_accident);
-        imageView = findViewById(R.id.photoView);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        this.imageView = findViewById(R.id.photoView);
         this.adresseTextView = findViewById(R.id.adresse);
         this.adresseTextView.setAdapter(new AdresseAutoCompleteAdapter(this, android.R.layout.simple_dropdown_item_1line));
-
+        super.onCreate(savedInstanceState);
+        if(pathToPhoto != null) {
+            photoFile = new File(pathToPhoto);
+            Bitmap image = BitmapFactory.decodeFile(pathToPhoto);
+            imageView.setImageBitmap(image);
+        }
     }
 
     private String getTableValue(String idd) {
