@@ -29,8 +29,8 @@
     "dateCreation": "1586714272082",
     "id": 1586714272082,
     "deviceId": "586714586714",
-    "latitude":"43.6238",
-    "longitude":"7.0498"
+    "latitude": "43.6238",
+    "longitude": "7.0498"
   },
   {
     "imageUrl": "https://media.istockphoto.com/vectors/tired-cyclist-with-a-broken-bike-isolated-illustration-vector-id979421534?k=6&m=979421534&s=612x612&w=0&h=FDwDgoewT9TZ0OOltiy9SE32HNwrylyd1-HmMtnaLMQ=",
@@ -40,8 +40,8 @@
     "dateCreation": "1586714500163",
     "id": 1586714500163,
     "deviceId": "714500714500",
-    "latitude":"43.6239",
-    "longitude":"7.0375"
+    "latitude": "43.6239",
+    "longitude": "7.0375"
   },
   {
     "adresse": "27 Ruelle des Alphodeles, 06560 Valbonne, France",
@@ -50,8 +50,8 @@
     "dateCreation": "1587051480023",
     "imageUrl": "https://cdn3.iconfinder.com/data/icons/basic-ui-6/40/Asset_12-512.png",
     "id": 1587051480024,
-    "latitude":"43.6216",
-    "longitude":"7.0415"
+    "latitude": "43.6216",
+    "longitude": "7.0415"
   },
   {
     "adresse": "Nice Côte d'Azur Airport (NCE), Rue Costes et Bellonte, 06206 Nice, France",
@@ -62,7 +62,8 @@
     "longitude": "43.6598",
     "latitude": "7.2148",
     "id": 1587054053019
-  },{
+  },
+  {
     "adresse": "Gare Routière Valbonne - Sophia Antipolis, 06560 Valbonne, France",
     "deviceId": "455548454",
     "type": "Voiture(s)",
@@ -81,5 +82,16 @@
     "longitude": "2.3637151",
     "latitude": "48.789341",
     "id": 1587071005631
+  },
+  {
+    "adresse": "Gare Routière Valbonne - Sophia Antipolis, 06560 Valbonne, France",
+    "deviceId": "54554555",
+    "type": "Vélo",
+    "commentaire": "\r\n        Commentaire de l'accident",
+    "dateCreation": 1589011802926,
+    "imageUrl": "1589011802918618779169.png",
+    "longitude": "7.0372448",
+    "latitude": "43.62391",
+    "id": 1589011803569
   }
 ]

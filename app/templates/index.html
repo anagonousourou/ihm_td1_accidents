@@ -23,7 +23,19 @@
         <label for="deviceId">DeviceID:</label>
         <input placeholder="deviceId" class="form-control mb-2" type="text" id="deviceId" name="deviceId">
         <label for="type">Type d'accident:</label>
-        <input placeholder="Type" class="form-control mb-2" type="text" id="type" name="type">
+        <select id="type" name="type" class="form-control mb-2">
+           <option value="Voiture & obstacle">Voiture & obstacle</option> 
+           <option value="Voiture & autres véhicules">Voiture & autres véhicules</option>
+           <option value="Camion(s)">Camion(s)</option>
+           <option value="Vélo">Vélo</option>
+           <option value="Train, métro ou TGV">Train, métro ou TGV</option>
+           <option value="Moto">Moto</option>
+           <option value="Personne seule">Personne seule</option>
+        </select>
+        <label for="commentaire">Commentaire de l'accident:</label>
+        <textarea class="form-control mb-2" name="commentaire" id="commentaire" cols="30" rows="10">
+
+        </textarea>
         <button class="form-control btn btn-success">Validate</button>
     </form>
 </body>
