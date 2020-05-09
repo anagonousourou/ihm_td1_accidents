@@ -64,8 +64,8 @@ public class CreationAccidentActivity extends IhmAbstractActivity implements Upd
     private TypeDownloader typeDownloader=new TypeDownloader();
 
 
-    private String pathToPhoto = null;
-    private File photoFile=null;
+    static String pathToPhoto = null;
+    private File photoFile = null;
     private AutoCompleteTextView adresseTextView;
     private ImageView imageView;
     private Spinner typeSpinner;
@@ -75,6 +75,7 @@ public class CreationAccidentActivity extends IhmAbstractActivity implements Upd
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "retrieveLocationAndPlug: We don't have permissions to ACCESS COARSE LOCATION");
@@ -89,16 +90,20 @@ public class CreationAccidentActivity extends IhmAbstractActivity implements Upd
                     PERMISSION_ACCESS_FINE_LOCATION);
         }
 
-
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.creation_accident);
         typeDownloader.retrieveAccidentTypes(this);
-        imageView = findViewById(R.id.photoView);
-        typeSpinner=findViewById(R.id.type);
+        
+        this.typeSpinner=findViewById(R.id.type);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        this.imageView = findViewById(R.id.photoView);
         this.adresseTextView = findViewById(R.id.adresse);
         this.adresseTextView.setAdapter(new AdresseAutoCompleteAdapter(this, android.R.layout.simple_dropdown_item_1line));
-
+        super.onCreate(savedInstanceState);
+        if(pathToPhoto != null) {
+            photoFile = new File(pathToPhoto);
+            Bitmap image = BitmapFactory.decodeFile(pathToPhoto);
+            imageView.setImageBitmap(image);
+        }
     }
 
     private String getTableValue(String idd) {
@@ -169,12 +174,10 @@ public class CreationAccidentActivity extends IhmAbstractActivity implements Upd
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         imageView = findViewById(R.id.photoView);
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == 1) {
+        if (resultCode == RESULT_OK && requestCode == 1) {
                 photoFile = new File(pathToPhoto);
                 Bitmap image = BitmapFactory.decodeFile(pathToPhoto);
                 imageView.setImageBitmap(image);
-            }
         }
     }
 
@@ -185,7 +188,7 @@ public class CreationAccidentActivity extends IhmAbstractActivity implements Upd
         try {
             imageFile = File.createTempFile(name, ".jpg", storageDir);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "createPhotoFile: ",e );
         }
         return imageFile;
     }
@@ -280,7 +283,7 @@ public class CreationAccidentActivity extends IhmAbstractActivity implements Upd
             typeSpinner.setAdapter(adapter);
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG, "updateTypesList: ",e );
         }
 
 

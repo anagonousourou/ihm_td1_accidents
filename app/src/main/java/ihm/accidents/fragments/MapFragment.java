@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ScaleDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -60,7 +59,7 @@ public class MapFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.some_layout, container, false);
+        View root = inflater.inflate(R.layout.map_fragment, container, false);
         Log.d(TAG, "onCreateView: Outside Permissions Granted");
 
         {
@@ -126,25 +125,25 @@ public class MapFragment extends Fragment {
                     if(nOverlay.getItem(i).getSnippet().contains("Vélo")){
                         Drawable marker1 = getResources().getDrawable(R.drawable.bikemarker);
                         Bitmap bitmap1 = ((BitmapDrawable) marker1).getBitmap();
-                        marker1 = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap1, 40, 50, true));
+                        marker1 = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap1, 60, 60, true));
                         nOverlay.getItem(i).setMarker(marker1);
                     }
                     else if(nOverlay.getItem(i).getSnippet().contains("Voiture")){
                         Drawable marker2 = getResources().getDrawable(R.drawable.carmarker);
                         Bitmap bitmap2 = ((BitmapDrawable) marker2).getBitmap();
-                        marker2 = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap2, 40, 50, true));
+                        marker2 = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap2, 60, 60, true));
                         nOverlay.getItem(i).setMarker(marker2);
                     }
                     else if(nOverlay.getItem(i).getSnippet().contains("Personne seule")){
                         Drawable marker3 = getResources().getDrawable(R.drawable.pedestrianmarker);
                         Bitmap bitmap3 = ((BitmapDrawable) marker3).getBitmap();
-                        marker3 = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap3, 50, 50, true));
+                        marker3 = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap3, 60, 60, true));
                         nOverlay.getItem(i).setMarker(marker3);
                     }
                     else{
                         Drawable marker4 = getResources().getDrawable(R.drawable.marker);
                         Bitmap bitmap4 = ((BitmapDrawable) marker4).getBitmap();
-                        marker4 = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap4, 50, 50, true));
+                        marker4 = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap4, 180, 180, true));
                         nOverlay.getItem(i).setMarker(marker4);
                     }
 
