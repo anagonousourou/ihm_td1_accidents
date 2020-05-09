@@ -12,6 +12,7 @@ import org.json.JSONString;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import ihm.accidents.utils.KeysTags;
 import ihm.accidents.utils.Utils;
@@ -65,27 +66,9 @@ public class AccidentModel implements Parcelable, JSONString,ILocation {
 
 
 
-    public AccidentModel updateWithImagePreference(boolean hideImage ){
+    public AccidentModel updateWithImagePreference(boolean hideImage, Map<String, String> typesIcon ){
         if(hideImage){
-            if(this.type.equals("Personne seule :)")){
-                this.imageUrl= Utils.webserviceUrl+"/silhouette.png";
-
-            }
-            else if(this.type.equals("Vélo")){
-                this.imageUrl=Utils.webserviceUrl+"/bicycle_with_rider.png";
-
-            }
-            else if(this.type.equals("Voiture(s)")){
-                this.imageUrl=Utils.webserviceUrl+"/car_accident_default.png";
-            }
-            else if(this.type.equals("Camion (s)")){
-                this.imageUrl=Utils.webserviceUrl+"/truck_accident.jpeg";
-
-            }
-
-            else if(this.type.equals("Trains ou TGV ou métro")){
-                this.imageUrl=Utils.webserviceUrl+"/train_wreck.jpg";
-            }
+            this.imageUrl=Utils.webserviceUrl+"/"+typesIcon.get(this.type);
         }
         return this;
     }
@@ -216,10 +199,11 @@ public class AccidentModel implements Parcelable, JSONString,ILocation {
              return "A l'instant";
          }
          if(difftime > 0){
-            return "Il y a "+Utils.convertToHighestScalePossible(difftime)+" "+Utils.scaleReached(difftime);
+             int tmp=Utils.convertToHighestScalePossible(difftime);
+            return "Il y a "+tmp+" "+Utils.scaleReached(difftime)+ (tmp >1 ?"s":"");
          }
-
-        return "Dans "+ Utils.convertToHighestScalePossible(-difftime)+" "+Utils.scaleReached( -difftime);
+        int tmp=Utils.convertToHighestScalePossible(-difftime);
+        return "Dans "+" "+Utils.scaleReached( -difftime) +(tmp >1 ?"s":"");
     }
 
 

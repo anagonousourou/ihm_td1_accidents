@@ -53,7 +53,6 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="5dp"
             android:layout_weight="1"
-            android:entries="@array/accident_types"
             android:textSize="14pt"
             android:tooltipText="type d'accident" />
 

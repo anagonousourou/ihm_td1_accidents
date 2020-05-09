@@ -43,7 +43,6 @@
         android:textSize="14pt"
         android:id="@+id/type"
         android:layout_below="@+id/wrapper_adr_btn"
-        android:entries="@array/accident_types"
         android:layout_width="match_parent"
         android:layout_marginEnd="5dp"
         android:layout_height="wrap_content" />

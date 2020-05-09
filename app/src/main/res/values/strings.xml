@@ -16,13 +16,7 @@
     <string name="destination_str">Destination</string>
     <string name="parametre_str">Paramètres</string>
     <string name="nouveaux_incidents_str"> %1$d nouveaux incidents</string>
-    <string-array name="accident_types">
-        <item>Personne seule :)</item>
-        <item>Vélo</item>
-        <item>Voiture(s)</item>
-        <item>Camion (s)</item>
-        <item>Trains ou TGV ou métro</item>
-    </string-array>
+
 
     <string-array name="distances_notif">
         <item>5</item>
