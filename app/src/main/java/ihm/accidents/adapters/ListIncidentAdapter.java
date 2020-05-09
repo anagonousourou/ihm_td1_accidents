@@ -70,6 +70,10 @@ public class ListIncidentAdapter extends RecyclerView.Adapter<ListIncidentAdapte
         this.accidentsList = accidentsList;
     }
 
+    public List<AccidentModel> getAccidentsList() {
+        return accidentsList;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         private ImageView accidentImage;
         private TextView accidentDistance;
