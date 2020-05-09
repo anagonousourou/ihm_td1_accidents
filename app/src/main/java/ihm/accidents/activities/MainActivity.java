@@ -52,7 +52,7 @@ public class MainActivity extends IhmAbstractActivity {
 
 
     private static final String TAG = "MainActivity";
-
+    private Random rand=new Random();
 
 
     @Override
@@ -110,12 +110,12 @@ public class MainActivity extends IhmAbstractActivity {
     }
 
     private void setUpDeviceId(){
-        Random rand=new Random();
+        
         SharedPreferences sharedPref = this.getSharedPreferences(
                 KeysTags.preferencesFile, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         if(!sharedPref.contains(KeysTags.deviceIdKey)){
-            editor.putLong(KeysTags.deviceIdKey,rand.nextLong());
+            editor.putLong(KeysTags.deviceIdKey,this.rand.nextLong());
             editor.apply();
         }
     }

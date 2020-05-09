@@ -16,10 +16,12 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,12 +33,16 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import ihm.accidents.R;
@@ -44,28 +50,32 @@ import ihm.accidents.adapters.AdresseAutoCompleteAdapter;
 import ihm.accidents.models.AccidentModel;
 import ihm.accidents.services.AccidentUploader;
 import ihm.accidents.services.ReverseGeocoder;
+import ihm.accidents.services.TypeDownloader;
 import ihm.accidents.utils.KeysTags;
 import okhttp3.OkHttpClient;
 
 
-public class CreationAccidentActivity extends IhmAbstractActivity {
+public class CreationAccidentActivity extends IhmAbstractActivity implements UpdateTypes{
     private static final String TAG = "CreationAccidentActivit";
     protected static final int PERMISSION_ACCESS_FINE_LOCATION = 2;
     protected static final int PERMISSION_ACCESS_COARSE_LOCATION = 1;
 
     private FusedLocationProviderClient fusedLocationProviderClient;
+    private TypeDownloader typeDownloader=new TypeDownloader();
 
 
-    private String pathToPhoto = null;
-    private File photoFile=null;
+    static String pathToPhoto = null;
+    private File photoFile = null;
     private AutoCompleteTextView adresseTextView;
     private ImageView imageView;
+    private Spinner typeSpinner;
     private final OkHttpClient client = new OkHttpClient();
     private final AccidentUploader accidentUploader=new AccidentUploader();
     private final ReverseGeocoder reverseGeocoder=new ReverseGeocoder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "retrieveLocationAndPlug: We don't have permissions to ACCESS COARSE LOCATION");
@@ -80,14 +90,20 @@ public class CreationAccidentActivity extends IhmAbstractActivity {
                     PERMISSION_ACCESS_FINE_LOCATION);
         }
 
-
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.creation_accident);
-        imageView = findViewById(R.id.photoView);
+        typeDownloader.retrieveAccidentTypes(this);
+        
+        this.typeSpinner=findViewById(R.id.type);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        this.imageView = findViewById(R.id.photoView);
         this.adresseTextView = findViewById(R.id.adresse);
         this.adresseTextView.setAdapter(new AdresseAutoCompleteAdapter(this, android.R.layout.simple_dropdown_item_1line));
-
+        super.onCreate(savedInstanceState);
+        if(pathToPhoto != null) {
+            photoFile = new File(pathToPhoto);
+            Bitmap image = BitmapFactory.decodeFile(pathToPhoto);
+            imageView.setImageBitmap(image);
+        }
     }
 
     private String getTableValue(String idd) {
@@ -158,12 +174,10 @@ public class CreationAccidentActivity extends IhmAbstractActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         imageView = findViewById(R.id.photoView);
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == 1) {
+        if (resultCode == RESULT_OK && requestCode == 1) {
                 photoFile = new File(pathToPhoto);
                 Bitmap image = BitmapFactory.decodeFile(pathToPhoto);
                 imageView.setImageBitmap(image);
-            }
         }
     }
 
@@ -174,7 +188,7 @@ public class CreationAccidentActivity extends IhmAbstractActivity {
         try {
             imageFile = File.createTempFile(name, ".jpg", storageDir);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "createPhotoFile: ",e );
         }
         return imageFile;
     }
@@ -255,4 +269,25 @@ public class CreationAccidentActivity extends IhmAbstractActivity {
     }
 
 
+    @Override
+    public void updateTypesList(String reps) {
+        runOnUiThread(()->{
+        try {
+            JSONArray array=new JSONArray(reps);
+            List<String> types=new ArrayList<>();
+            for (int i = 0; i < array.length(); i++) {
+                types.add(array.getJSONObject(i).getString("label"));
+            }
+            SpinnerAdapter adapter= new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, types);
+
+            typeSpinner.setAdapter(adapter);
+
+        } catch (JSONException e) {
+            Log.e(TAG, "updateTypesList: ",e );
+        }
+
+
+        });
+
+    }
 }

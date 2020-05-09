@@ -3,6 +3,10 @@ package ihm.accidents.services;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.SpinnerAdapter;
+
+import com.google.gson.JsonObject;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -10,9 +14,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+import ihm.accidents.activities.UpdateTypes;
 import ihm.accidents.adapters.ListIncidentAdapter;
 import ihm.accidents.models.AccidentModel;
 import ihm.accidents.utils.KeysTags;
@@ -23,7 +31,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class AccidentDownloader implements Callback {
+public class AccidentDownloader implements Callback, UpdateTypes {
     private List<AccidentModel> accidents;
     private static final String TAG = "AccidentDownloader";
     private final OkHttpClient client = new OkHttpClient();
@@ -33,6 +41,8 @@ public class AccidentDownloader implements Callback {
     private Activity activity;
     private Context context;
     private PreferenceService preferenceService;
+    private Map<String, String> typesIcons;
+    private TypeDownloader typeDownloader;
 
 
 
@@ -40,6 +50,10 @@ public class AccidentDownloader implements Callback {
     public AccidentDownloader(Context context){
         this.context=context;
         this.preferenceService= new PreferenceService(context);
+        typesIcons=new HashMap<>();
+        typeDownloader=new TypeDownloader();
+        typeDownloader.retrieveAccidentTypes(this);
+
     }
 
     public void getAccidentsFromServer(List<AccidentModel> accidentModels, Activity activity, ListIncidentAdapter adapter){
@@ -63,7 +77,7 @@ public class AccidentDownloader implements Callback {
             String serverResponse=response.body().string();
 
             JSONArray accidentsJson= new JSONObject(serverResponse).getJSONArray("accidents");
-            return AccidentModel.listFromJson(accidentsJson.toString()).stream().map(accident-> accident.updateWithImagePreference(preferenceService.hideActualPictures() )).collect(Collectors.toList());
+            return AccidentModel.listFromJson(accidentsJson.toString()).stream().map(accident-> accident.updateWithImagePreference(preferenceService.hideActualPictures(),typesIcons )).collect(Collectors.toList());
         }
         else{
             throw new IOException("Problem while downloading accidents from server:"+response);
@@ -90,7 +104,7 @@ public class AccidentDownloader implements Callback {
 
                     if(accident!=null){
                         //Log.d("AccidentDownloader",accident.getAddress()+"--"+accident.getid());
-                        this.accidents.add(accident.updateWithImagePreference(this.preferenceService.hideActualPictures()));
+                        this.accidents.add(accident.updateWithImagePreference(this.preferenceService.hideActualPictures(),typesIcons));
                     }
                 }
                 activity.runOnUiThread(()->
@@ -100,6 +114,21 @@ public class AccidentDownloader implements Callback {
             } catch (JSONException e) {
                 Log.e(TAG, "onResponse: json transformation of whole response failed:",e);
             }
+        }
+    }
+
+    @Override
+    public void updateTypesList(String types) {
+        try {
+            JSONArray array=new JSONArray(types);
+
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject json=array.getJSONObject(i);
+                typesIcons.put( json.getString("label"),json.getString("iconUrl") );
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 }
