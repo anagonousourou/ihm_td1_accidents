@@ -125,25 +125,25 @@ public class MapFragment extends Fragment {
                     case "Vélo":
                         Drawable marker1 = getResources().getDrawable(R.drawable.bikemarker);
                         Bitmap bitmap1 = ((BitmapDrawable) marker1).getBitmap();
-                        marker1 = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap1, 40, 50, true));
+                        marker1 = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap1, 60, 60, true));
                         nOverlay.getItem(i).setMarker(marker1);
                         break;
                     case "Voiture(s)":
                         Drawable marker2 = getResources().getDrawable(R.drawable.carmarker);
                         Bitmap bitmap2 = ((BitmapDrawable) marker2).getBitmap();
-                        marker2 = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap2, 40, 50, true));
+                        marker2 = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap2, 60, 60, true));
                         nOverlay.getItem(i).setMarker(marker2);
                         break;
                     case "Personne seule :":
                         Drawable marker3 = getResources().getDrawable(R.drawable.pedestrianmarker);
                         Bitmap bitmap3 = ((BitmapDrawable) marker3).getBitmap();
-                        marker3 = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap3, 50, 50, true));
+                        marker3 = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap3, 60, 60, true));
                         nOverlay.getItem(i).setMarker(marker3);
                         break;
                     default:
                         Drawable marker4 = getResources().getDrawable(R.drawable.marker);
                         Bitmap bitmap4 = ((BitmapDrawable) marker4).getBitmap();
-                        marker4 = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap4, 50, 50, true));
+                        marker4 = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap4, 180, 180, true));
                         nOverlay.getItem(i).setMarker(marker4);
                         break;
                 }
