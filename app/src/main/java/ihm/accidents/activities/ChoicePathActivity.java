@@ -6,7 +6,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -26,9 +29,13 @@ import org.jetbrains.annotations.NotNull;
 import org.osmdroid.bonuspack.routing.MapQuestRoadManager;
 import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Overlay;
+import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 
@@ -168,16 +175,35 @@ public class ChoicePathActivity extends IhmAbstractActivity{
 
                 createOneRoad(currentPath);
             }
-            Marker start = new Marker(fragmentMap.getMap());
-            start.setTextIcon("D");
-            start.setPosition(road.mRouteHigh.get(0));
 
-            Marker end = new Marker(fragmentMap.getMap());
-            end.setTextIcon("A");
-            end.setPosition(road.mRouteHigh.get(i));
+            Drawable marker = getResources().getDrawable(R.drawable.marker);
+            Bitmap bitmap2 = ((BitmapDrawable) marker).getBitmap();
+            marker = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap2, 100,100, true));
 
-            fragmentMap.getMap().getOverlays().add(start);
-            fragmentMap.getMap().getOverlays().add(end);
+            ArrayList<OverlayItem> items = new ArrayList<>();
+
+            OverlayItem start = new OverlayItem("Départ", "", road.mRouteHigh.get(0));
+            start.setMarker(marker);
+            items.add(start);
+
+            OverlayItem end = new OverlayItem("Arrivée", "", road.mRouteHigh.get(i));
+            end.setMarker(marker);
+            items.add(end);
+
+            ItemizedOverlayWithFocus<OverlayItem> nOverlay = new ItemizedOverlayWithFocus<OverlayItem>(this,
+                    items, new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+                @Override
+                public boolean onItemSingleTapUp(int index, OverlayItem item) {
+                    return true;
+                }
+
+                @Override
+                public boolean onItemLongPress(int index, OverlayItem item) {
+                    return false;
+                }
+            });
+            nOverlay.setFocusItemsOnTap(true);
+            fragmentMap.getMap().getOverlays().add(nOverlay);
         }
 
         fragmentMap.getMap().invalidate();

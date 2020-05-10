@@ -10,7 +10,6 @@
     <AutoCompleteTextView
         android:textSize="10pt"
         android:fontFamily="sans-serif-black"
-
         android:layout_width="0dp"
         android:hint="@string/depart_str"
         android:layout_weight="0.8"
@@ -18,14 +17,13 @@
         android:layout_height="wrap_content"/>
 
     <ImageButton
-
         android:layout_width="0dp"
         android:id="@+id/my_location_btn"
         android:layout_weight="0.2"
         android:layout_height="match_parent"
-        android:layout_toEndOf="@+id/edit_depart"
         android:src="@drawable/baseline_my_location_24"
-        android:background="#00000000"/>
+        android:background="#00000000"
+        android:contentDescription="Géolocalisation" />
     </LinearLayout>
     <AutoCompleteTextView
         android:textSize="10pt"
@@ -37,22 +35,27 @@
         android:layout_height="wrap_content"/>
 
     <Spinner
+        android:textSize="5pt"
         android:id="@+id/transport"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/edit_destination"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="8dp"
-        android:background="#7A2196F3"/>
+        android:layout_marginStart="50dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:background="#8521D0F3"
+        android:textColor="#000000"/>
 
     <Button
         android:id="@+id/find_route"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_destination"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="0dp"
-        android:layout_marginRight="50dp"
+        android:layout_marginEnd="50dp"
         android:background="#CC008000"
         android:text="Trouver"
         android:textColor="#FFFFFF" />

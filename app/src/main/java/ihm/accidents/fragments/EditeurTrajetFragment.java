@@ -87,7 +87,7 @@ public class EditeurTrajetFragment extends Fragment {
         arrayList.add("À vélo");
         arrayList.add("À pied");
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(),R.layout.my_spinner, arrayList);
-        arrayAdapter.setDropDownViewResource(R.layout.my_spinner);
+        arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
