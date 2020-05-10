@@ -144,6 +144,9 @@ public class CreationAccidentActivity extends IhmAbstractActivity implements Upd
 
 
         }
+        else{
+            Toast.makeText(this, "Veuillez renseigner une adresse", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void goBack(View v) {
