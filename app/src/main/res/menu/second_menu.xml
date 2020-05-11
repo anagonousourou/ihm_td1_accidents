@@ -9,9 +9,4 @@
         app:showAsAction="always"
         />
 
-    <item android:id="@+id/userItem"
-        android:title="@string/add_user_str"
-        app:showAsAction="always"
-        android:icon="@drawable/baseline_person_add_24"/>
-
 </menu>

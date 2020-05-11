@@ -1,6 +1,7 @@
 package ihm.accidents.activities;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -60,6 +61,10 @@ public class ListIncidentActivity extends IhmAbstractActivity implements FilterO
             SortOptionsFragment sortOptionsFragment=new SortOptionsFragment();
             sortOptionsFragment.setListener(this);
             sortOptionsFragment.show(getSupportFragmentManager(),TAG);
+            return true;
+        }
+        else if(item.getItemId()==R.id.homeItem){
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
             return true;
         }
         return false;

@@ -14,5 +14,11 @@
         android:icon="@drawable/baseline_filter_list_24"
         app:showAsAction="always"
         android:id="@+id/filter_item"/>
+    <item
+        android:id="@+id/homeItem"
+        android:title="@string/home_str"
+        android:icon="@drawable/icons8_home_page_24"
+        app:showAsAction="ifRoom"
+        />
 
 </menu>

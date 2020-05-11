@@ -13,8 +13,10 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -40,7 +42,6 @@ import java.util.stream.Collectors;
 import ihm.accidents.R;
 import ihm.accidents.fragments.EditeurTrajetFragment;
 import ihm.accidents.fragments.MapFragment;
-import ihm.accidents.utils.Utils;
 
 public class ChoicePathActivity extends IhmAbstractActivity{
     private static final String TAG = "ChoicePathActivity";
@@ -57,6 +58,16 @@ public class ChoicePathActivity extends IhmAbstractActivity{
         MenuInflater inflater=getMenuInflater();
         inflater.inflate(R.menu.second_menu,menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==R.id.homeItem){
+            Intent it=new Intent(getApplicationContext(),MainActivity.class);
+            startActivity(it);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -89,30 +100,11 @@ public class ChoicePathActivity extends IhmAbstractActivity{
         fragmentEditeur = new EditeurTrajetFragment();
         Log.d(TAG, "onCreate: "+ fusedLocationClient);
 
-        //le getLastLocation peut lever une exception si on a pas les permissions ce qui
-        //peut etre le cas si c'est la premiere fois qu'on ouvre l'activité
-        if (savedInstanceState == null) {
-            fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
-                Bundle locationBundle = new Bundle();
-                //la location peut être nulle mais on laisse le fragmentEditeur se débrouiller avec ça
-                Log.d(TAG, "onCreate: OnSucessGetLastlocation " + location);
-                locationBundle.putParcelable(Utils.locationKey, location);
-                    if(location == null){
-                        asksToEnableGeo();
-                    } else {
-                        Toast.makeText(this, "Géolocalisation activée !", Toast.LENGTH_LONG).show();
-                    }
-                fragmentEditeur.setArguments(locationBundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.placeHolderMapFragment, fragmentMap).commit();
-                getSupportFragmentManager().beginTransaction().replace(R.id.placeHolderEditeurFragment, fragmentEditeur).commit();
 
-            }).addOnFailureListener(e -> {
-                Toast.makeText(this, "Cannot get your location", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "onCreate Exception : ", e);
-                getSupportFragmentManager().beginTransaction().replace(R.id.placeHolderMapFragment, fragmentMap).commit();
-                getSupportFragmentManager().beginTransaction().replace(R.id.placeHolderEditeurFragment, fragmentEditeur).commit();
-            });
-        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.placeHolderMapFragment, fragmentMap).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.placeHolderEditeurFragment, fragmentEditeur).commit();
+
+
 
     }
 
@@ -141,9 +133,11 @@ public class ChoicePathActivity extends IhmAbstractActivity{
         mWhichRouteProvider = transport;
         src = fragmentMap.getLocationFromAddress(getApplicationContext(), srcAdr);
         dst = fragmentMap.getLocationFromAddress(getApplicationContext(), dstAdr);
-        ArrayList<GeoPoint> route = new ArrayList<>();
-        route.add(src);
-        route.add(dst);
+
+        GeoPoint[] route=new GeoPoint[2];
+        route[0]= src;
+        route[1]=dst;
+
 
         //On génère l'AsyncTask pour la création du trajet
         new UpdateRoadTask(this).execute(route);
@@ -219,7 +213,7 @@ public class ChoicePathActivity extends IhmAbstractActivity{
     /**
      * Async task to get the road in a separate thread.
      */
-    private class UpdateRoadTask extends AsyncTask<ArrayList<GeoPoint>, Void, Road[]> {
+    private class UpdateRoadTask extends AsyncTask<GeoPoint, Void, Road[]> {
 
         private final Context mContext;
 
@@ -227,11 +221,12 @@ public class ChoicePathActivity extends IhmAbstractActivity{
             this.mContext = context;
         }
 
-        protected Road[] doInBackground(ArrayList<GeoPoint>... params) {
-            ArrayList<GeoPoint> waypoints = params[0];
+        protected Road[] doInBackground(GeoPoint... params) {
+            ArrayList<GeoPoint> waypoints =new ArrayList<>();
+            waypoints.add(params[0]);
+            waypoints.add(params[1]);
+
             RoadManager roadManager;
-            ArrayList<GeoPoint> tmp = new ArrayList<>();
-            tmp.add(new GeoPoint(43.736524, 7.413023));
             Locale locale = Locale.getDefault();
             switch (mWhichRouteProvider){
                 case "bicycle":

@@ -3,12 +3,24 @@
     android:padding="5dp"
 
     android:layout_width="match_parent" android:layout_height="wrap_content">
+    <ImageButton
+        android:id="@+id/toggle_btn"
+        android:layout_width="wrap_content"
+        android:src="@drawable/baseline_expand_less_black_24"
+        android:layout_centerHorizontal="true"
+        android:background="#88FFFFFF"
+        android:layout_height="wrap_content"/>
+    <RelativeLayout
+        android:layout_below="@id/toggle_btn"
+        android:id="@+id/editor_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:id="@+id/depart_tv_wrapper"
         android:layout_height="wrap_content">
     <AutoCompleteTextView
-        android:textSize="10pt"
+        android:textSize="8pt"
         android:fontFamily="sans-serif-black"
 
         android:layout_width="0dp"
@@ -23,12 +35,11 @@
         android:id="@+id/my_location_btn"
         android:layout_weight="0.2"
         android:layout_height="match_parent"
-        android:layout_toEndOf="@+id/edit_depart"
         android:src="@drawable/baseline_my_location_24"
         android:background="#00000000"/>
     </LinearLayout>
     <AutoCompleteTextView
-        android:textSize="10pt"
+        android:textSize="8pt"
         android:fontFamily="sans-serif-black"
         android:id="@+id/edit_destination"
         android:layout_below="@+id/depart_tv_wrapper"
@@ -36,25 +47,28 @@
         android:hint="@string/destination_str"
         android:layout_height="wrap_content"/>
 
-    <Spinner
+    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
         android:id="@+id/transport"
-        android:layout_width="100dp"
+        android:fontFamily="sans-serif-black"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Moyen de transport"
         android:layout_below="@id/edit_destination"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="8dp"
-        android:background="#7A2196F3"/>
+        android:layout_marginTop="4dp"
+        android:theme="@style/Widget.AppCompat.DropDownItem.Spinner"
+        />
+
 
     <Button
         android:id="@+id/find_route"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_destination"
-        android:layout_alignParentRight="true"
+        android:layout_below="@+id/transport"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="0dp"
-        android:layout_marginRight="50dp"
         android:background="#CC008000"
         android:text="Trouver"
         android:textColor="#FFFFFF" />
+    </RelativeLayout>
 
 </RelativeLayout>
