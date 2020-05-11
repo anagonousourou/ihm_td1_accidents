@@ -90,7 +90,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:id="@+id/photoView"
-            android:background="@android:drawable/ic_menu_camera"
+            android:background="@drawable/appareil"
             android:layout_width="500dp"
             android:layout_height="500dp"
             />

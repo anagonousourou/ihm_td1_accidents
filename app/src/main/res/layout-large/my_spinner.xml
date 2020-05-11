@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:maxLines="1"
     android:textSize="25dp"
-    android:textAlignment="center"
     >
 
 </TextView>
