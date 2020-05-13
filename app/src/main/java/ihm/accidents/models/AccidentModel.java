@@ -203,7 +203,7 @@ public class AccidentModel implements Parcelable, JSONString,ILocation {
             return "Il y a "+tmp+" "+Utils.scaleReached(difftime)+ (tmp >1 ?"s":"");
          }
         int tmp=Utils.convertToHighestScalePossible(-difftime);
-        return "Dans "+" "+Utils.scaleReached( -difftime) +(tmp >1 ?"s":"");
+        return "Dans "+tmp+" "+Utils.scaleReached( -difftime) +(tmp >1 ?"s":"");
     }
 
 

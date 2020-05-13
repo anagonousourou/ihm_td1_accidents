@@ -75,19 +75,16 @@ public class MapFragment extends Fragment {
             GeoPoint startPoint = new GeoPoint(43.6238, 7.0498);
             mapController.setCenter(startPoint);
 
-            Thread t = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
+            Thread t = new Thread(() -> {
+                try {
 
-                        List<AccidentModel> accidents = accidentsFromServerByDistance(100);
-                        Log.d("MapFragment", accidents.toString());
+                    List<AccidentModel> accidents = accidentsFromServerByDistance(100);
+                    Log.d("MapFragment", accidents.toString());
 
-                        accidentList.addAll(accidents);
+                    accidentList.addAll(accidents);
 
-                    } catch (IOException | JSONException e) {
-                        e.printStackTrace();
-                    }
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
                 }
             });
 
